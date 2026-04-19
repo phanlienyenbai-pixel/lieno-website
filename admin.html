@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🍜 Lie No – Quản Trị Website</title>
+<style>
+:root{--gold:#a855f7;--gold2:#c084fc;--teal:#14b8a6;--dk:#0a0a12;--dk2:#0f0f1e;--dk3:#141428;--w:#f0f4ff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Segoe UI',sans-serif;background:#0a0a12;color:#f0f4ff;min-height:100vh}
+
+/* ── HEADER ── */
+header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.hdr-title{font-size:19px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.hdr-sub{font-size:11px;color:#666;margin-top:2px}
+.hdr-right{display:flex;gap:10px;align-items:center}
+
+/* ── BUTTONS ── */
+.btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:4px;transition:all .2s;text-transform:uppercase;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,#7c3aed,#a855f7,#14b8a6);color:#fff}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(168,85,247,.5)}
+.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.45);color:var(--gold)}
+.btn-outline:hover{background:rgba(201,168,76,.08)}
+.btn-red{background:#c0392b;color:#fff;border:none}
+.btn-red:hover{background:#e74c3c}
+.btn-green{background:#27ae60;color:#fff;border:none}
+.btn-sm{padding:5px 11px;font-size:11px}
+
+/* ── SETUP ── */
+#setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px;background:#0a0a12}
+#setup h2{font-size:24px;color:var(--gold)}
+#setup p{color:#999;max-width:460px;line-height:1.8;font-size:13px}
+
+/* ── LAYOUT ── */
+#app{display:none}
+.app-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
+
+/* ── SIDEBAR ── */
+.sidebar{background:#07070f;border-right:1px solid rgba(168,85,247,.1);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sidebar-section{padding:6px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(168,85,247,.4);margin-top:14px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:13px;color:#888;border-left:3px solid transparent;transition:all .2s}
+.nav-item:hover{color:#ddd;background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(168,85,247,.08)}
+.nav-item .ico{font-size:16px;width:20px;text-align:center}
+
+/* ── CONTENT ── */
+.content{padding:28px 32px;overflow-y:auto;background:#0c0c18}
+.panel{display:none}
+.panel.active{display:block}
+.panel-title{font-size:17px;font-weight:700;color:var(--gold);margin-bottom:4px;letter-spacing:1px}
+.panel-sub{font-size:12px;color:#666;margin-bottom:24px}
+
+/* ── CARDS ── */
+.card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:20px;margin-bottom:16px}
+.card-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+/* ── FIELDS ── */
+.row{display:grid;gap:14px;margin-bottom:14px}
+.row-2{grid-template-columns:1fr 1fr}
+.row-3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#666}
+.field input,.field textarea,.field select{background:#0a0a12;border:1px solid rgba(168,85,247,.2);color:#f0ece4;padding:9px 11px;font-size:13px;border-radius:4px;width:100%;font-family:inherit;transition:.2s}
+.field input:focus,.field textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 2px rgba(168,85,247,.15)}
+.field textarea{resize:vertical;min-height:72px}
+.field-hint{font-size:10px;color:#555;margin-top:3px}
+
+/* ── IMG ZONE ── */
+.img-zone{position:relative;border:2px dashed rgba(168,85,247,.25);border-radius:6px;cursor:pointer;transition:.2s;overflow:hidden;background:#111}
+.img-zone:hover,.img-zone.drag-over{border-color:var(--gold);background:rgba(168,85,247,.04)}
+.img-zone img{width:100%;display:block;max-height:220px;object-fit:cover}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:6px;color:#555;font-size:12px}
+.img-placeholder span{font-size:30px}
+.img-lay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px}
+.img-zone:hover .img-lay{opacity:1}
+.img-name{font-size:10px;color:#555;padding:4px 8px;background:#0a0a0a;border-top:1px solid #1e1e1e}
+
+/* ── MENU GRID ── */
+.menu-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:20px}
+.menu-item-card{background:#111124;border:2px solid rgba(168,85,247,.1);border-radius:8px;overflow:hidden;transition:border-color .2s}
+.menu-item-card:hover{border-color:rgba(168,85,247,.4)}
+.mic-img{position:relative;height:180px;background:#111;cursor:pointer;overflow:hidden}
+.mic-img img{width:100%;height:100%;object-fit:cover}
+.mic-img .img-lay{font-size:11px}
+.mic-body{padding:12px}
+.mic-body .field{margin-bottom:10px}
+.mic-foot{padding:8px 12px 10px;border-top:1px solid #1e1e1e;display:flex;justify-content:space-between;align-items:center}
+.mic-num{font-size:10px;color:#444}
+
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{padding:3px 9px;border-radius:20px;border:1px solid #2e2e2e;font-size:11px;cursor:pointer;color:#777;transition:.2s}
+.tag.active{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.1)}
+
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge-btn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid #2e2e2e;color:#777;transition:.2s}
+.badge-btn.b-hot.active{background:#e74c3c;border-color:#e74c3c;color:#fff}
+.badge-btn.b-new.active{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:var(--gold);color:#fff}
+.badge-btn.b-none.active{background:#3a3a3a;border-color:#3a3a3a;color:#fff}
+
+.add-dish{border:2px dashed rgba(168,85,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:240px;cursor:pointer;flex-direction:column;gap:8px;color:#555;transition:.2s}
+.add-dish:hover{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.04)}
+.add-dish span{font-size:34px}
+
+/* ── REVIEW CARDS ── */
+.review-admin{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px;margin-bottom:14px}
+.review-admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.review-num{font-size:11px;color:#555}
+
+/* ── STATS GRID ── */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.stat-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px}
+.stat-card .field{margin-bottom:8px}
+
+/* ── CHANNEL CARDS ── */
+.channel-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px;margin-bottom:12px}
+.channel-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.channel-icon{font-size:22px}
+.channel-name{font-size:13px;font-weight:600;color:#ddd}
+
+/* ── SAVE BAR ── */
+#save-bar{position:fixed;bottom:0;left:220px;right:0;background:#07070f;border-top:2px solid var(--gold);padding:12px 28px;display:none;align-items:center;justify-content:space-between;z-index:100}
+#save-bar.show{display:flex}
+#save-bar p{font-size:12px;color:#888}
+#save-bar p strong{color:var(--gold)}
+
+/* ── TOAST ── */
+#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+#toast.show{display:block}
+#toast.ok{background:#27ae60;color:#fff}
+#toast.err{background:#c0392b;color:#fff}
+#toast.info{background:#2980b9;color:#fff}
+
+/* ── RECIPE ADMIN ── */
+.recipe-admin-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:18px;margin-bottom:16px;border-left:3px solid transparent}
+.recipe-admin-card.is-featured{border-left-color:var(--gold)}
+.recipe-admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(168,85,247,.1)}
+.recipe-admin-body{display:grid;grid-template-columns:200px 1fr;gap:18px}
+.recipe-featured-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border:1px solid var(--gold);color:var(--gold);border-radius:3px}
+.add-recipe{border:2px dashed rgba(168,85,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:72px;cursor:pointer;gap:10px;color:#555;transition:.2s;font-size:13px;font-weight:700;letter-spacing:1px}
+.add-recipe:hover{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.04)}
+.diff-dot-easy{color:#2dd4bf}.diff-dot-medium{color:#a855f7}.diff-dot-hard{color:#f472b6}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#2e2e2e;border-radius:3px}
+
+@media(max-width:768px){
+  .app-wrap{grid-template-columns:1fr}
+  .sidebar{display:none}
+  #save-bar{left:0}
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div id="save-bar">
+  <p>Có thay đổi — nhấn <strong>Lưu Website</strong> để cập nhật</p>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-outline" onclick="reload()">↩ Hoàn tác</button>
+    <button class="btn btn-gold" onclick="saveAll()">💾 Lưu Website</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="hdr-title">🍜 LIE NO – QUẢN TRỊ TOÀN BỘ WEBSITE</div>
+    <div class="hdr-sub">Chọn mục bên trái · Chỉnh sửa trực tiếp · Nhấn Lưu để áp dụng</div>
+  </div>
+  <div class="hdr-right">
+    <button class="btn btn-outline" onclick="openFolder()">📂 Chọn Thư Mục</button>
+    <button class="btn btn-gold" id="btn-save" style="display:none" onclick="saveAll()">💾 Lưu Website</button>
+  </div>
+</header>
+
+<!-- SETUP -->
+<div id="setup">
+  <div style="font-size:56px">📁</div>
+  <h2>Chọn thư mục LieNo-Website</h2>
+  <p>Nhấn nút bên dưới, chọn thư mục <strong style="color:var(--gold)">LieNo-Website</strong>. Sau đó bạn có thể chỉnh sửa mọi thứ trên website — từ ảnh, thực đơn, giá, đánh giá đến thông tin liên hệ.</p>
+  <button class="btn btn-gold" style="font-size:14px;padding:14px 36px;margin-top:6px" onclick="openFolder()">📂 Chọn Thư Mục LieNo-Website</button>
+  <p style="font-size:11px;color:#444">Dùng Microsoft Edge hoặc Google Chrome · Chỉ cần chọn 1 lần</p>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="app-wrap">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">Nội dung</div>
+      <div class="nav-item active" onclick="go('hero')"><span class="ico">🏠</span> Trang chủ (Hero)</div>
+      <div class="nav-item" onclick="go('today')"><span class="ico">📅</span> Món hôm nay</div>
+      <div class="nav-item" onclick="go('about')"><span class="ico">👩‍🍳</span> Về chúng tôi</div>
+      <div class="nav-item" onclick="go('menu')"><span class="ico">🍜</span> Thực đơn</div>
+      <div class="nav-item" onclick="go('reviews')"><span class="ico">⭐</span> Đánh giá</div>
+      <div class="nav-item" onclick="go('order')"><span class="ico">📦</span> Đặt hàng</div>
+      <div class="nav-item" onclick="go('footer')"><span class="ico">🔗</span> Footer & Liên hệ</div>
+      <div class="nav-item" onclick="go('recipes')"><span class="ico">📖</span> Công thức nấu ăn</div>
+      <div class="sidebar-section" style="margin-top:20px">Thao tác</div>
+      <div class="nav-item" onclick="openPreview()"><span class="ico">👁️</span> Xem website</div>
+      <div class="nav-item" onclick="saveAll()"><span class="ico">💾</span> Lưu ngay</div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content" style="padding-bottom:80px">
+
+      <!-- ░░ HERO ░░ -->
+      <div class="panel active" id="p-hero">
+        <div class="panel-title">🏠 Trang Chủ (Hero)</div>
+        <div class="panel-sub">Phần đầu tiên khách thấy khi vào website</div>
+
+        <div class="card">
+          <div class="card-title">📝 Nội dung chính</div>
+          <div class="row row-2">
+            <div class="field"><label>Tagline nhỏ (trên tên)</label><input id="hero-eyebrow" placeholder="Đồ ăn handmade từ tâm"><div class="field-hint">Dòng chữ nhỏ phía trên tên Lie No</div></div>
+            <div class="field"><label>Tagline phụ (dưới tên)</label><input id="hero-subtitle" placeholder="Homemade · Tươi Ngon · Giao Tận Nơi"></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Đoạn mô tả</label><textarea id="hero-desc"></textarea></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Nút 1 (màu vàng)</label><input id="hero-cta1" placeholder="Xem Thực Đơn"></div>
+            <div class="field"><label>Nút 2 (viền vàng)</label><input id="hero-cta2" placeholder="Đặt Ngay Qua Zalo"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📊 Chỉ số thống kê (3 con số)</div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="field"><label>Số liệu 1</label><input id="stat1-num" placeholder="4.6K+"></div>
+              <div class="field"><label>Nhãn 1</label><input id="stat1-label" placeholder="Người theo dõi"></div>
+            </div>
+            <div class="stat-card">
+              <div class="field"><label>Số liệu 2</label><input id="stat2-num" placeholder="100+"></div>
+              <div class="field"><label>Nhãn 2</label><input id="stat2-label" placeholder="Khách hàng thân thiết"></div>
+            </div>
+            <div class="stat-card">
+              <div class="field"><label>Số liệu 3</label><input id="stat3-num" placeholder="100%"></div>
+              <div class="field"><label>Nhãn 3</label><input id="stat3-label" placeholder="Handmade"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ TODAY ░░ -->
+      <div class="panel" id="p-today">
+        <div class="panel-title">📅 Món Hôm Nay (TODAY)</div>
+        <div class="panel-sub">Cập nhật danh sách món bán hôm nay · Bật/tắt trạng thái còn/hết hàng</div>
+
+        <div class="card" style="margin-bottom:18px">
+          <div class="card-title">⚙️ Cài đặt</div>
+          <div class="row row-2">
+            <div class="field"><label>Số điện thoại đặt hàng</label><input id="today-phone" placeholder="0972 410 199"></div>
+            <div class="field"><label>Link nút "Đặt ngay"</label><input id="today-zalo-link-href" placeholder="https://zalo.me/84972410199"></div>
+          </div>
+        </div>
+
+        <div id="today-admin-list"></div>
+
+        <button class="btn btn-gold" style="width:100%;padding:14px;font-size:13px;margin-top:4px" onclick="addTodayItem()">＋ Thêm món hôm nay</button>
+      </div>
+
+      <!-- ░░ ABOUT ░░ -->
+      <div class="panel" id="p-about">
+        <div class="panel-title">👩‍🍳 Về Chúng Tôi</div>
+        <div class="panel-sub">Phần giới thiệu câu chuyện và hình ảnh</div>
+
+        <div class="card">
+          <div class="card-title">🖼️ Ảnh đại diện</div>
+          <div class="row row-2">
+            <div>
+              <div id="about-img-zone" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#555;font-size:13px;transition:.2s">
+                <span style="font-size:34px">📷</span>
+                <span>Kéo ảnh vào đây hoặc click để chọn</span>
+                <div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px">
+                  <span style="font-size:26px">📷</span><span>THAY ẢNH</span>
+                </div>
+              </div>
+              <div style="font-size:10px;color:#555;padding:5px 8px;background:#0a0a0a;border:1px solid #1e1e1e;border-top:none;border-radius:0 0 4px 4px" id="about-img-name">Chưa chọn ảnh mới</div>
+              <input type="hidden" id="about-img-file">
+              <button class="btn btn-outline" style="width:100%;margin-top:8px;font-size:12px" onclick="triggerAboutImg()">📂 Chọn ảnh từ máy tính</button>
+            </div>
+            <div>
+              <div class="row">
+                <div class="field"><label>Nhãn trên badge vàng (số)</label><input id="about-badge-num" placeholder="5+"></div>
+                <div class="field"><label>Nhãn dưới badge (chữ)</label><input id="about-badge-lbl" placeholder="Năm kinh nghiệm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📝 Nội dung</div>
+          <div class="row row-2">
+            <div class="field"><label>Eyebrow (chữ nhỏ)</label><input id="about-eyebrow" placeholder="Câu chuyện của chúng tôi"></div>
+            <div class="field"><label>Tiêu đề h2</label><input id="about-title" placeholder="Món Ngon Từ Bếp Nhà Đến Bàn Ăn"><div class="field-hint">Phần in nghiêng: thêm * trước và sau, vd: *Từ Bếp Nhà*</div></div>
+          </div>
+          <div class="row">
+            <div class="field"><label>Đoạn văn 1</label><textarea id="about-p1"></textarea></div>
+            <div class="field"><label>Đoạn văn 2</label><textarea id="about-p2"></textarea></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">✅ 4 Điểm mạnh</div>
+          <div class="row row-2">
+            <div class="field"><label>Icon 1</label><input id="feat1-icon" placeholder="🌿" maxlength="4"></div>
+            <div class="field"><label>Nội dung 1</label><input id="feat1-text" placeholder="Nguyên liệu tươi sạch..."></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Icon 2</label><input id="feat2-icon" placeholder="👐" maxlength="4"></div>
+            <div class="field"><label>Nội dung 2</label><input id="feat2-text" placeholder="Chế biến thủ công 100%..."></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Icon 3</label><input id="feat3-icon" placeholder="🚀" maxlength="4"></div>
+            <div class="field"><label>Nội dung 3</label><input id="feat3-text" placeholder="Giao hàng nhanh..."></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Icon 4</label><input id="feat4-icon" placeholder="💛" maxlength="4"></div>
+            <div class="field"><label>Nội dung 4</label><input id="feat4-text" placeholder="Phục vụ tận tâm..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ MENU ░░ -->
+      <div class="panel" id="p-menu">
+        <div class="panel-title">🍜 Thực Đơn</div>
+        <div class="panel-sub">Kéo thả ảnh vào từng món · Thêm/xóa món tùy ý</div>
+
+        <div class="card" style="margin-bottom:20px">
+          <div class="card-title">📢 Thông báo thực đơn</div>
+          <div class="field"><label>Số điện thoại Zalo trong thông báo</label><input id="menu-phone" placeholder="0972 410 199"></div>
+        </div>
+
+        <div class="menu-admin-grid" id="menu-admin-grid"></div>
+      </div>
+
+      <!-- ░░ REVIEWS ░░ -->
+      <div class="panel" id="p-reviews">
+        <div class="panel-title">⭐ Đánh Giá Khách Hàng</div>
+        <div class="panel-sub">Chỉnh sửa 3 đánh giá hiển thị trên website</div>
+        <div id="reviews-admin"></div>
+      </div>
+
+      <!-- ░░ ORDER ░░ -->
+      <div class="panel" id="p-order">
+        <div class="panel-title">📦 Phần Đặt Hàng</div>
+        <div class="panel-sub">Tiêu đề, mô tả và các kênh liên hệ đặt hàng</div>
+
+        <div class="card">
+          <div class="card-title">📝 Nội dung</div>
+          <div class="row">
+            <div class="field"><label>Tiêu đề</label><input id="order-title" placeholder="Sẵn Sàng Thưởng Thức Chưa?"><div class="field-hint">Phần in nghiêng: thêm * trước và sau</div></div>
+            <div class="field"><label>Mô tả</label><textarea id="order-desc"></textarea></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📞 Kênh liên hệ đặt hàng</div>
+          <div class="channel-card">
+            <div class="channel-head"><span class="channel-icon">💬</span><span class="channel-name">Zalo</span></div>
+            <div class="row row-2">
+              <div class="field"><label>Link Zalo</label><input id="order-zalo-href" placeholder="https://zalo.me/84972410199"></div>
+              <div class="field"><label>Tên hiển thị</label><input id="order-zalo-text" placeholder="Zalo: 0972 410 199"></div>
+            </div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-head"><span class="channel-icon">📘</span><span class="channel-name">Facebook</span></div>
+            <div class="row row-2">
+              <div class="field"><label>Link Facebook</label><input id="order-fb-href" placeholder="https://www.facebook.com/lien.no.9"></div>
+              <div class="field"><label>Tên hiển thị</label><input id="order-fb-text" placeholder="Facebook: Lie No"></div>
+            </div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-head"><span class="channel-icon">📞</span><span class="channel-name">Điện thoại</span></div>
+            <div class="row row-2">
+              <div class="field"><label>Link tel:</label><input id="order-phone-href" placeholder="tel:0972410199"></div>
+              <div class="field"><label>Tên hiển thị</label><input id="order-phone-text" placeholder="0972 410 199"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ░░ FOOTER ░░ -->
+      <div class="panel" id="p-footer">
+        <div class="panel-title">🔗 Footer & Thông Tin Liên Hệ</div>
+        <div class="panel-sub">Phần cuối trang và nút Zalo nổi</div>
+
+        <div class="card">
+          <div class="card-title">📋 Footer</div>
+          <div class="row">
+            <div class="field"><label>Mô tả thương hiệu</label><textarea id="footer-desc"></textarea></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Zalo</label><input id="footer-zalo" placeholder="Zalo: 0972 410 199"></div>
+            <div class="field"><label>Facebook (link)</label><input id="footer-fb-href" placeholder="https://www.facebook.com/lien.no.9"></div>
+          </div>
+          <div class="row row-2">
+            <div class="field"><label>Khu vực giao hàng</label><input id="footer-area" placeholder="Giao hàng: Khu vực Hà Nội"></div>
+            <div class="field"><label>Giờ nhận đơn</label><input id="footer-hours" placeholder="Giờ nhận đơn: 7h – 10h sáng"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">💬 Nút Zalo nổi (góc phải)</div>
+          <div class="field"><label>Link Zalo của nút nổi</label><input id="zalo-href" placeholder="https://zalo.me/84972410199"></div>
+        </div>
+      </div>
+
+      <!-- ░░ RECIPES ░░ -->
+      <div class="panel" id="p-recipes">
+        <div class="panel-title">📖 Công Thức Nấu Ăn</div>
+        <div class="panel-sub">Thêm · Sửa · Xóa công thức · Kéo thả ảnh trực tiếp · Chọn 1 công thức "Nổi bật" hiển thị to trên website</div>
+        <div id="recipes-admin-list"></div>
+        <div class="add-recipe" onclick="addRecipe()"><span style="font-size:26px">＋</span> Thêm Công Thức Mới</div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /app-wrap -->
+</div><!-- /app -->
+
+<input type="file" id="__fi" accept="image/*" style="display:none">
+
+<script>
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+let DIR = null;
+let DIRTY = false;
+let dishes = [];
+let recipeData = [];
+let imgBlobs = {}; // key -> { blob, filename }
+
+const DISH_TAGS = ['Món khô','Đồ chiên','Mì - Bún','Canh - Súp','Cơm phần','Nước uống','Đặc biệt','Theo mùa','Tráng miệng'];
+
+// ════════════════════════════════════════════════
+// FOLDER
+// ════════════════════════════════════════════════
+async function openFolder() {
+  if (!window.showDirectoryPicker) {
+    toast('❌ Cần dùng Edge hoặc Chrome mới nhất','err'); return;
+  }
+  try {
+    DIR = await window.showDirectoryPicker({ mode:'readwrite' });
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('btn-save').style.display = 'inline-block';
+    await reload();
+    toast('✅ Đã mở: ' + DIR.name,'ok');
+  } catch(e) {
+    if (e.name !== 'AbortError') toast('❌ ' + e.message,'err');
+  }
+}
+
+// ════════════════════════════════════════════════
+// LOAD
+// ════════════════════════════════════════════════
+async function reload() {
+  if (!DIR) return;
+  const fh = await DIR.getFileHandle('index.html');
+  const f = await fh.getFile();
+  const html = await f.text();
+  fillAllFields(html);
+  dishes = parseDishes(html);
+  renderMenuGrid();
+  renderReviews(html);
+  recipeData = parseRecipes(html);
+  renderRecipesAdmin();
+  DIRTY = false;
+  document.getElementById('save-bar').classList.remove('show');
+}
+
+// ════════════════════════════════════════════════
+// FILL FIELDS FROM HTML
+// ════════════════════════════════════════════════
+function fillAllFields(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const g = (id) => { const el = doc.getElementById(id); return el ? el.textContent.trim() : ''; };
+  const ga = (id, attr) => { const el = doc.getElementById(id); return el ? (el.getAttribute(attr)||'').trim() : ''; };
+
+  // Hero
+  setV('hero-eyebrow', g('hero-eyebrow'));
+  setV('hero-subtitle', g('hero-subtitle'));
+  setV('hero-desc', g('hero-desc'));
+  setV('hero-cta1', g('hero-cta1'));
+  setV('hero-cta2', g('hero-cta2'));
+  setV('stat1-num', g('stat1-num')); setV('stat1-label', g('stat1-label'));
+  setV('stat2-num', g('stat2-num')); setV('stat2-label', g('stat2-label'));
+  setV('stat3-num', g('stat3-num')); setV('stat3-label', g('stat3-label'));
+
+  // About
+  const aboutImg = doc.getElementById('about-img');
+  if (aboutImg) {
+    let src = aboutImg.getAttribute('src') || '';
+    const zone = document.getElementById('about-img-zone');
+    if (src) {
+      zone.innerHTML = `<img src="${src}" onerror="this.style.display='none'"><div class="img-lay"><span style="font-size:22px">📷</span><span>THAY ẢNH</span></div>`;
+      zone.onclick = () => pickImg('about-img-zone','about-img-file');
+      zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('drag-over'); };
+      zone.ondragleave = () => zone.classList.remove('drag-over');
+      zone.ondrop = (e) => dropZ(e,'about-img-zone','about-img-file');
+    }
+    document.getElementById('about-img-name').textContent = src.replace('images/','') || 'Chưa có ảnh';
+    document.getElementById('about-img-file').value = src;
+  }
+  setV('about-badge-num', g('about-badge-num'));
+  setV('about-badge-lbl', g('about-badge-lbl'));
+  setV('about-eyebrow', g('about-eyebrow'));
+  // about-title: strip em tags
+  const titleEl = doc.getElementById('about-title');
+  if (titleEl) setV('about-title', titleEl.innerHTML.replace(/<em>|<\/em>/g,'*').replace(/<[^>]+>/g,'').trim());
+  setV('about-p1', g('about-p1'));
+  setV('about-p2', g('about-p2'));
+  setV('feat1-icon', g('feat1-icon')); setV('feat1-text', g('feat1-text'));
+  setV('feat2-icon', g('feat2-icon')); setV('feat2-text', g('feat2-text'));
+  setV('feat3-icon', g('feat3-icon')); setV('feat3-text', g('feat3-text'));
+  setV('feat4-icon', g('feat4-icon')); setV('feat4-text', g('feat4-text'));
+
+  // Today
+  setV('today-phone', g('today-phone'));
+  const tzl = doc.getElementById('today-zalo-link');
+  if (tzl) setV('today-zalo-link-href', tzl.getAttribute('href')||'');
+  todayItems = parseTodayItems(html);
+  renderTodayAdmin();
+  setupAboutZone();
+
+  // Menu phone
+  setV('menu-phone', g('menu-phone'));
+
+  // Order
+  const ot = doc.getElementById('order-title');
+  if (ot) setV('order-title', ot.innerHTML.replace(/<em>|<\/em>/g,'*').replace(/<[^>]+>/g,'').trim());
+  setV('order-desc', g('order-desc'));
+  const oz = doc.getElementById('order-zalo');
+  if (oz) { setV('order-zalo-href', oz.getAttribute('href')||''); setV('order-zalo-text', oz.querySelectorAll('div')[1]?.textContent.trim()||''); }
+  const ofb = doc.getElementById('order-fb');
+  if (ofb) { setV('order-fb-href', ofb.getAttribute('href')||''); setV('order-fb-text', ofb.querySelectorAll('div')[1]?.textContent.trim()||''); }
+  const op = doc.getElementById('order-phone');
+  if (op) { setV('order-phone-href', op.getAttribute('href')||''); setV('order-phone-text', op.querySelectorAll('div')[1]?.textContent.trim()||''); }
+
+  // Footer
+  setV('footer-desc', g('footer-desc'));
+  setV('footer-zalo', g('footer-zalo'));
+  const ffb = doc.getElementById('footer-fb');
+  if (ffb) setV('footer-fb-href', ffb.querySelector('a')?.getAttribute('href')||'');
+  setV('footer-area', g('footer-area'));
+  setV('footer-hours', g('footer-hours'));
+  const zb = doc.getElementById('zalo-btn');
+  if (zb) setV('zalo-href', zb.getAttribute('href')||'');
+}
+
+function setV(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = val || '';
+}
+
+// ════════════════════════════════════════════════
+// MENU GRID
+// ════════════════════════════════════════════════
+function parseDishes(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const grid = doc.getElementById('menu-grid');
+  if (!grid) return [];
+  const cards = grid.querySelectorAll('.menu-card');
+  return Array.from(cards).map(card => {
+    const img = card.querySelector('img');
+    const ov = card.querySelector('.menu-card-overlay');
+    const tagEl = ov?.querySelector('.menu-card-tag');
+    const h3 = ov?.querySelector('h3');
+    const p = ov?.querySelector('p');
+    const price = ov?.querySelector('.menu-card-price');
+    let src = img?.getAttribute('src')||'';
+    const m = src.match(/images[\/\\]([^"?# ]+)/);
+    return {
+      imgFile: m ? m[1] : '',
+      src: src,
+      blobKey: null,
+      badge: card.querySelector('.badge-hot') ? 'hot' : card.querySelector('.badge-new') ? 'new' : 'none',
+      tag: tagEl?.textContent.trim()||'',
+      name: h3?.textContent.trim()||'',
+      desc: p?.textContent.trim()||'',
+      price: price?.textContent.trim()||''
+    };
+  });
+}
+
+function renderMenuGrid() {
+  const grid = document.getElementById('menu-admin-grid');
+  grid.innerHTML = '';
+  dishes.forEach((d, i) => {
+    let imgSrc = '';
+    if (d.blobKey && imgBlobs[d.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[d.blobKey].blob);
+    else if (d.imgFile) imgSrc = 'images/' + d.imgFile;
+    else if (d.src?.startsWith('http')) imgSrc = d.src;
+
+    const card = document.createElement('div');
+    card.className = 'menu-item-card';
+    card.innerHTML = `
+      <div class="mic-img" onclick="pickDishImg(${i})"
+        ondragover="event.preventDefault();this.classList.add('drag-over')"
+        ondragleave="this.classList.remove('drag-over')"
+        ondrop="dropDish(event,${i})">
+        ${imgSrc ? `<img src="${imgSrc}" onerror="this.style.display='none'">` : '<div class="img-placeholder"><span>📷</span><p>Kéo / click để chọn ảnh</p></div>'}
+        <div class="img-lay"><span style="font-size:20px">📷</span><span>THAY ẢNH</span></div>
+      </div>
+      ${d.imgFile ? `<div class="img-name">${d.imgFile}</div>` : ''}
+      <div class="mic-body">
+        <div class="field"><label>Tên món</label><input value="${q(d.name)}" onchange="upd(${i},'name',this.value)" placeholder="Tên món"></div>
+        <div class="field"><label>Mô tả</label><textarea onchange="upd(${i},'desc',this.value)">${q(d.desc)}</textarea></div>
+        <div class="field"><label>Giá</label><input value="${q(d.price)}" onchange="upd(${i},'price',this.value)" placeholder="vd: 110.000₫ / túi"></div>
+        <div class="field"><label>Loại</label>
+          <div class="tags">${DISH_TAGS.map(t=>`<div class="tag${d.tag===t?' active':''}" onclick="setDishTag(${i},'${t}',this)">${t}</div>`).join('')}</div>
+        </div>
+        <div class="field"><label>Nhãn</label>
+          <div class="badges">
+            <div class="badge-btn b-hot${d.badge==='hot'?' active':''}" onclick="setDishBadge(${i},'hot',this)">🔥 Bán chạy</div>
+            <div class="badge-btn b-new${d.badge==='new'?' active':''}" onclick="setDishBadge(${i},'new',this)">✨ Mới</div>
+            <div class="badge-btn b-none${d.badge==='none'?' active':''}" onclick="setDishBadge(${i},'none',this)">— Không nhãn</div>
+          </div>
+        </div>
+      </div>
+      <div class="mic-foot"><span class="mic-num">Món #${i+1}</span><button class="btn btn-red btn-sm" onclick="delDish(${i})">🗑️ Xóa</button></div>`;
+    grid.appendChild(card);
+  });
+
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-dish';
+  addBtn.innerHTML = '<span>＋</span><p style="font-size:13px;font-weight:700">Thêm Món Mới</p>';
+  addBtn.onclick = addDish;
+  grid.appendChild(addBtn);
+}
+
+// ════════════════════════════════════════════════
+// REVIEWS
+// ════════════════════════════════════════════════
+function renderReviews(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const div = document.getElementById('reviews-admin');
+  div.innerHTML = '';
+  for (let i=1;i<=3;i++) {
+    const stars = doc.getElementById(`rv${i}-stars`)?.textContent.trim()||'★★★★★';
+    const text = doc.getElementById(`rv${i}-text`)?.textContent.trim()||'';
+    const author = doc.getElementById(`rv${i}-author`)?.textContent.trim()||'';
+    const card = document.createElement('div');
+    card.className = 'review-admin';
+    card.innerHTML = `
+      <div class="review-admin-head"><div class="card-title" style="margin:0">⭐ Đánh giá ${i}</div><span class="review-num">#${i}</span></div>
+      <div class="row row-3">
+        <div class="field"><label>Số sao</label>
+          <select id="rv${i}-stars" onchange="markDirty()">
+            ${['★★★★★','★★★★☆','★★★☆☆'].map(s=>`<option${s===stars?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field" style="grid-column:span 2"><label>Tên người đánh giá</label><input id="rv${i}-author" value="${q(author)}" onchange="markDirty()"></div>
+      </div>
+      <div class="field"><label>Nội dung đánh giá</label><textarea id="rv${i}-text" onchange="markDirty()">${q(text)}</textarea></div>`;
+    div.appendChild(card);
+  }
+}
+
+// ════════════════════════════════════════════════
+// DISH ACTIONS
+// ════════════════════════════════════════════════
+let _dishPick = null;
+function pickDishImg(i) {
+  _dishPick = i;
+  const fi = document.getElementById('__fi');
+  fi.onchange = async e => { if (e.target.files[0]) await applyDishImg(i, e.target.files[0]); fi.value=''; };
+  fi.click();
+}
+async function dropDish(e, i) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f?.type.startsWith('image/')) await applyDishImg(i, f);
+  else toast('❌ Chỉ chấp nhận file ảnh','err');
+}
+async function applyDishImg(i, file) {
+  const name = dishes[i].name || ('mon-'+(i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = slug(name)+'.'+ext;
+  const key = 'dish_'+i+'_'+Date.now();
+  imgBlobs[key] = { blob: file, filename };
+  dishes[i].blobKey = key;
+  dishes[i].imgFile = filename;
+  markDirty(); renderMenuGrid();
+  toast('✅ Ảnh: '+filename,'ok');
+}
+function upd(i,k,v) { dishes[i][k]=v; markDirty(); }
+function setDishTag(i,t,el) { dishes[i].tag=t; markDirty(); el.closest('.tags').querySelectorAll('.tag').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
+function setDishBadge(i,b,el) { dishes[i].badge=b; markDirty(); el.closest('.badges').querySelectorAll('.badge-btn').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
+function delDish(i) { if(!confirm('Xóa "'+dishes[i].name+'"?')) return; dishes.splice(i,1); markDirty(); renderMenuGrid(); }
+function addDish() { dishes.push({imgFile:'',src:'',blobKey:null,badge:'none',tag:'Đặc biệt',name:'Món Mới',desc:'Mô tả món...', price:'Liên hệ để biết giá'}); markDirty(); renderMenuGrid(); window.scrollTo({top:9e9,behavior:'smooth'}); }
+
+// ════════════════════════════════════════════════
+// TODAY ITEMS
+// ════════════════════════════════════════════════
+let todayItems = [];
+
+function parseTodayItems(html) {
+  const doc = new DOMParser().parseFromString(html,'text/html');
+  const grid = doc.getElementById('today-grid');
+  if (!grid) return [];
+  return Array.from(grid.querySelectorAll('.today-item')).map((item,i) => {
+    const img = item.querySelector('img');
+    let src = img ? img.getAttribute('src')||'' : '';
+    const fm = src.match(/images[\/\\]([^"?# ]+)/);
+    return {
+      name: item.querySelector('.today-name')?.textContent.trim()||'',
+      desc: item.querySelector('.today-desc')?.textContent.trim()||'',
+      price: item.querySelector('.today-price')?.textContent.trim()||'',
+      emoji: item.querySelector('.today-img-placeholder')?.textContent.trim()||'🍽️',
+      available: !item.classList.contains('sold'),
+      imgFile: fm ? fm[1] : '',
+      src: src,
+      blobKey: null
+    };
+  });
+}
+
+function renderTodayAdmin() {
+  const list = document.getElementById('today-admin-list');
+  if (!list) return;
+  list.innerHTML = '';
+  todayItems.forEach((item, i) => {
+    let imgSrc = '';
+    if (item.blobKey && imgBlobs[item.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[item.blobKey].blob);
+    else if (item.imgFile) imgSrc = 'images/' + item.imgFile;
+    else if (item.src?.startsWith('http')) imgSrc = item.src;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.cssText = 'margin-bottom:12px;border-left:3px solid '+(item.available?'#27ae60':'#444');
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold)">MÓN HÔM NAY #${String(i+1).padStart(2,'0')}</div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:${item.available?'#27ae60':'#666'}">
+            <input type="checkbox" ${item.available?'checked':''} onchange="todayItems[${i}].available=this.checked;renderTodayAdmin();markDirty()" style="accent-color:#27ae60">
+            ${item.available?'✅ Còn hàng':'❌ Hết hàng'}
+          </label>
+          <button class="btn btn-red btn-sm" onclick="todayItems.splice(${i},1);renderTodayAdmin();markDirty()">🗑️ Xóa</button>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:start">
+        <div>
+          <div id="timg-zone-${i}" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;height:140px;display:flex;align-items:center;justify-content:center;transition:.2s">
+            ${imgSrc
+              ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
+              : `<div style="text-align:center;color:#555;font-size:12px"><div style="font-size:28px;margin-bottom:6px">📷</div>Kéo ảnh hoặc click</div>`
+            }
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:4px" id="timg-ov-${i}"><span style="font-size:22px">📷</span>THAY ẢNH</div>
+          </div>
+          <div style="margin-top:6px;display:flex;gap:6px">
+            <input value="${q(item.emoji||'🍽️')}" onchange="todayItems[${i}].emoji=this.value;markDirty()" style="background:#111;border:1px solid #333;color:#f0ece4;padding:5px 8px;font-size:18px;border-radius:4px;width:52px;text-align:center" title="Emoji khi chưa có ảnh">
+            <button class="btn btn-outline" style="flex:1;font-size:11px;padding:5px 8px" onclick="pickTodayImg(${i})">📂 Chọn ảnh</button>
+          </div>
+          ${item.imgFile ? `<div style="font-size:10px;color:#555;margin-top:4px;word-break:break-all">${item.imgFile}</div>` : ''}
+        </div>
+        <div>
+          <div class="field" style="margin-bottom:10px"><label>Tên món</label><input value="${q(item.name)}" onchange="todayItems[${i}].name=this.value;markDirty()" placeholder="Tên món"></div>
+          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><input value="${q(item.desc)}" onchange="todayItems[${i}].desc=this.value;markDirty()" placeholder="Mô tả"></div>
+          <div class="field"><label>Giá</label><input value="${q(item.price)}" onchange="todayItems[${i}].price=this.value;markDirty()" placeholder="110.000₫"></div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+
+    // Wire up image zone after it's in DOM
+    setTimeout(() => {
+      const zone = document.getElementById('timg-zone-'+i);
+      const ov = document.getElementById('timg-ov-'+i);
+      if (!zone) return;
+      zone.onclick = () => pickTodayImg(i);
+      zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave = () => { zone.style.borderColor='#333'; if(ov) ov.style.display='none'; };
+      zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='#333'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyTodayImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+      zone.onmouseenter = () => { if(ov) ov.style.display='flex'; };
+      zone.onmouseleave = () => { if(ov) ov.style.display='none'; };
+    }, 0);
+  });
+}
+
+function pickTodayImg(i) {
+  const fi = document.getElementById('__fi');
+  fi.onchange = async e => { if(e.target.files[0]) await applyTodayImg(i, e.target.files[0]); fi.value=''; };
+  fi.click();
+}
+
+async function applyTodayImg(i, file) {
+  const name = todayItems[i].name || ('today-'+(i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'today-' + slug(name) + '.' + ext;
+  const key = 'today_'+i+'_'+Date.now();
+  imgBlobs[key] = { blob: file, filename };
+  todayItems[i].blobKey = key;
+  todayItems[i].imgFile = filename;
+  markDirty(); renderTodayAdmin();
+  toast('✅ Ảnh: '+filename,'ok');
+}
+
+function addTodayItem() {
+  todayItems.push({name:'Món mới',desc:'Mô tả ngắn',price:'Liên hệ',available:true,imgFile:'',src:'',blobKey:null,emoji:'🍽️'});
+  renderTodayAdmin(); markDirty();
+  document.querySelector('.content').scrollTop = 9999;
+}
+
+// ════════════════════════════════════════════════
+// ABOUT IMAGE
+// ════════════════════════════════════════════════
+function triggerAboutImg() {
+  const fi = document.getElementById('__fi');
+  fi.onchange = async e => { if (e.target.files[0]) await applyAboutImg(e.target.files[0]); fi.value=''; };
+  fi.click();
+}
+
+// Setup drag-drop on about zone after DOM ready
+function setupAboutZone() {
+  const zone = document.getElementById('about-img-zone');
+  if (!zone) return;
+  zone.onclick = () => triggerAboutImg();
+  zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; };
+  zone.ondragleave = () => { zone.style.borderColor='#333'; };
+  zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='#333'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyAboutImg(f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+  // Show overlay on hover
+  zone.onmouseenter = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='flex'; };
+  zone.onmouseleave = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; };
+}
+
+async function applyAboutImg(file) {
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'about.'+ext;
+  imgBlobs['about'] = { blob: file, filename };
+  document.getElementById('about-img-file').value = 'images/'+filename;
+  document.getElementById('about-img-name').textContent = '📸 ' + filename + ' (chưa lưu)';
+  const url = URL.createObjectURL(file);
+  const zone = document.getElementById('about-img-zone');
+  zone.style.cssText = 'position:relative;border:2px solid var(--gold);border-radius:6px;cursor:pointer;overflow:hidden;background:#111;min-height:160px';
+  zone.innerHTML = `<img src="${url}" style="width:100%;max-height:220px;object-fit:cover;display:block"><div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px"><span style="font-size:26px">📷</span><span>THAY ẢNH</span></div>`;
+  setupAboutZone();
+  markDirty();
+  toast('✅ Ảnh: '+filename,'ok');
+}
+
+// ════════════════════════════════════════════════
+// DIRTY
+// ════════════════════════════════════════════════
+function markDirty() { DIRTY=true; document.getElementById('save-bar').classList.add('show'); }
+
+// ════════════════════════════════════════════════
+// SAVE
+// ════════════════════════════════════════════════
+async function saveAll() {
+  if (!DIR) { toast('❌ Chưa chọn thư mục!','err'); return; }
+  toast('⏳ Đang lưu...','info');
+  try {
+    const perm = await DIR.requestPermission({ mode:'readwrite' });
+    if (perm !== 'granted') { toast('❌ Cần cấp quyền ghi!','err'); return; }
+
+    // Save images (about + menu dish + today items)
+    const imagesDir = await DIR.getDirectoryHandle('images', {create:true});
+    for (const key of Object.keys(imgBlobs)) {
+      const {blob, filename} = imgBlobs[key];
+      try {
+        const fh = await imagesDir.getFileHandle(filename, {create:true});
+        const w = await fh.createWritable();
+        await w.write(blob);
+        await w.close();
+      } catch(e) { console.warn('Could not save',filename,e); }
+    }
+
+    // Read & update HTML
+    const fh = await DIR.getFileHandle('index.html');
+    const file = await fh.getFile();
+    let html = await file.text();
+    html = applyFields(html);
+    const w = await fh.createWritable();
+    await w.write(html);
+    await w.close();
+
+    imgBlobs = {};
+    DIRTY = false;
+    document.getElementById('save-bar').classList.remove('show');
+    toast('✅ Đã lưu thành công! Mở index.html để xem kết quả.','ok');
+  } catch(e) {
+    toast('❌ '+e.message,'err');
+    console.error(e);
+  }
+}
+
+// ════════════════════════════════════════════════
+// APPLY FIELDS → HTML string
+// ════════════════════════════════════════════════
+function applyFields(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+
+  // Helper: set text content by id
+  const st = (id, val) => { const el = doc.getElementById(id); if (el) el.textContent = val||''; };
+  const sa = (id, attr, val) => { const el = doc.getElementById(id); if (el) el.setAttribute(attr, val||''); };
+
+  // Hero
+  st('hero-eyebrow', V('hero-eyebrow'));
+  st('hero-subtitle', V('hero-subtitle'));
+  st('hero-desc', V('hero-desc'));
+  st('hero-cta1', V('hero-cta1'));
+  st('hero-cta2', V('hero-cta2'));
+  st('stat1-num', V('stat1-num')); st('stat1-label', V('stat1-label'));
+  st('stat2-num', V('stat2-num')); st('stat2-label', V('stat2-label'));
+  st('stat3-num', V('stat3-num')); st('stat3-label', V('stat3-label'));
+
+  // About image
+  const aboutImgSrc = V('about-img-file');
+  if (aboutImgSrc) sa('about-img', 'src', aboutImgSrc);
+  st('about-badge-num', V('about-badge-num'));
+  st('about-badge-lbl', V('about-badge-lbl'));
+  st('about-eyebrow', V('about-eyebrow'));
+  // Title with em
+  const titleEl = doc.getElementById('about-title');
+  if (titleEl) titleEl.innerHTML = toEm(V('about-title'));
+  st('about-p1', V('about-p1'));
+  st('about-p2', V('about-p2'));
+  st('feat1-icon', V('feat1-icon')); st('feat1-text', V('feat1-text'));
+  st('feat2-icon', V('feat2-icon')); st('feat2-text', V('feat2-text'));
+  st('feat3-icon', V('feat3-icon')); st('feat3-text', V('feat3-text'));
+  st('feat4-icon', V('feat4-icon')); st('feat4-text', V('feat4-text'));
+
+  // Today
+  st('today-phone', V('today-phone'));
+  const tzl2 = doc.getElementById('today-zalo-link');
+  if (tzl2) tzl2.setAttribute('href', V('today-zalo-link-href'));
+  const todayGrid = doc.getElementById('today-grid');
+  if (todayGrid) {
+    todayGrid.innerHTML = '\n      <!-- ADMIN:TODAY-ITEMS -->\n' +
+      todayItems.map((item, i) => {
+        const num = String(i+1).padStart(2,'0');
+        const soldClass = item.available ? '' : ' sold';
+        const statusClass = item.available ? 'on' : 'off';
+        const statusText = item.available ? 'Còn hàng' : 'Hết hàng';
+        const imgSrc = item.imgFile ? 'images/'+item.imgFile : '';
+        const imgHTML = imgSrc
+          ? `<img src="${imgSrc}" alt="${item.name}">`
+          : `<div class="today-img-placeholder">${item.emoji||'🍽️'}</div>`;
+        return `      <div class="today-item${soldClass}">\n        <div class="today-img-wrap">\n          ${imgHTML}\n          <span class="today-status ${statusClass}">${statusText}</span>\n        </div>\n        <div class="today-info">\n          <div class="today-num">${num}</div>\n          <div class="today-name">${item.name}</div>\n          <div class="today-desc">${item.desc}</div>\n          <div class="today-price">${item.price}</div>\n        </div>\n      </div>`;
+      }).join('\n') +
+      '\n      <!-- /ADMIN:TODAY-ITEMS -->\n    ';
+  }
+
+  // Menu phone
+  st('menu-phone', V('menu-phone'));
+
+  // Menu grid
+  const menuGrid = doc.getElementById('menu-grid');
+  if (menuGrid) {
+    menuGrid.innerHTML = '\n\n' + dishes.map((d,i) => {
+      const src = d.imgFile ? 'images/'+d.imgFile : (d.src?.startsWith('http') ? d.src : 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80');
+      const badge = d.badge==='hot' ? '\n      <span class="badge-hot">Bán chạy</span>' : d.badge==='new' ? '\n      <span class="badge-new">Mới</span>' : '';
+      return `    <!-- MON ${i+1}: ${d.name} -->\n    <div class="menu-card">\n      <img src="${src}" alt="${d.name}" />${badge}\n      <div class="menu-card-overlay">\n        <span class="menu-card-tag">${d.tag}</span>\n        <h3>${d.name}</h3>\n        <p>${d.desc}</p>\n        <span class="menu-card-price">${d.price}</span>\n      </div>\n    </div>`;
+    }).join('\n\n') + '\n\n  ';
+  }
+
+  // Reviews
+  for (let i=1;i<=3;i++) {
+    st(`rv${i}-stars`, V(`rv${i}-stars`));
+    st(`rv${i}-text`, V(`rv${i}-text`));
+    st(`rv${i}-author`, V(`rv${i}-author`));
+  }
+
+  // Order
+  const ot = doc.getElementById('order-title');
+  if (ot) ot.innerHTML = toEm(V('order-title'));
+  st('order-desc', V('order-desc'));
+  const oz = doc.getElementById('order-zalo');
+  if (oz) { oz.setAttribute('href', V('order-zalo-href')); const divs = oz.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-zalo-text'); }
+  const ofb = doc.getElementById('order-fb');
+  if (ofb) { ofb.setAttribute('href', V('order-fb-href')); const divs = ofb.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-fb-text'); }
+  const op = doc.getElementById('order-phone');
+  if (op) { op.setAttribute('href', V('order-phone-href')); const divs = op.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-phone-text'); }
+
+  // Footer
+  st('footer-desc', V('footer-desc'));
+  st('footer-zalo', V('footer-zalo'));
+  const ffb = doc.getElementById('footer-fb');
+  if (ffb) { const a = ffb.querySelector('a'); if (a) a.setAttribute('href', V('footer-fb-href')); }
+  st('footer-area', V('footer-area'));
+  st('footer-hours', V('footer-hours'));
+  sa('zalo-btn', 'href', V('zalo-href'));
+
+  // Recipes – update <script id="recipe-data"> JSON
+  const recipeScript = doc.getElementById('recipe-data');
+  if (recipeScript) {
+    const cleanRecipes = recipeData.map(r => {
+      const { blobKey, ...clean } = r;
+      return clean;
+    });
+    recipeScript.textContent = '\n' + JSON.stringify(cleanRecipes, null, 2) + '\n';
+  }
+
+  return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+}
+
+// ════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════
+function V(id) { return (document.getElementById(id)?.value||'').trim(); }
+function q(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toEm(s) { return (s||'').replace(/\*([^*]+)\*/g,'<em>$1</em>'); }
+function slug(s) {
+  const m = {à:'a',á:'a',ạ:'a',ả:'a',ã:'a',â:'a',ầ:'a',ấ:'a',ậ:'a',ẩ:'a',ẫ:'a',ă:'a',ằ:'a',ắ:'a',ặ:'a',ẳ:'a',ẵ:'a',è:'e',é:'e',ẹ:'e',ẻ:'e',ẽ:'e',ê:'e',ề:'e',ế:'e',ệ:'e',ể:'e',ễ:'e',ì:'i',í:'i',ị:'i',ỉ:'i',ĩ:'i',ò:'o',ó:'o',ọ:'o',ỏ:'o',õ:'o',ô:'o',ồ:'o',ố:'o',ộ:'o',ổ:'o',ỗ:'o',ơ:'o',ờ:'o',ớ:'o',ợ:'o',ở:'o',ỡ:'o',ù:'u',ú:'u',ụ:'u',ủ:'u',ũ:'u',ư:'u',ừ:'u',ứ:'u',ự:'u',ử:'u',ữ:'u',ỳ:'y',ý:'y',ỵ:'y',ỷ:'y',ỹ:'y',đ:'d'};
+  return s.toLowerCase().replace(/[^\u0000-\u007E]/g,c=>m[c]||'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+// ════════════════════════════════════════════════
+// RECIPES
+// ════════════════════════════════════════════════
+function parseRecipes(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const el = doc.getElementById('recipe-data');
+  if (!el) return [];
+  try { return JSON.parse(el.textContent); } catch(e) { console.warn('parseRecipes error', e); return []; }
+}
+
+function renderRecipesAdmin() {
+  const list = document.getElementById('recipes-admin-list');
+  if (!list) return;
+  list.innerHTML = '';
+  recipeData.forEach((r, i) => {
+    let imgSrc = '';
+    if (r.blobKey && imgBlobs[r.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[r.blobKey].blob);
+    else if (r.img) imgSrc = r.img;
+
+    const card = document.createElement('div');
+    card.className = 'recipe-admin-card' + (r.featured ? ' is-featured' : '');
+
+    const featuredBtn = r.featured
+      ? `<div class="recipe-featured-badge">⭐ Đang nổi bật</div>`
+      : `<button class="btn btn-outline btn-sm" onclick="setFeatured(${i})">⭐ Đặt nổi bật</button>`;
+
+    card.innerHTML = `
+      <div class="recipe-admin-head">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;font-weight:700">CÔNG THỨC #${String(i+1).padStart(2,'0')}</div>
+          <div style="font-size:14px;font-weight:700;color:var(--w)">${q(r.name||'')}</div>
+          ${r.featured ? '<div class="recipe-featured-badge">⭐ Nổi bật</div>' : ''}
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          ${featuredBtn}
+          <button class="btn btn-red btn-sm" onclick="delRecipe(${i})">🗑️ Xóa</button>
+        </div>
+      </div>
+      <div class="recipe-admin-body">
+        <div>
+          <div id="rimg-zone-${i}" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;height:150px;display:flex;align-items:center;justify-content:center;transition:.2s;margin-bottom:8px">
+            ${imgSrc ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : `<div style="text-align:center;color:#555;font-size:12px"><div style="font-size:26px;margin-bottom:4px">📷</div>Kéo ảnh hoặc click</div>`}
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:3px" id="rimg-ov-${i}"><span style="font-size:20px">📷</span>THAY ẢNH</div>
+          </div>
+          <button class="btn btn-outline" style="width:100%;font-size:11px;margin-bottom:10px" onclick="pickRecipeImg(${i})">📂 Chọn ảnh</button>
+          ${r.img ? `<div style="font-size:10px;color:#555;margin-bottom:8px;word-break:break-all">${r.img}</div>` : ''}
+          <div class="field" style="margin-bottom:8px"><label>Thời gian</label><input value="${q(r.time||'')}" onchange="recipeData[${i}].time=this.value;markDirty()" placeholder="vd: 30 phút"></div>
+          <div class="field" style="margin-bottom:8px"><label>Độ khó</label>
+            <select onchange="recipeData[${i}].difficulty=this.value;markDirty()">
+              <option value="easy" ${r.difficulty==='easy'?'selected':''}>● ○ ○ Dễ</option>
+              <option value="medium" ${r.difficulty==='medium'?'selected':''}>● ● ○ Trung bình</option>
+              <option value="hard" ${r.difficulty==='hard'?'selected':''}>● ● ● Khó</option>
+            </select>
+          </div>
+          <div class="field"><label>Khẩu phần</label><input value="${q(r.serves||'')}" onchange="recipeData[${i}].serves=this.value;markDirty()" placeholder="vd: 4 người"></div>
+        </div>
+        <div>
+          <div class="field" style="margin-bottom:10px"><label>Tên công thức</label><input value="${q(r.name||'')}" onchange="recipeData[${i}].name=this.value;this.closest('.recipe-admin-card').querySelector('[style*=\\'font-size:14px\\']').textContent=this.value;markDirty()" placeholder="Tên món" style="font-size:13px;font-weight:600"></div>
+          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><textarea onchange="recipeData[${i}].desc=this.value;markDirty()" placeholder="Mô tả ngắn về công thức...">${q(r.desc||'')}</textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Tags (phân cách bằng dấu phẩy)</label><input value="${q((r.tags||[]).join(', '))}" onchange="recipeData[${i}].tags=this.value.split(',').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="Handmade, Không bảo quản"></div>
+          <div class="field" style="margin-bottom:10px">
+            <label>Nguyên liệu <span style="color:#444;font-weight:400;letter-spacing:0">(mỗi dòng = 1 nguyên liệu)</span></label>
+            <textarea rows="5" onchange="recipeData[${i}].ingredients=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="500g ức gà&#10;3 cây sả&#10;5 lá chanh...">${q((r.ingredients||[]).join('\n'))}</textarea>
+          </div>
+          <div class="field" style="margin-bottom:10px">
+            <label>Các bước làm <span style="color:#444;font-weight:400;letter-spacing:0">(mỗi dòng = 1 bước)</span></label>
+            <textarea rows="5" onchange="recipeData[${i}].steps=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="Luộc gà với gừng và muối...&#10;Xé nhỏ bằng tay...&#10;...">${q((r.steps||[]).join('\n'))}</textarea>
+          </div>
+          <div class="field">
+            <label>💡 Mẹo của Liên (tips)</label>
+            <textarea rows="3" onchange="recipeData[${i}].tips=this.value;markDirty()" placeholder="Bí quyết để món ngon hơn...">${q(r.tips||'')}</textarea>
+          </div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+
+    // Wire up image zone drag-drop
+    setTimeout(() => {
+      const zone = document.getElementById('rimg-zone-' + i);
+      const ov   = document.getElementById('rimg-ov-' + i);
+      if (!zone) return;
+      zone.onclick      = () => pickRecipeImg(i);
+      zone.ondragover   = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave  = ()=> { zone.style.borderColor='#333'; if(ov) ov.style.display='none'; };
+      zone.ondrop       = e => { e.preventDefault(); zone.style.borderColor='#333'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyRecipeImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+      zone.onmouseenter = ()=> { if(ov) ov.style.display='flex'; };
+      zone.onmouseleave = ()=> { if(ov) ov.style.display='none'; };
+    }, 0);
+  });
+}
+
+function addRecipe() {
+  recipeData.push({
+    id: 'cong-thuc-' + Date.now(),
+    name: 'Công Thức Mới',
+    img: '',
+    time: '30 phút',
+    difficulty: 'easy',
+    serves: '2 người',
+    desc: 'Mô tả công thức...',
+    tags: ['Handmade'],
+    ingredients: ['Nguyên liệu 1', 'Nguyên liệu 2'],
+    steps: ['Bước 1', 'Bước 2'],
+    tips: '',
+    featured: false
+  });
+  markDirty();
+  renderRecipesAdmin();
+  document.querySelector('.content').scrollTop = 9999;
+}
+
+function delRecipe(i) {
+  if (!confirm('Xóa công thức "' + recipeData[i].name + '"?')) return;
+  recipeData.splice(i, 1);
+  markDirty();
+  renderRecipesAdmin();
+}
+
+function setFeatured(i) {
+  recipeData.forEach((r, idx) => r.featured = (idx === i));
+  markDirty();
+  renderRecipesAdmin();
+}
+
+function pickRecipeImg(i) {
+  const fi = document.getElementById('__fi');
+  fi.onchange = async e => { if(e.target.files[0]) await applyRecipeImg(i, e.target.files[0]); fi.value=''; };
+  fi.click();
+}
+
+async function applyRecipeImg(i, file) {
+  const name = recipeData[i].name || ('recipe-' + (i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'recipe-' + slug(name) + '.' + ext;
+  const key = 'recipe_' + i + '_' + Date.now();
+  imgBlobs[key] = { blob: file, filename };
+  recipeData[i].blobKey = key;
+  recipeData[i].img = 'images/' + filename;
+  markDirty();
+  renderRecipesAdmin();
+  toast('✅ Ảnh: ' + filename, 'ok');
+}
+
+// ════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════
+function go(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.querySelector('.content').scrollTop = 0;
+}
+
+function openPreview() {
+  if (!DIR) return;
+  toast('💡 Mở file index.html trong thư mục LieNo-Website bằng trình duyệt để xem website','info');
+}
+
+// ════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════
+let _tt;
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'show '+type;
+  clearTimeout(_tt);
+  _tt = setTimeout(()=>t.className='', type==='err'?5000:3000);
+}
+
+// Auto-mark dirty on all field changes
+document.addEventListener('input', e => {
+  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) && e.target.closest('#app')) markDirty();
+});
+
+window.onload = () => {
+  if (!window.showDirectoryPicker) {
+    document.getElementById('setup').innerHTML = `<div style="font-size:50px">⚠️</div><h2 style="color:#e74c3c">Trình duyệt không hỗ trợ</h2><p>Vui lòng dùng <strong>Microsoft Edge</strong> hoặc <strong>Google Chrome</strong> phiên bản mới nhất.</p>`;
+  }
+  setupAboutZone();
+};
+</script>
+</body>
+</html>
