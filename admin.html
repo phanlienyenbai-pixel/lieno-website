@@ -19,17 +19,23 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 .btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:4px;transition:all .2s;text-transform:uppercase;font-family:inherit}
 .btn-gold{background:linear-gradient(135deg,#7c3aed,#a855f7,#14b8a6);color:#fff}
 .btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(168,85,247,.5)}
-.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.45);color:var(--gold)}
-.btn-outline:hover{background:rgba(201,168,76,.08)}
+.btn-outline{background:transparent;border:1px solid rgba(168,85,247,.45);color:var(--gold)}
+.btn-outline:hover{background:rgba(168,85,247,.08)}
 .btn-red{background:#c0392b;color:#fff;border:none}
 .btn-red:hover{background:#e74c3c}
 .btn-green{background:#27ae60;color:#fff;border:none}
 .btn-sm{padding:5px 11px;font-size:11px}
 
-/* ── SETUP ── */
+/* ── SETUP / LOGIN ── */
 #setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px;background:#0a0a12}
 #setup h2{font-size:24px;color:var(--gold)}
-#setup p{color:#999;max-width:460px;line-height:1.8;font-size:13px}
+#setup p{color:#999;max-width:480px;line-height:1.8;font-size:13px}
+.token-input-wrap{display:flex;gap:10px;width:100%;max-width:500px}
+.token-input-wrap input{flex:1;background:#111;border:1px solid rgba(168,85,247,.3);color:#f0ece4;padding:11px 14px;font-size:13px;border-radius:4px;font-family:inherit}
+.token-input-wrap input:focus{border-color:var(--gold);outline:none}
+.setup-hint{font-size:11px;color:#444;max-width:500px;line-height:1.7}
+.setup-hint a{color:var(--teal);text-decoration:none}
+.setup-hint a:hover{text-decoration:underline}
 
 /* ── LAYOUT ── */
 #app{display:none}
@@ -124,7 +130,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 #save-bar p strong{color:var(--gold)}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5)}
+#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5);max-width:360px}
 #toast.show{display:block}
 #toast.ok{background:#27ae60;color:#fff}
 #toast.err{background:#c0392b;color:#fff}
@@ -138,7 +144,18 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 .recipe-featured-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border:1px solid var(--gold);color:var(--gold);border-radius:3px}
 .add-recipe{border:2px dashed rgba(168,85,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:72px;cursor:pointer;gap:10px;color:#555;transition:.2s;font-size:13px;font-weight:700;letter-spacing:1px}
 .add-recipe:hover{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.04)}
-.diff-dot-easy{color:#2dd4bf}.diff-dot-medium{color:#a855f7}.diff-dot-hard{color:#f472b6}
+
+/* ── GITHUB STATUS ── */
+.gh-status{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;padding:6px 12px;border:1px solid rgba(255,255,255,.06);border-radius:4px}
+.gh-dot{width:8px;height:8px;border-radius:50%;background:#27ae60}
+.gh-dot.err{background:#e74c3c}
+
+/* ── SAVING OVERLAY ── */
+#saving-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+#saving-overlay.show{display:flex}
+.saving-spinner{width:48px;height:48px;border:3px solid rgba(168,85,247,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.saving-text{font-size:14px;color:var(--gold);letter-spacing:2px;font-weight:700}
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#2e2e2e;border-radius:3px}
@@ -154,11 +171,16 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 
 <div id="toast"></div>
 
+<div id="saving-overlay">
+  <div class="saving-spinner"></div>
+  <div class="saving-text">Đang lưu lên GitHub...</div>
+</div>
+
 <div id="save-bar">
-  <p>Có thay đổi — nhấn <strong>Lưu Website</strong> để cập nhật</p>
+  <p>Có thay đổi — nhấn <strong>Lưu Website</strong> để cập nhật lên Netlify</p>
   <div style="display:flex;gap:10px">
-    <button class="btn btn-outline" onclick="reload()">↩ Hoàn tác</button>
-    <button class="btn btn-gold" onclick="saveAll()">💾 Lưu Website</button>
+    <button class="btn btn-outline" onclick="reloadFromGitHub()">↩ Hoàn tác</button>
+    <button class="btn btn-gold" onclick="saveAll()">☁️ Lưu Website</button>
   </div>
 </div>
 
@@ -166,21 +188,28 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 <header>
   <div>
     <div class="hdr-title">🍜 LIE NO – QUẢN TRỊ TOÀN BỘ WEBSITE</div>
-    <div class="hdr-sub">Chọn mục bên trái · Chỉnh sửa trực tiếp · Nhấn Lưu để áp dụng</div>
+    <div class="hdr-sub">Chỉnh sửa trực tiếp · Nhấn Lưu để cập nhật lên Netlify tự động</div>
   </div>
   <div class="hdr-right">
-    <button class="btn btn-outline" onclick="openFolder()">📂 Chọn Thư Mục</button>
-    <button class="btn btn-gold" id="btn-save" style="display:none" onclick="saveAll()">💾 Lưu Website</button>
+    <div class="gh-status" id="gh-status"><div class="gh-dot" id="gh-dot"></div><span id="gh-status-text">Chưa kết nối</span></div>
+    <button class="btn btn-outline" onclick="doLogout()" id="btn-logout" style="display:none">⏏ Đăng xuất</button>
+    <button class="btn btn-gold" id="btn-save" style="display:none" onclick="saveAll()">☁️ Lưu Website</button>
   </div>
 </header>
 
-<!-- SETUP -->
+<!-- SETUP: nhập token -->
 <div id="setup">
-  <div style="font-size:56px">📁</div>
-  <h2>Chọn thư mục LieNo-Website</h2>
-  <p>Nhấn nút bên dưới, chọn thư mục <strong style="color:var(--gold)">LieNo-Website</strong>. Sau đó bạn có thể chỉnh sửa mọi thứ trên website — từ ảnh, thực đơn, giá, đánh giá đến thông tin liên hệ.</p>
-  <button class="btn btn-gold" style="font-size:14px;padding:14px 36px;margin-top:6px" onclick="openFolder()">📂 Chọn Thư Mục LieNo-Website</button>
-  <p style="font-size:11px;color:#444">Dùng Microsoft Edge hoặc Google Chrome · Chỉ cần chọn 1 lần</p>
+  <div style="font-size:56px">🔑</div>
+  <h2>Kết nối GitHub để quản trị website</h2>
+  <p>Nhập <strong style="color:var(--gold)">GitHub Personal Access Token</strong> của bạn để bắt đầu chỉnh sửa website. Token được lưu trong trình duyệt, không gửi đi đâu ngoài GitHub.</p>
+  <div class="token-input-wrap">
+    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxx" autocomplete="off">
+    <button class="btn btn-gold" onclick="doLogin()">Kết nối →</button>
+  </div>
+  <div class="setup-hint">
+    💡 Chưa có token? Vào <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> → tick <strong>repo</strong> → Generate → copy token dán vào đây.<br><br>
+    ⚠️ Token chỉ hiện 1 lần duy nhất khi tạo. Nếu mất token, vào GitHub tạo lại.
+  </div>
 </div>
 
 <!-- APP -->
@@ -200,7 +229,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
       <div class="nav-item" onclick="go('recipes')"><span class="ico">📖</span> Công thức nấu ăn</div>
       <div class="sidebar-section" style="margin-top:20px">Thao tác</div>
       <div class="nav-item" onclick="openPreview()"><span class="ico">👁️</span> Xem website</div>
-      <div class="nav-item" onclick="saveAll()"><span class="ico">💾</span> Lưu ngay</div>
+      <div class="nav-item" onclick="saveAll()"><span class="ico">☁️</span> Lưu ngay</div>
     </div>
 
     <!-- CONTENT -->
@@ -214,7 +243,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
         <div class="card">
           <div class="card-title">📝 Nội dung chính</div>
           <div class="row row-2">
-            <div class="field"><label>Tagline nhỏ (trên tên)</label><input id="hero-eyebrow" placeholder="Đồ ăn handmade từ tâm"><div class="field-hint">Dòng chữ nhỏ phía trên tên Lie No</div></div>
+            <div class="field"><label>Tagline nhỏ (trên tên)</label><input id="hero-eyebrow" placeholder="Đồ ăn handmade từ tâm"></div>
             <div class="field"><label>Tagline phụ (dưới tên)</label><input id="hero-subtitle" placeholder="Homemade · Tươi Ngon · Giao Tận Nơi"></div>
           </div>
           <div class="row">
@@ -413,7 +442,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
       <!-- ░░ RECIPES ░░ -->
       <div class="panel" id="p-recipes">
         <div class="panel-title">📖 Công Thức Nấu Ăn</div>
-        <div class="panel-sub">Thêm · Sửa · Xóa công thức · Kéo thả ảnh trực tiếp · Chọn 1 công thức "Nổi bật" hiển thị to trên website</div>
+        <div class="panel-sub">Thêm · Sửa · Xóa công thức · Chọn 1 công thức "Nổi bật" hiển thị to trên website</div>
         <div id="recipes-admin-list"></div>
         <div class="add-recipe" onclick="addRecipe()"><span style="font-size:26px">＋</span> Thêm Công Thức Mới</div>
       </div>
@@ -426,51 +455,210 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 
 <script>
 // ════════════════════════════════════════════════
+// GITHUB CONFIG — CHỈ CẦN SỬA 2 DÒNG NÀY
+// ════════════════════════════════════════════════
+const GH_OWNER = 'phanlienyenbai-pixel';
+const GH_REPO  = 'lieno-website';
+const GH_FILE  = 'index.html';
+const GH_BRANCH = 'main';
+
+// ════════════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════════════
-let DIR = null;
+let GH_TOKEN = '';
+let GH_SHA = ''; // SHA of current index.html (needed for update)
 let DIRTY = false;
 let dishes = [];
 let recipeData = [];
-let imgBlobs = {}; // key -> { blob, filename }
+let imgBlobs = {}; // key -> { blob, filename, base64 }
+let todayItems = [];
 
 const DISH_TAGS = ['Món khô','Đồ chiên','Mì - Bún','Canh - Súp','Cơm phần','Nước uống','Đặc biệt','Theo mùa','Tráng miệng'];
 
 // ════════════════════════════════════════════════
-// FOLDER
+// LOGIN / LOGOUT
 // ════════════════════════════════════════════════
-async function openFolder() {
-  if (!window.showDirectoryPicker) {
-    toast('❌ Cần dùng Edge hoặc Chrome mới nhất','err'); return;
-  }
+async function doLogin() {
+  const token = document.getElementById('token-input').value.trim();
+  if (!token) { toast('❌ Vui lòng nhập token!','err'); return; }
+  GH_TOKEN = token;
+  toast('⏳ Đang kiểm tra token...','info');
+  const ok = await testToken();
+  if (!ok) return;
+  localStorage.setItem('gh_token_lieno', token);
+  showApp();
+  await reloadFromGitHub();
+}
+
+async function testToken() {
   try {
-    DIR = await window.showDirectoryPicker({ mode:'readwrite' });
-    document.getElementById('setup').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('btn-save').style.display = 'inline-block';
-    await reload();
-    toast('✅ Đã mở: ' + DIR.name,'ok');
+    const res = await ghGet(`repos/${GH_OWNER}/${GH_REPO}`);
+    if (!res.ok) {
+      toast('❌ Token không hợp lệ hoặc không có quyền truy cập repo!','err');
+      GH_TOKEN = '';
+      return false;
+    }
+    return true;
   } catch(e) {
-    if (e.name !== 'AbortError') toast('❌ ' + e.message,'err');
+    toast('❌ Lỗi kết nối: ' + e.message,'err');
+    return false;
+  }
+}
+
+function doLogout() {
+  if (!confirm('Đăng xuất? Token sẽ bị xóa khỏi trình duyệt.')) return;
+  localStorage.removeItem('gh_token_lieno');
+  GH_TOKEN = '';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('setup').style.display = 'flex';
+  document.getElementById('btn-save').style.display = 'none';
+  document.getElementById('btn-logout').style.display = 'none';
+  document.getElementById('token-input').value = '';
+  setGhStatus(false, 'Chưa kết nối');
+}
+
+function showApp() {
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('btn-save').style.display = 'inline-block';
+  document.getElementById('btn-logout').style.display = 'inline-block';
+  setGhStatus(true, GH_OWNER + '/' + GH_REPO);
+}
+
+function setGhStatus(ok, text) {
+  document.getElementById('gh-dot').className = 'gh-dot' + (ok ? '' : ' err');
+  document.getElementById('gh-status-text').textContent = text;
+}
+
+// ════════════════════════════════════════════════
+// GITHUB API HELPERS
+// ════════════════════════════════════════════════
+function ghGet(path) {
+  return fetch(`https://api.github.com/${path}`, {
+    headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+  });
+}
+
+function ghPut(path, body) {
+  return fetch(`https://api.github.com/${path}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+}
+
+// ════════════════════════════════════════════════
+// LOAD FROM GITHUB
+// ════════════════════════════════════════════════
+async function reloadFromGitHub() {
+  toast('⏳ Đang tải dữ liệu từ GitHub...','info');
+  try {
+    const res = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    if (!res.ok) throw new Error('Không thể đọc file index.html từ GitHub (status ' + res.status + ')');
+    const data = await res.json();
+    GH_SHA = data.sha;
+    const html = atob(data.content.replace(/\n/g,''));
+    fillAllFields(html);
+    dishes = parseDishes(html);
+    renderMenuGrid();
+    renderReviews(html);
+    recipeData = parseRecipes(html);
+    renderRecipesAdmin();
+    todayItems = parseTodayItems(html);
+    renderTodayAdmin();
+    DIRTY = false;
+    document.getElementById('save-bar').classList.remove('show');
+    toast('✅ Đã tải dữ liệu thành công!','ok');
+  } catch(e) {
+    toast('❌ ' + e.message,'err');
+    setGhStatus(false, 'Lỗi kết nối');
   }
 }
 
 // ════════════════════════════════════════════════
-// LOAD
+// SAVE TO GITHUB
 // ════════════════════════════════════════════════
-async function reload() {
-  if (!DIR) return;
-  const fh = await DIR.getFileHandle('index.html');
-  const f = await fh.getFile();
-  const html = await f.text();
-  fillAllFields(html);
-  dishes = parseDishes(html);
-  renderMenuGrid();
-  renderReviews(html);
-  recipeData = parseRecipes(html);
-  renderRecipesAdmin();
-  DIRTY = false;
-  document.getElementById('save-bar').classList.remove('show');
+async function saveAll() {
+  if (!GH_TOKEN) { toast('❌ Chưa đăng nhập!','err'); return; }
+  showSaving(true);
+  try {
+    // 1. Upload images first
+    for (const key of Object.keys(imgBlobs)) {
+      const {base64, filename} = imgBlobs[key];
+      await uploadImageToGitHub('images/' + filename, base64);
+    }
+
+    // 2. Get latest SHA (in case changed)
+    const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    if (check.ok) {
+      const d = await check.json();
+      GH_SHA = d.sha;
+    }
+
+    // 3. Build updated HTML
+    const resFile = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    const fileData = await resFile.json();
+    let html = atob(fileData.content.replace(/\n/g,''));
+    html = applyFields(html);
+
+    // 4. Push to GitHub
+    const encoded = btoa(unescape(encodeURIComponent(html)));
+    const res = await ghPut(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`, {
+      message: '✏️ Cập nhật website qua admin panel',
+      content: encoded,
+      sha: GH_SHA,
+      branch: GH_BRANCH
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Lỗi khi lưu lên GitHub');
+    }
+    const saved = await res.json();
+    GH_SHA = saved.content.sha;
+    imgBlobs = {};
+    DIRTY = false;
+    document.getElementById('save-bar').classList.remove('show');
+    showSaving(false);
+    toast('✅ Đã lưu thành công! Netlify sẽ tự cập nhật trong 30-60 giây.','ok');
+  } catch(e) {
+    showSaving(false);
+    toast('❌ ' + e.message,'err');
+    console.error(e);
+  }
+}
+
+async function uploadImageToGitHub(path, base64) {
+  // Check if file exists (to get SHA)
+  let sha = undefined;
+  try {
+    const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`);
+    if (check.ok) {
+      const d = await check.json();
+      sha = d.sha;
+    }
+  } catch(e) {}
+
+  const body = {
+    message: '🖼️ Upload ảnh: ' + path,
+    content: base64,
+    branch: GH_BRANCH
+  };
+  if (sha) body.sha = sha;
+
+  const res = await ghPut(`repos/${GH_OWNER}/${GH_REPO}/contents/${path}`, body);
+  if (!res.ok) {
+    const err = await res.json();
+    console.warn('Upload ảnh thất bại:', path, err.message);
+  }
+}
+
+function showSaving(show) {
+  document.getElementById('saving-overlay').className = show ? 'show' : '';
 }
 
 // ════════════════════════════════════════════════
@@ -479,9 +667,7 @@ async function reload() {
 function fillAllFields(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const g = (id) => { const el = doc.getElementById(id); return el ? el.textContent.trim() : ''; };
-  const ga = (id, attr) => { const el = doc.getElementById(id); return el ? (el.getAttribute(attr)||'').trim() : ''; };
 
-  // Hero
   setV('hero-eyebrow', g('hero-eyebrow'));
   setV('hero-subtitle', g('hero-subtitle'));
   setV('hero-desc', g('hero-desc'));
@@ -491,17 +677,15 @@ function fillAllFields(html) {
   setV('stat2-num', g('stat2-num')); setV('stat2-label', g('stat2-label'));
   setV('stat3-num', g('stat3-num')); setV('stat3-label', g('stat3-label'));
 
-  // About
   const aboutImg = doc.getElementById('about-img');
   if (aboutImg) {
     let src = aboutImg.getAttribute('src') || '';
     const zone = document.getElementById('about-img-zone');
     if (src) {
-      zone.innerHTML = `<img src="${src}" onerror="this.style.display='none'"><div class="img-lay"><span style="font-size:22px">📷</span><span>THAY ẢNH</span></div>`;
-      zone.onclick = () => pickImg('about-img-zone','about-img-file');
-      zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('drag-over'); };
-      zone.ondragleave = () => zone.classList.remove('drag-over');
-      zone.ondrop = (e) => dropZ(e,'about-img-zone','about-img-file');
+      // Show image from GitHub raw URL
+      const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${src}`;
+      zone.innerHTML = `<img src="${rawUrl}" onerror="this.style.display='none'"><div class="img-lay"><span style="font-size:22px">📷</span><span>THAY ẢNH</span></div>`;
+      zone.onclick = () => triggerAboutImg();
     }
     document.getElementById('about-img-name').textContent = src.replace('images/','') || 'Chưa có ảnh';
     document.getElementById('about-img-file').value = src;
@@ -509,7 +693,6 @@ function fillAllFields(html) {
   setV('about-badge-num', g('about-badge-num'));
   setV('about-badge-lbl', g('about-badge-lbl'));
   setV('about-eyebrow', g('about-eyebrow'));
-  // about-title: strip em tags
   const titleEl = doc.getElementById('about-title');
   if (titleEl) setV('about-title', titleEl.innerHTML.replace(/<em>|<\/em>/g,'*').replace(/<[^>]+>/g,'').trim());
   setV('about-p1', g('about-p1'));
@@ -519,18 +702,12 @@ function fillAllFields(html) {
   setV('feat3-icon', g('feat3-icon')); setV('feat3-text', g('feat3-text'));
   setV('feat4-icon', g('feat4-icon')); setV('feat4-text', g('feat4-text'));
 
-  // Today
   setV('today-phone', g('today-phone'));
   const tzl = doc.getElementById('today-zalo-link');
   if (tzl) setV('today-zalo-link-href', tzl.getAttribute('href')||'');
-  todayItems = parseTodayItems(html);
-  renderTodayAdmin();
-  setupAboutZone();
 
-  // Menu phone
   setV('menu-phone', g('menu-phone'));
 
-  // Order
   const ot = doc.getElementById('order-title');
   if (ot) setV('order-title', ot.innerHTML.replace(/<em>|<\/em>/g,'*').replace(/<[^>]+>/g,'').trim());
   setV('order-desc', g('order-desc'));
@@ -541,7 +718,6 @@ function fillAllFields(html) {
   const op = doc.getElementById('order-phone');
   if (op) { setV('order-phone-href', op.getAttribute('href')||''); setV('order-phone-text', op.querySelectorAll('div')[1]?.textContent.trim()||''); }
 
-  // Footer
   setV('footer-desc', g('footer-desc'));
   setV('footer-zalo', g('footer-zalo'));
   const ffb = doc.getElementById('footer-fb');
@@ -550,6 +726,8 @@ function fillAllFields(html) {
   setV('footer-hours', g('footer-hours'));
   const zb = doc.getElementById('zalo-btn');
   if (zb) setV('zalo-href', zb.getAttribute('href')||'');
+
+  setupAboutZone();
 }
 
 function setV(id, val) {
@@ -574,7 +752,7 @@ function parseDishes(html) {
     const p = ov?.querySelector('p');
     const price = ov?.querySelector('.menu-card-price');
     let src = img?.getAttribute('src')||'';
-    const m = src.match(/images[\/\\]([^"?# ]+)/);
+    const m = src.match(/images[\\/]([^"?# ]+)/);
     return {
       imgFile: m ? m[1] : '',
       src: src,
@@ -593,9 +771,13 @@ function renderMenuGrid() {
   grid.innerHTML = '';
   dishes.forEach((d, i) => {
     let imgSrc = '';
-    if (d.blobKey && imgBlobs[d.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[d.blobKey].blob);
-    else if (d.imgFile) imgSrc = 'images/' + d.imgFile;
-    else if (d.src?.startsWith('http')) imgSrc = d.src;
+    if (d.blobKey && imgBlobs[d.blobKey]) {
+      imgSrc = URL.createObjectURL(imgBlobs[d.blobKey].blob);
+    } else if (d.imgFile) {
+      imgSrc = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/images/${d.imgFile}`;
+    } else if (d.src?.startsWith('http')) {
+      imgSrc = d.src;
+    }
 
     const card = document.createElement('div');
     card.className = 'menu-item-card';
@@ -665,9 +847,7 @@ function renderReviews(html) {
 // ════════════════════════════════════════════════
 // DISH ACTIONS
 // ════════════════════════════════════════════════
-let _dishPick = null;
 function pickDishImg(i) {
-  _dishPick = i;
   const fi = document.getElementById('__fi');
   fi.onchange = async e => { if (e.target.files[0]) await applyDishImg(i, e.target.files[0]); fi.value=''; };
   fi.click();
@@ -684,11 +864,12 @@ async function applyDishImg(i, file) {
   const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
   const filename = slug(name)+'.'+ext;
   const key = 'dish_'+i+'_'+Date.now();
-  imgBlobs[key] = { blob: file, filename };
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
   dishes[i].blobKey = key;
   dishes[i].imgFile = filename;
   markDirty(); renderMenuGrid();
-  toast('✅ Ảnh: '+filename,'ok');
+  toast('✅ Ảnh: '+filename+' (sẽ upload khi Lưu)','ok');
 }
 function upd(i,k,v) { dishes[i][k]=v; markDirty(); }
 function setDishTag(i,t,el) { dishes[i].tag=t; markDirty(); el.closest('.tags').querySelectorAll('.tag').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
@@ -699,16 +880,14 @@ function addDish() { dishes.push({imgFile:'',src:'',blobKey:null,badge:'none',ta
 // ════════════════════════════════════════════════
 // TODAY ITEMS
 // ════════════════════════════════════════════════
-let todayItems = [];
-
 function parseTodayItems(html) {
   const doc = new DOMParser().parseFromString(html,'text/html');
   const grid = doc.getElementById('today-grid');
   if (!grid) return [];
-  return Array.from(grid.querySelectorAll('.today-item')).map((item,i) => {
+  return Array.from(grid.querySelectorAll('.today-item')).map((item) => {
     const img = item.querySelector('img');
     let src = img ? img.getAttribute('src')||'' : '';
-    const fm = src.match(/images[\/\\]([^"?# ]+)/);
+    const fm = src.match(/images[\\/]([^"?# ]+)/);
     return {
       name: item.querySelector('.today-name')?.textContent.trim()||'',
       desc: item.querySelector('.today-desc')?.textContent.trim()||'',
@@ -729,7 +908,7 @@ function renderTodayAdmin() {
   todayItems.forEach((item, i) => {
     let imgSrc = '';
     if (item.blobKey && imgBlobs[item.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[item.blobKey].blob);
-    else if (item.imgFile) imgSrc = 'images/' + item.imgFile;
+    else if (item.imgFile) imgSrc = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/images/${item.imgFile}`;
     else if (item.src?.startsWith('http')) imgSrc = item.src;
 
     const card = document.createElement('div');
@@ -769,7 +948,6 @@ function renderTodayAdmin() {
       </div>`;
     list.appendChild(card);
 
-    // Wire up image zone after it's in DOM
     setTimeout(() => {
       const zone = document.getElementById('timg-zone-'+i);
       const ov = document.getElementById('timg-ov-'+i);
@@ -795,11 +973,12 @@ async function applyTodayImg(i, file) {
   const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
   const filename = 'today-' + slug(name) + '.' + ext;
   const key = 'today_'+i+'_'+Date.now();
-  imgBlobs[key] = { blob: file, filename };
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
   todayItems[i].blobKey = key;
   todayItems[i].imgFile = filename;
   markDirty(); renderTodayAdmin();
-  toast('✅ Ảnh: '+filename,'ok');
+  toast('✅ Ảnh: '+filename+' (sẽ upload khi Lưu)','ok');
 }
 
 function addTodayItem() {
@@ -817,7 +996,6 @@ function triggerAboutImg() {
   fi.click();
 }
 
-// Setup drag-drop on about zone after DOM ready
 function setupAboutZone() {
   const zone = document.getElementById('about-img-zone');
   if (!zone) return;
@@ -825,7 +1003,6 @@ function setupAboutZone() {
   zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; };
   zone.ondragleave = () => { zone.style.borderColor='#333'; };
   zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='#333'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyAboutImg(f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
-  // Show overlay on hover
   zone.onmouseenter = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='flex'; };
   zone.onmouseleave = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; };
 }
@@ -833,7 +1010,8 @@ function setupAboutZone() {
 async function applyAboutImg(file) {
   const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
   const filename = 'about.'+ext;
-  imgBlobs['about'] = { blob: file, filename };
+  const base64 = await fileToBase64(file);
+  imgBlobs['about'] = { blob: file, filename, base64 };
   document.getElementById('about-img-file').value = 'images/'+filename;
   document.getElementById('about-img-name').textContent = '📸 ' + filename + ' (chưa lưu)';
   const url = URL.createObjectURL(file);
@@ -842,7 +1020,7 @@ async function applyAboutImg(file) {
   zone.innerHTML = `<img src="${url}" style="width:100%;max-height:220px;object-fit:cover;display:block"><div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px"><span style="font-size:26px">📷</span><span>THAY ẢNH</span></div>`;
   setupAboutZone();
   markDirty();
-  toast('✅ Ảnh: '+filename,'ok');
+  toast('✅ Ảnh: '+filename+' (sẽ upload khi Lưu)','ok');
 }
 
 // ════════════════════════════════════════════════
@@ -851,57 +1029,14 @@ async function applyAboutImg(file) {
 function markDirty() { DIRTY=true; document.getElementById('save-bar').classList.add('show'); }
 
 // ════════════════════════════════════════════════
-// SAVE
-// ════════════════════════════════════════════════
-async function saveAll() {
-  if (!DIR) { toast('❌ Chưa chọn thư mục!','err'); return; }
-  toast('⏳ Đang lưu...','info');
-  try {
-    const perm = await DIR.requestPermission({ mode:'readwrite' });
-    if (perm !== 'granted') { toast('❌ Cần cấp quyền ghi!','err'); return; }
-
-    // Save images (about + menu dish + today items)
-    const imagesDir = await DIR.getDirectoryHandle('images', {create:true});
-    for (const key of Object.keys(imgBlobs)) {
-      const {blob, filename} = imgBlobs[key];
-      try {
-        const fh = await imagesDir.getFileHandle(filename, {create:true});
-        const w = await fh.createWritable();
-        await w.write(blob);
-        await w.close();
-      } catch(e) { console.warn('Could not save',filename,e); }
-    }
-
-    // Read & update HTML
-    const fh = await DIR.getFileHandle('index.html');
-    const file = await fh.getFile();
-    let html = await file.text();
-    html = applyFields(html);
-    const w = await fh.createWritable();
-    await w.write(html);
-    await w.close();
-
-    imgBlobs = {};
-    DIRTY = false;
-    document.getElementById('save-bar').classList.remove('show');
-    toast('✅ Đã lưu thành công! Mở index.html để xem kết quả.','ok');
-  } catch(e) {
-    toast('❌ '+e.message,'err');
-    console.error(e);
-  }
-}
-
-// ════════════════════════════════════════════════
 // APPLY FIELDS → HTML string
 // ════════════════════════════════════════════════
 function applyFields(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
 
-  // Helper: set text content by id
   const st = (id, val) => { const el = doc.getElementById(id); if (el) el.textContent = val||''; };
   const sa = (id, attr, val) => { const el = doc.getElementById(id); if (el) el.setAttribute(attr, val||''); };
 
-  // Hero
   st('hero-eyebrow', V('hero-eyebrow'));
   st('hero-subtitle', V('hero-subtitle'));
   st('hero-desc', V('hero-desc'));
@@ -911,13 +1046,11 @@ function applyFields(html) {
   st('stat2-num', V('stat2-num')); st('stat2-label', V('stat2-label'));
   st('stat3-num', V('stat3-num')); st('stat3-label', V('stat3-label'));
 
-  // About image
   const aboutImgSrc = V('about-img-file');
   if (aboutImgSrc) sa('about-img', 'src', aboutImgSrc);
   st('about-badge-num', V('about-badge-num'));
   st('about-badge-lbl', V('about-badge-lbl'));
   st('about-eyebrow', V('about-eyebrow'));
-  // Title with em
   const titleEl = doc.getElementById('about-title');
   if (titleEl) titleEl.innerHTML = toEm(V('about-title'));
   st('about-p1', V('about-p1'));
@@ -927,7 +1060,6 @@ function applyFields(html) {
   st('feat3-icon', V('feat3-icon')); st('feat3-text', V('feat3-text'));
   st('feat4-icon', V('feat4-icon')); st('feat4-text', V('feat4-text'));
 
-  // Today
   st('today-phone', V('today-phone'));
   const tzl2 = doc.getElementById('today-zalo-link');
   if (tzl2) tzl2.setAttribute('href', V('today-zalo-link-href'));
@@ -948,10 +1080,8 @@ function applyFields(html) {
       '\n      <!-- /ADMIN:TODAY-ITEMS -->\n    ';
   }
 
-  // Menu phone
   st('menu-phone', V('menu-phone'));
 
-  // Menu grid
   const menuGrid = doc.getElementById('menu-grid');
   if (menuGrid) {
     menuGrid.innerHTML = '\n\n' + dishes.map((d,i) => {
@@ -961,14 +1091,12 @@ function applyFields(html) {
     }).join('\n\n') + '\n\n  ';
   }
 
-  // Reviews
   for (let i=1;i<=3;i++) {
     st(`rv${i}-stars`, V(`rv${i}-stars`));
     st(`rv${i}-text`, V(`rv${i}-text`));
     st(`rv${i}-author`, V(`rv${i}-author`));
   }
 
-  // Order
   const ot = doc.getElementById('order-title');
   if (ot) ot.innerHTML = toEm(V('order-title'));
   st('order-desc', V('order-desc'));
@@ -979,7 +1107,6 @@ function applyFields(html) {
   const op = doc.getElementById('order-phone');
   if (op) { op.setAttribute('href', V('order-phone-href')); const divs = op.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-phone-text'); }
 
-  // Footer
   st('footer-desc', V('footer-desc'));
   st('footer-zalo', V('footer-zalo'));
   const ffb = doc.getElementById('footer-fb');
@@ -988,7 +1115,6 @@ function applyFields(html) {
   st('footer-hours', V('footer-hours'));
   sa('zalo-btn', 'href', V('zalo-href'));
 
-  // Recipes – update <script id="recipe-data"> JSON
   const recipeScript = doc.getElementById('recipe-data');
   if (recipeScript) {
     const cleanRecipes = recipeData.map(r => {
@@ -1002,24 +1128,13 @@ function applyFields(html) {
 }
 
 // ════════════════════════════════════════════════
-// HELPERS
-// ════════════════════════════════════════════════
-function V(id) { return (document.getElementById(id)?.value||'').trim(); }
-function q(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function toEm(s) { return (s||'').replace(/\*([^*]+)\*/g,'<em>$1</em>'); }
-function slug(s) {
-  const m = {à:'a',á:'a',ạ:'a',ả:'a',ã:'a',â:'a',ầ:'a',ấ:'a',ậ:'a',ẩ:'a',ẫ:'a',ă:'a',ằ:'a',ắ:'a',ặ:'a',ẳ:'a',ẵ:'a',è:'e',é:'e',ẹ:'e',ẻ:'e',ẽ:'e',ê:'e',ề:'e',ế:'e',ệ:'e',ể:'e',ễ:'e',ì:'i',í:'i',ị:'i',ỉ:'i',ĩ:'i',ò:'o',ó:'o',ọ:'o',ỏ:'o',õ:'o',ô:'o',ồ:'o',ố:'o',ộ:'o',ổ:'o',ỗ:'o',ơ:'o',ờ:'o',ớ:'o',ợ:'o',ở:'o',ỡ:'o',ù:'u',ú:'u',ụ:'u',ủ:'u',ũ:'u',ư:'u',ừ:'u',ứ:'u',ự:'u',ử:'u',ữ:'u',ỳ:'y',ý:'y',ỵ:'y',ỷ:'y',ỹ:'y',đ:'d'};
-  return s.toLowerCase().replace(/[^\u0000-\u007E]/g,c=>m[c]||'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-}
-
-// ════════════════════════════════════════════════
 // RECIPES
 // ════════════════════════════════════════════════
 function parseRecipes(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const el = doc.getElementById('recipe-data');
   if (!el) return [];
-  try { return JSON.parse(el.textContent); } catch(e) { console.warn('parseRecipes error', e); return []; }
+  try { return JSON.parse(el.textContent); } catch(e) { return []; }
 }
 
 function renderRecipesAdmin() {
@@ -1029,11 +1144,10 @@ function renderRecipesAdmin() {
   recipeData.forEach((r, i) => {
     let imgSrc = '';
     if (r.blobKey && imgBlobs[r.blobKey]) imgSrc = URL.createObjectURL(imgBlobs[r.blobKey].blob);
-    else if (r.img) imgSrc = r.img;
+    else if (r.img) imgSrc = r.img.startsWith('http') ? r.img : `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${r.img}`;
 
     const card = document.createElement('div');
     card.className = 'recipe-admin-card' + (r.featured ? ' is-featured' : '');
-
     const featuredBtn = r.featured
       ? `<div class="recipe-featured-badge">⭐ Đang nổi bật</div>`
       : `<button class="btn btn-outline btn-sm" onclick="setFeatured(${i})">⭐ Đặt nổi bật</button>`;
@@ -1057,7 +1171,6 @@ function renderRecipesAdmin() {
             <div style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:3px" id="rimg-ov-${i}"><span style="font-size:20px">📷</span>THAY ẢNH</div>
           </div>
           <button class="btn btn-outline" style="width:100%;font-size:11px;margin-bottom:10px" onclick="pickRecipeImg(${i})">📂 Chọn ảnh</button>
-          ${r.img ? `<div style="font-size:10px;color:#555;margin-bottom:8px;word-break:break-all">${r.img}</div>` : ''}
           <div class="field" style="margin-bottom:8px"><label>Thời gian</label><input value="${q(r.time||'')}" onchange="recipeData[${i}].time=this.value;markDirty()" placeholder="vd: 30 phút"></div>
           <div class="field" style="margin-bottom:8px"><label>Độ khó</label>
             <select onchange="recipeData[${i}].difficulty=this.value;markDirty()">
@@ -1069,26 +1182,25 @@ function renderRecipesAdmin() {
           <div class="field"><label>Khẩu phần</label><input value="${q(r.serves||'')}" onchange="recipeData[${i}].serves=this.value;markDirty()" placeholder="vd: 4 người"></div>
         </div>
         <div>
-          <div class="field" style="margin-bottom:10px"><label>Tên công thức</label><input value="${q(r.name||'')}" onchange="recipeData[${i}].name=this.value;this.closest('.recipe-admin-card').querySelector('[style*=\\'font-size:14px\\']').textContent=this.value;markDirty()" placeholder="Tên món" style="font-size:13px;font-weight:600"></div>
-          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><textarea onchange="recipeData[${i}].desc=this.value;markDirty()" placeholder="Mô tả ngắn về công thức...">${q(r.desc||'')}</textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Tên công thức</label><input value="${q(r.name||'')}" onchange="recipeData[${i}].name=this.value;markDirty()" placeholder="Tên món" style="font-size:13px;font-weight:600"></div>
+          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><textarea onchange="recipeData[${i}].desc=this.value;markDirty()" placeholder="Mô tả...">${q(r.desc||'')}</textarea></div>
           <div class="field" style="margin-bottom:10px"><label>Tags (phân cách bằng dấu phẩy)</label><input value="${q((r.tags||[]).join(', '))}" onchange="recipeData[${i}].tags=this.value.split(',').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="Handmade, Không bảo quản"></div>
           <div class="field" style="margin-bottom:10px">
-            <label>Nguyên liệu <span style="color:#444;font-weight:400;letter-spacing:0">(mỗi dòng = 1 nguyên liệu)</span></label>
-            <textarea rows="5" onchange="recipeData[${i}].ingredients=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="500g ức gà&#10;3 cây sả&#10;5 lá chanh...">${q((r.ingredients||[]).join('\n'))}</textarea>
+            <label>Nguyên liệu <span style="color:#444;font-weight:400">(mỗi dòng = 1 nguyên liệu)</span></label>
+            <textarea rows="5" onchange="recipeData[${i}].ingredients=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.ingredients||[]).join('\n'))}</textarea>
           </div>
           <div class="field" style="margin-bottom:10px">
-            <label>Các bước làm <span style="color:#444;font-weight:400;letter-spacing:0">(mỗi dòng = 1 bước)</span></label>
-            <textarea rows="5" onchange="recipeData[${i}].steps=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="Luộc gà với gừng và muối...&#10;Xé nhỏ bằng tay...&#10;...">${q((r.steps||[]).join('\n'))}</textarea>
+            <label>Các bước làm <span style="color:#444;font-weight:400">(mỗi dòng = 1 bước)</span></label>
+            <textarea rows="5" onchange="recipeData[${i}].steps=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.steps||[]).join('\n'))}</textarea>
           </div>
           <div class="field">
             <label>💡 Mẹo của Liên (tips)</label>
-            <textarea rows="3" onchange="recipeData[${i}].tips=this.value;markDirty()" placeholder="Bí quyết để món ngon hơn...">${q(r.tips||'')}</textarea>
+            <textarea rows="3" onchange="recipeData[${i}].tips=this.value;markDirty()">${q(r.tips||'')}</textarea>
           </div>
         </div>
       </div>`;
     list.appendChild(card);
 
-    // Wire up image zone drag-drop
     setTimeout(() => {
       const zone = document.getElementById('rimg-zone-' + i);
       const ov   = document.getElementById('rimg-ov-' + i);
@@ -1104,36 +1216,19 @@ function renderRecipesAdmin() {
 }
 
 function addRecipe() {
-  recipeData.push({
-    id: 'cong-thuc-' + Date.now(),
-    name: 'Công Thức Mới',
-    img: '',
-    time: '30 phút',
-    difficulty: 'easy',
-    serves: '2 người',
-    desc: 'Mô tả công thức...',
-    tags: ['Handmade'],
-    ingredients: ['Nguyên liệu 1', 'Nguyên liệu 2'],
-    steps: ['Bước 1', 'Bước 2'],
-    tips: '',
-    featured: false
-  });
-  markDirty();
-  renderRecipesAdmin();
+  recipeData.push({id:'cong-thuc-'+Date.now(),name:'Công Thức Mới',img:'',time:'30 phút',difficulty:'easy',serves:'2 người',desc:'Mô tả...',tags:['Handmade'],ingredients:['Nguyên liệu 1'],steps:['Bước 1'],tips:'',featured:false});
+  markDirty(); renderRecipesAdmin();
   document.querySelector('.content').scrollTop = 9999;
 }
 
 function delRecipe(i) {
   if (!confirm('Xóa công thức "' + recipeData[i].name + '"?')) return;
-  recipeData.splice(i, 1);
-  markDirty();
-  renderRecipesAdmin();
+  recipeData.splice(i, 1); markDirty(); renderRecipesAdmin();
 }
 
 function setFeatured(i) {
   recipeData.forEach((r, idx) => r.featured = (idx === i));
-  markDirty();
-  renderRecipesAdmin();
+  markDirty(); renderRecipesAdmin();
 }
 
 function pickRecipeImg(i) {
@@ -1147,12 +1242,12 @@ async function applyRecipeImg(i, file) {
   const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
   const filename = 'recipe-' + slug(name) + '.' + ext;
   const key = 'recipe_' + i + '_' + Date.now();
-  imgBlobs[key] = { blob: file, filename };
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
   recipeData[i].blobKey = key;
   recipeData[i].img = 'images/' + filename;
-  markDirty();
-  renderRecipesAdmin();
-  toast('✅ Ảnh: ' + filename, 'ok');
+  markDirty(); renderRecipesAdmin();
+  toast('✅ Ảnh: ' + filename + ' (sẽ upload khi Lưu)', 'ok');
 }
 
 // ════════════════════════════════════════════════
@@ -1167,8 +1262,28 @@ function go(id) {
 }
 
 function openPreview() {
-  if (!DIR) return;
-  toast('💡 Mở file index.html trong thư mục LieNo-Website bằng trình duyệt để xem website','info');
+  window.open(`https://github.com/${GH_OWNER}/${GH_REPO}`, '_blank');
+  toast('💡 Vào Netlify để xem URL website của bạn','info');
+}
+
+// ════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════
+function V(id) { return (document.getElementById(id)?.value||'').trim(); }
+function q(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toEm(s) { return (s||'').replace(/\*([^*]+)\*/g,'<em>$1</em>'); }
+function slug(s) {
+  const m = {à:'a',á:'a',ạ:'a',ả:'a',ã:'a',â:'a',ầ:'a',ấ:'a',ậ:'a',ẩ:'a',ẫ:'a',ă:'a',ằ:'a',ắ:'a',ặ:'a',ẳ:'a',ẵ:'a',è:'e',é:'e',ẹ:'e',ẻ:'e',ẽ:'e',ê:'e',ề:'e',ế:'e',ệ:'e',ể:'e',ễ:'e',ì:'i',í:'i',ị:'i',ỉ:'i',ĩ:'i',ò:'o',ó:'o',ọ:'o',ỏ:'o',õ:'o',ô:'o',ồ:'o',ố:'o',ộ:'o',ổ:'o',ỗ:'o',ơ:'o',ờ:'o',ớ:'o',ợ:'o',ở:'o',ỡ:'o',ù:'u',ú:'u',ụ:'u',ủ:'u',ũ:'u',ư:'u',ừ:'u',ứ:'u',ự:'u',ử:'u',ữ:'u',ỳ:'y',ý:'y',ỵ:'y',ỷ:'y',ỹ:'y',đ:'d'};
+  return s.toLowerCase().replace(/[^\u0000-\u007E]/g,c=>m[c]||'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(',')[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
 }
 
 // ════════════════════════════════════════════════
@@ -1179,17 +1294,29 @@ function toast(msg, type='ok') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'show '+type;
   clearTimeout(_tt);
-  _tt = setTimeout(()=>t.className='', type==='err'?5000:3000);
+  _tt = setTimeout(()=>t.className='', type==='err'?6000:3500);
 }
 
-// Auto-mark dirty on all field changes
+// Auto-mark dirty
 document.addEventListener('input', e => {
   if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) && e.target.closest('#app')) markDirty();
 });
 
+// Enter key on token input
+document.getElementById('token-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// Auto-login if token saved
 window.onload = () => {
-  if (!window.showDirectoryPicker) {
-    document.getElementById('setup').innerHTML = `<div style="font-size:50px">⚠️</div><h2 style="color:#e74c3c">Trình duyệt không hỗ trợ</h2><p>Vui lòng dùng <strong>Microsoft Edge</strong> hoặc <strong>Google Chrome</strong> phiên bản mới nhất.</p>`;
+  const saved = localStorage.getItem('gh_token_lieno');
+  if (saved) {
+    GH_TOKEN = saved;
+    document.getElementById('token-input').value = saved;
+    testToken().then(ok => {
+      if (ok) { showApp(); reloadFromGitHub(); }
+      else { localStorage.removeItem('gh_token_lieno'); GH_TOKEN = ''; }
+    });
   }
   setupAboutZone();
 };
