@@ -561,7 +561,7 @@ async function reloadFromGitHub() {
     if (!res.ok) throw new Error('Không thể đọc file index.html từ GitHub (status ' + res.status + ')');
     const data = await res.json();
     GH_SHA = data.sha;
-    const html = atob(data.content.replace(/\n/g,''));
+    const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
     fillAllFields(html);
     dishes = parseDishes(html);
     renderMenuGrid();
@@ -602,7 +602,7 @@ async function saveAll() {
     // 3. Build updated HTML
     const resFile = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
     const fileData = await resFile.json();
-    let html = atob(fileData.content.replace(/\n/g,''));
+    let html = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g,''))));
     html = applyFields(html);
 
     // 4. Push to GitHub
