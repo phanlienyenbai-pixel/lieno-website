@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🍜 Lie No – Quản Trị Website</title>
 <style>
-:root{--warm:#D4A574;--warm-dark:#B8834A;--warm-light:#E8C9A0;--green:#6B8E6B;--brown:#5C3D2E;--brown-dark:#3A2518;--cream:#FAF6F1;--cream2:#F5EFE6;--cream3:#EDE5D8;--text:#3A2518;--text-light:#7A6A5E;--text-muted:#A89888}
+:root{--warm:#E44D26;--warm-dark:#C23616;--warm-light:#FF6B45;--green:#27AE60;--brown:#424242;--brown-dark:#212121;--cream:#F5F5F5;--cream2:#F0F0F0;--cream3:#E0E0E0;--text:#3A2518;--text-light:#7A6A5E;--text-muted:#A89888}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Nunito Sans','Inter','Segoe UI',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+body{font-family:'Be Vietnam Pro','Inter','Segoe UI',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
 
 /* ── HEADER ── */
 header{background:var(--brown-dark);border-bottom:3px solid var(--warm);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
@@ -443,6 +443,14 @@ header{background:var(--brown-dark);border-bottom:3px solid var(--warm);padding:
         </div>
 
         <div class="card">
+          <div class="card-title">📄 Dòng bản quyền (cuối cùng)</div>
+          <div class="row row-2">
+            <div class="field"><label>Dòng trái (bản quyền)</label><input id="footer-copy" placeholder="© 2025 Lie No · Đồ ăn handmade"></div>
+            <div class="field"><label>Dòng phải (credit)</label><input id="footer-credit" placeholder="Làm bằng ❤️ tại Việt Nam"></div>
+          </div>
+        </div>
+
+        <div class="card">
           <div class="card-title">💬 Nút Zalo nổi (góc phải dưới)</div>
           <div class="field"><label>Link Zalo của nút nổi</label><input id="zalo-href" placeholder="https://zalo.me/84972410199"></div>
         </div>
@@ -741,7 +749,14 @@ function fillAllFields(html) {
   const pb = doc.getElementById('phone-btn');
   if (pb) setV('phone-href', pb.getAttribute('href')||'');
   const pl = doc.querySelector('.phone-label');
-  if (pl) setV('phone-label', pl.textContent.trim());
+  if (!pl) { const pl2 = doc.getElementById('phone-label-text'); if(pl2) setV('phone-label', pl2.textContent.trim()); }
+  else setV('phone-label', pl.textContent.trim());
+
+  // Footer bottom
+  const fc = doc.getElementById('footer-copy');
+  if (fc) setV('footer-copy', fc.textContent.trim());
+  const fcr = doc.getElementById('footer-credit');
+  if (fcr) setV('footer-credit', fcr.textContent.trim());
 
   setupAboutZone();
 }
@@ -1133,8 +1148,14 @@ function applyFields(html) {
 
   // Phone button
   sa('phone-btn', 'href', V('phone-href'));
-  const phoneLabel = doc.querySelector('.phone-label');
+  const phoneLabel = doc.querySelector('.phone-label') || doc.getElementById('phone-label-text');
   if (phoneLabel) phoneLabel.textContent = V('phone-label');
+
+  // Footer bottom
+  const footerCopy = doc.getElementById('footer-copy');
+  if (footerCopy) footerCopy.innerHTML = V('footer-copy').replace(/Lie No/g,'<span class="gold-text">Lie No</span>');
+  const footerCredit = doc.getElementById('footer-credit');
+  if (footerCredit) footerCredit.textContent = V('footer-credit');
 
   const recipeScript = doc.getElementById('recipe-data');
   if (recipeScript) {
