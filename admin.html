@@ -5,36 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🍜 Lie No – Quản Trị Website</title>
 <style>
-:root{--gold:#a855f7;--gold2:#c084fc;--teal:#14b8a6;--dk:#0a0a12;--dk2:#0f0f1e;--dk3:#141428;--w:#f0f4ff}
+:root{--warm:#D4A574;--warm-dark:#B8834A;--warm-light:#E8C9A0;--green:#6B8E6B;--brown:#5C3D2E;--brown-dark:#3A2518;--cream:#FAF6F1;--cream2:#F5EFE6;--cream3:#EDE5D8;--text:#3A2518;--text-light:#7A6A5E;--text-muted:#A89888}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter','Segoe UI',sans-serif;background:#0a0a12;color:#f0f4ff;min-height:100vh}
+body{font-family:'Nunito Sans','Inter','Segoe UI',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
 
 /* ── HEADER ── */
-header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
-.hdr-title{font-size:19px;font-weight:700;color:var(--gold);letter-spacing:2px}
-.hdr-sub{font-size:11px;color:#666;margin-top:2px}
+header{background:var(--brown-dark);border-bottom:3px solid var(--warm);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.hdr-title{font-size:19px;font-weight:700;color:var(--warm);letter-spacing:2px}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
 .hdr-right{display:flex;gap:10px;align-items:center}
 
 /* ── BUTTONS ── */
-.btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:4px;transition:all .2s;text-transform:uppercase;font-family:inherit}
-.btn-gold{background:linear-gradient(135deg,#7c3aed,#a855f7,#14b8a6);color:#fff}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(168,85,247,.5)}
-.btn-outline{background:transparent;border:1px solid rgba(168,85,247,.45);color:var(--gold)}
-.btn-outline:hover{background:rgba(168,85,247,.08)}
+.btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:24px;transition:all .2s;text-transform:uppercase;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--warm),var(--warm-dark));color:#fff}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(180,131,74,.4)}
+.btn-outline{background:transparent;border:2px solid var(--warm);color:var(--warm-dark)}
+.btn-outline:hover{background:rgba(212,165,116,.1)}
 .btn-red{background:#c0392b;color:#fff;border:none}
 .btn-red:hover{background:#e74c3c}
-.btn-green{background:#27ae60;color:#fff;border:none}
+.btn-green{background:var(--green);color:#fff;border:none}
 .btn-sm{padding:5px 11px;font-size:11px}
 
 /* ── SETUP / LOGIN ── */
-#setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px;background:#0a0a12}
-#setup h2{font-size:24px;color:var(--gold)}
-#setup p{color:#999;max-width:480px;line-height:1.8;font-size:13px}
+#setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px;background:var(--cream)}
+#setup h2{font-size:24px;color:var(--brown-dark)}
+#setup p{color:var(--text-light);max-width:480px;line-height:1.8;font-size:13px}
 .token-input-wrap{display:flex;gap:10px;width:100%;max-width:500px}
-.token-input-wrap input{flex:1;background:#111;border:1px solid rgba(168,85,247,.3);color:#f0ece4;padding:11px 14px;font-size:13px;border-radius:4px;font-family:inherit}
-.token-input-wrap input:focus{border-color:var(--gold);outline:none}
-.setup-hint{font-size:11px;color:#444;max-width:500px;line-height:1.7}
-.setup-hint a{color:var(--teal);text-decoration:none}
+.token-input-wrap input{flex:1;background:var(--white,#fff);border:2px solid var(--cream3);color:var(--text);padding:11px 14px;font-size:13px;border-radius:8px;font-family:inherit}
+.token-input-wrap input:focus{border-color:var(--warm);outline:none}
+.setup-hint{font-size:11px;color:var(--text-muted);max-width:500px;line-height:1.7}
+.setup-hint a{color:var(--warm-dark);text-decoration:none;font-weight:600}
 .setup-hint a:hover{text-decoration:underline}
 
 /* ── LAYOUT ── */
@@ -42,123 +42,123 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 .app-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
 
 /* ── SIDEBAR ── */
-.sidebar{background:#07070f;border-right:1px solid rgba(168,85,247,.1);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
-.sidebar-section{padding:6px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(168,85,247,.4);margin-top:14px;margin-bottom:4px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:13px;color:#888;border-left:3px solid transparent;transition:all .2s}
-.nav-item:hover{color:#ddd;background:rgba(255,255,255,.03)}
-.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(168,85,247,.08)}
+.sidebar{background:var(--brown-dark);border-right:1px solid rgba(212,165,116,.15);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sidebar-section{padding:6px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,165,116,.4);margin-top:14px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.5);border-left:3px solid transparent;transition:all .2s}
+.nav-item:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.05)}
+.nav-item.active{color:var(--warm);border-left-color:var(--warm);background:rgba(212,165,116,.1)}
 .nav-item .ico{font-size:16px;width:20px;text-align:center}
 
 /* ── CONTENT ── */
-.content{padding:28px 32px;overflow-y:auto;background:#0c0c18}
+.content{padding:28px 32px;overflow-y:auto;background:var(--cream)}
 .panel{display:none}
 .panel.active{display:block}
-.panel-title{font-size:17px;font-weight:700;color:var(--gold);margin-bottom:4px;letter-spacing:1px}
-.panel-sub{font-size:12px;color:#666;margin-bottom:24px}
+.panel-title{font-size:17px;font-weight:700;color:var(--brown-dark);margin-bottom:4px;letter-spacing:1px}
+.panel-sub{font-size:12px;color:var(--text-muted);margin-bottom:24px}
 
 /* ── CARDS ── */
-.card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:20px;margin-bottom:16px}
-.card-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.card-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--warm-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 
 /* ── FIELDS ── */
 .row{display:grid;gap:14px;margin-bottom:14px}
 .row-2{grid-template-columns:1fr 1fr}
 .row-3{grid-template-columns:1fr 1fr 1fr}
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#666}
-.field input,.field textarea,.field select{background:#0a0a12;border:1px solid rgba(168,85,247,.2);color:#f0ece4;padding:9px 11px;font-size:13px;border-radius:4px;width:100%;font-family:inherit;transition:.2s}
-.field input:focus,.field textarea:focus{border-color:var(--gold);outline:none;box-shadow:0 0 0 2px rgba(168,85,247,.15)}
+.field label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600}
+.field input,.field textarea,.field select{background:var(--cream);border:1px solid var(--cream3);color:var(--text);padding:9px 11px;font-size:13px;border-radius:8px;width:100%;font-family:inherit;transition:.2s}
+.field input:focus,.field textarea:focus{border-color:var(--warm);outline:none;box-shadow:0 0 0 3px rgba(212,165,116,.15)}
 .field textarea{resize:vertical;min-height:72px}
-.field-hint{font-size:10px;color:#555;margin-top:3px}
+.field-hint{font-size:10px;color:var(--text-muted);margin-top:3px}
 
 /* ── IMG ZONE ── */
-.img-zone{position:relative;border:2px dashed rgba(168,85,247,.25);border-radius:6px;cursor:pointer;transition:.2s;overflow:hidden;background:#111}
-.img-zone:hover,.img-zone.drag-over{border-color:var(--gold);background:rgba(168,85,247,.04)}
+.img-zone{position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;transition:.2s;overflow:hidden;background:#fff}
+.img-zone:hover,.img-zone.drag-over{border-color:var(--warm);background:rgba(212,165,116,.03)}
 .img-zone img{width:100%;display:block;max-height:220px;object-fit:cover}
-.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:6px;color:#555;font-size:12px}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:6px;color:var(--text-muted);font-size:12px}
 .img-placeholder span{font-size:30px}
-.img-lay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px}
+.img-lay{position:absolute;inset:0;background:rgba(58,37,24,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px;border-radius:10px}
 .img-zone:hover .img-lay{opacity:1}
-.img-name{font-size:10px;color:#555;padding:4px 8px;background:#0a0a0a;border-top:1px solid #1e1e1e}
+.img-name{font-size:10px;color:var(--text-muted);padding:4px 8px;background:var(--cream2);border-top:1px solid var(--cream3);border-radius:0 0 8px 8px}
 
 /* ── MENU GRID ── */
 .menu-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:20px}
-.menu-item-card{background:#111124;border:2px solid rgba(168,85,247,.1);border-radius:8px;overflow:hidden;transition:border-color .2s}
-.menu-item-card:hover{border-color:rgba(168,85,247,.4)}
-.mic-img{position:relative;height:180px;background:#111;cursor:pointer;overflow:hidden}
+.menu-item-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;overflow:hidden;transition:border-color .2s;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.menu-item-card:hover{border-color:var(--warm)}
+.mic-img{position:relative;height:180px;background:var(--cream2);cursor:pointer;overflow:hidden;border-radius:12px 12px 0 0}
 .mic-img img{width:100%;height:100%;object-fit:cover}
-.mic-img .img-lay{font-size:11px}
+.mic-img .img-lay{font-size:11px;border-radius:12px 12px 0 0}
 .mic-body{padding:12px}
 .mic-body .field{margin-bottom:10px}
-.mic-foot{padding:8px 12px 10px;border-top:1px solid #1e1e1e;display:flex;justify-content:space-between;align-items:center}
-.mic-num{font-size:10px;color:#444}
+.mic-foot{padding:8px 12px 10px;border-top:1px solid var(--cream3);display:flex;justify-content:space-between;align-items:center}
+.mic-num{font-size:10px;color:var(--text-muted)}
 
 .tags{display:flex;flex-wrap:wrap;gap:5px}
-.tag{padding:3px 9px;border-radius:20px;border:1px solid #2e2e2e;font-size:11px;cursor:pointer;color:#777;transition:.2s}
-.tag.active{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.1)}
+.tag{padding:3px 9px;border-radius:20px;border:1px solid var(--cream3);font-size:11px;cursor:pointer;color:var(--text-muted);transition:.2s}
+.tag.active{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.1)}
 
 .badges{display:flex;gap:6px;flex-wrap:wrap}
-.badge-btn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid #2e2e2e;color:#777;transition:.2s}
+.badge-btn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--cream3);color:var(--text-muted);transition:.2s}
 .badge-btn.b-hot.active{background:#e74c3c;border-color:#e74c3c;color:#fff}
-.badge-btn.b-new.active{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:var(--gold);color:#fff}
-.badge-btn.b-none.active{background:#3a3a3a;border-color:#3a3a3a;color:#fff}
+.badge-btn.b-new.active{background:var(--green);border-color:var(--green);color:#fff}
+.badge-btn.b-none.active{background:var(--cream3);border-color:var(--cream3);color:var(--text)}
 
-.add-dish{border:2px dashed rgba(168,85,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:240px;cursor:pointer;flex-direction:column;gap:8px;color:#555;transition:.2s}
-.add-dish:hover{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.04)}
+.add-dish{border:2px dashed var(--cream3);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:240px;cursor:pointer;flex-direction:column;gap:8px;color:var(--text-muted);transition:.2s}
+.add-dish:hover{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.04)}
 .add-dish span{font-size:34px}
 
 /* ── REVIEW CARDS ── */
-.review-admin{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px;margin-bottom:14px}
+.review-admin{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .review-admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.review-num{font-size:11px;color:#555}
+.review-num{font-size:11px;color:var(--text-muted)}
 
 /* ── STATS GRID ── */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
-.stat-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px}
+.stat-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .stat-card .field{margin-bottom:8px}
 
 /* ── CHANNEL CARDS ── */
-.channel-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:16px;margin-bottom:12px}
+.channel-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .channel-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .channel-icon{font-size:22px}
-.channel-name{font-size:13px;font-weight:600;color:#ddd}
+.channel-name{font-size:13px;font-weight:600;color:var(--brown)}
 
 /* ── SAVE BAR ── */
-#save-bar{position:fixed;bottom:0;left:220px;right:0;background:#07070f;border-top:2px solid var(--gold);padding:12px 28px;display:none;align-items:center;justify-content:space-between;z-index:100}
+#save-bar{position:fixed;bottom:0;left:220px;right:0;background:var(--brown-dark);border-top:3px solid var(--warm);padding:12px 28px;display:none;align-items:center;justify-content:space-between;z-index:100}
 #save-bar.show{display:flex}
-#save-bar p{font-size:12px;color:#888}
-#save-bar p strong{color:var(--gold)}
+#save-bar p{font-size:12px;color:rgba(255,255,255,.6)}
+#save-bar p strong{color:var(--warm)}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5);max-width:360px}
+#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:360px}
 #toast.show{display:block}
-#toast.ok{background:#27ae60;color:#fff}
+#toast.ok{background:var(--green);color:#fff}
 #toast.err{background:#c0392b;color:#fff}
 #toast.info{background:#2980b9;color:#fff}
 
 /* ── RECIPE ADMIN ── */
-.recipe-admin-card{background:#111124;border:1px solid rgba(168,85,247,.12);border-radius:8px;padding:18px;margin-bottom:16px;border-left:3px solid transparent}
-.recipe-admin-card.is-featured{border-left-color:var(--gold)}
-.recipe-admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(168,85,247,.1)}
+.recipe-admin-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:18px;margin-bottom:16px;border-left:4px solid transparent;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.recipe-admin-card.is-featured{border-left-color:var(--warm)}
+.recipe-admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--cream3)}
 .recipe-admin-body{display:grid;grid-template-columns:200px 1fr;gap:18px}
-.recipe-featured-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 9px;border:1px solid var(--gold);color:var(--gold);border-radius:3px}
-.add-recipe{border:2px dashed rgba(168,85,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:72px;cursor:pointer;gap:10px;color:#555;transition:.2s;font-size:13px;font-weight:700;letter-spacing:1px}
-.add-recipe:hover{border-color:var(--gold);color:var(--gold);background:rgba(168,85,247,.04)}
+.recipe-featured-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:2px solid var(--warm);color:var(--warm-dark);border-radius:20px;font-weight:700}
+.add-recipe{border:2px dashed var(--cream3);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:72px;cursor:pointer;gap:10px;color:var(--text-muted);transition:.2s;font-size:13px;font-weight:700;letter-spacing:1px}
+.add-recipe:hover{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.04)}
 
 /* ── GITHUB STATUS ── */
-.gh-status{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;padding:6px 12px;border:1px solid rgba(255,255,255,.06);border-radius:4px}
-.gh-dot{width:8px;height:8px;border-radius:50%;background:#27ae60}
+.gh-status{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.5);padding:6px 12px;border:1px solid rgba(255,255,255,.1);border-radius:20px}
+.gh-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
 .gh-dot.err{background:#e74c3c}
 
 /* ── SAVING OVERLAY ── */
-#saving-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+#saving-overlay{position:fixed;inset:0;background:rgba(58,37,24,.6);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
 #saving-overlay.show{display:flex}
-.saving-spinner{width:48px;height:48px;border:3px solid rgba(168,85,247,.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+.saving-spinner{width:48px;height:48px;border:3px solid rgba(212,165,116,.2);border-top-color:var(--warm);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.saving-text{font-size:14px;color:var(--gold);letter-spacing:2px;font-weight:700}
+.saving-text{font-size:14px;color:var(--warm);letter-spacing:2px;font-weight:700}
 
 /* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:#2e2e2e;border-radius:3px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--warm)}
 
 @media(max-width:768px){
   .app-wrap{grid-template-columns:1fr}
@@ -201,7 +201,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
 <div id="setup">
   <div style="font-size:56px">🔑</div>
   <h2>Kết nối GitHub để quản trị website</h2>
-  <p>Nhập <strong style="color:var(--gold)">GitHub Personal Access Token</strong> của bạn để bắt đầu chỉnh sửa website. Token được lưu trong trình duyệt, không gửi đi đâu ngoài GitHub.</p>
+  <p>Nhập <strong style="color:var(--warm-dark)">GitHub Personal Access Token</strong> của bạn để bắt đầu chỉnh sửa website. Token được lưu trong trình duyệt, không gửi đi đâu ngoài GitHub.</p>
   <div class="token-input-wrap">
     <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxx" autocomplete="off">
     <button class="btn btn-gold" onclick="doLogin()">Kết nối →</button>
@@ -223,10 +223,11 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
       <div class="nav-item" onclick="go('today')"><span class="ico">📅</span> Món hôm nay</div>
       <div class="nav-item" onclick="go('about')"><span class="ico">👩‍🍳</span> Về chúng tôi</div>
       <div class="nav-item" onclick="go('menu')"><span class="ico">🍜</span> Thực đơn</div>
+      <div class="nav-item" onclick="go('recipes')"><span class="ico">📖</span> Công thức nấu ăn</div>
       <div class="nav-item" onclick="go('reviews')"><span class="ico">⭐</span> Đánh giá</div>
       <div class="nav-item" onclick="go('order')"><span class="ico">📦</span> Đặt hàng</div>
       <div class="nav-item" onclick="go('footer')"><span class="ico">🔗</span> Footer & Liên hệ</div>
-      <div class="nav-item" onclick="go('recipes')"><span class="ico">📖</span> Công thức nấu ăn</div>
+      <div class="nav-item" onclick="go('phone')"><span class="ico">📞</span> Nút gọi điện</div>
       <div class="sidebar-section" style="margin-top:20px">Thao tác</div>
       <div class="nav-item" onclick="openPreview()"><span class="ico">👁️</span> Xem website</div>
       <div class="nav-item" onclick="saveAll()"><span class="ico">☁️</span> Lưu ngay</div>
@@ -238,7 +239,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
       <!-- ░░ HERO ░░ -->
       <div class="panel active" id="p-hero">
         <div class="panel-title">🏠 Trang Chủ (Hero)</div>
-        <div class="panel-sub">Phần đầu tiên khách thấy khi vào website</div>
+        <div class="panel-sub">Phần giới thiệu chính khi khách vào website</div>
 
         <div class="card">
           <div class="card-title">📝 Nội dung chính</div>
@@ -250,8 +251,8 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
             <div class="field"><label>Đoạn mô tả</label><textarea id="hero-desc"></textarea></div>
           </div>
           <div class="row row-2">
-            <div class="field"><label>Nút 1 (màu vàng)</label><input id="hero-cta1" placeholder="Xem Thực Đơn"></div>
-            <div class="field"><label>Nút 2 (viền vàng)</label><input id="hero-cta2" placeholder="Đặt Ngay Qua Zalo"></div>
+            <div class="field"><label>Nút 1 (chính)</label><input id="hero-cta1" placeholder="Xem Thực Đơn"></div>
+            <div class="field"><label>Nút 2 (phụ)</label><input id="hero-cta2" placeholder="Đặt Ngay Qua Zalo"></div>
           </div>
         </div>
 
@@ -277,7 +278,7 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
       <!-- ░░ TODAY ░░ -->
       <div class="panel" id="p-today">
         <div class="panel-title">📅 Món Hôm Nay (TODAY)</div>
-        <div class="panel-sub">Cập nhật danh sách món bán hôm nay · Bật/tắt trạng thái còn/hết hàng</div>
+        <div class="panel-sub">Cập nhật danh sách món bán hôm nay · Bật/tắt trạng thái còn/hết hàng · Phần này hiển thị đầu tiên trên website</div>
 
         <div class="card" style="margin-bottom:18px">
           <div class="card-title">⚙️ Cài đặt</div>
@@ -301,20 +302,20 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
           <div class="card-title">🖼️ Ảnh đại diện</div>
           <div class="row row-2">
             <div>
-              <div id="about-img-zone" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:#555;font-size:13px;transition:.2s">
+              <div id="about-img-zone" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;overflow:hidden;background:#fff;min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text-muted);font-size:13px;transition:.2s">
                 <span style="font-size:34px">📷</span>
                 <span>Kéo ảnh vào đây hoặc click để chọn</span>
-                <div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px">
+                <div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px;border-radius:10px">
                   <span style="font-size:26px">📷</span><span>THAY ẢNH</span>
                 </div>
               </div>
-              <div style="font-size:10px;color:#555;padding:5px 8px;background:#0a0a0a;border:1px solid #1e1e1e;border-top:none;border-radius:0 0 4px 4px" id="about-img-name">Chưa chọn ảnh mới</div>
+              <div style="font-size:10px;color:var(--text-muted);padding:5px 8px;background:var(--cream2);border:1px solid var(--cream3);border-top:none;border-radius:0 0 8px 8px" id="about-img-name">Chưa chọn ảnh mới</div>
               <input type="hidden" id="about-img-file">
               <button class="btn btn-outline" style="width:100%;margin-top:8px;font-size:12px" onclick="triggerAboutImg()">📂 Chọn ảnh từ máy tính</button>
             </div>
             <div>
               <div class="row">
-                <div class="field"><label>Nhãn trên badge vàng (số)</label><input id="about-badge-num" placeholder="5+"></div>
+                <div class="field"><label>Nhãn trên badge (số)</label><input id="about-badge-num" placeholder="5+"></div>
                 <div class="field"><label>Nhãn dưới badge (chữ)</label><input id="about-badge-lbl" placeholder="Năm kinh nghiệm"></div>
               </div>
             </div>
@@ -365,6 +366,14 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
         </div>
 
         <div class="menu-admin-grid" id="menu-admin-grid"></div>
+      </div>
+
+      <!-- ░░ RECIPES ░░ -->
+      <div class="panel" id="p-recipes">
+        <div class="panel-title">📖 Công Thức Nấu Ăn</div>
+        <div class="panel-sub">Thêm · Sửa · Xóa công thức · Chọn 1 công thức "Nổi bật" hiển thị to trên website</div>
+        <div id="recipes-admin-list"></div>
+        <div class="add-recipe" onclick="addRecipe()"><span style="font-size:26px">＋</span> Thêm Công Thức Mới</div>
       </div>
 
       <!-- ░░ REVIEWS ░░ -->
@@ -434,17 +443,24 @@ header{background:#07070f;border-bottom:2px solid var(--gold);padding:16px 28px;
         </div>
 
         <div class="card">
-          <div class="card-title">💬 Nút Zalo nổi (góc phải)</div>
+          <div class="card-title">💬 Nút Zalo nổi (góc phải dưới)</div>
           <div class="field"><label>Link Zalo của nút nổi</label><input id="zalo-href" placeholder="https://zalo.me/84972410199"></div>
         </div>
       </div>
 
-      <!-- ░░ RECIPES ░░ -->
-      <div class="panel" id="p-recipes">
-        <div class="panel-title">📖 Công Thức Nấu Ăn</div>
-        <div class="panel-sub">Thêm · Sửa · Xóa công thức · Chọn 1 công thức "Nổi bật" hiển thị to trên website</div>
-        <div id="recipes-admin-list"></div>
-        <div class="add-recipe" onclick="addRecipe()"><span style="font-size:26px">＋</span> Thêm Công Thức Mới</div>
+      <!-- ░░ PHONE BUTTON ░░ -->
+      <div class="panel" id="p-phone">
+        <div class="panel-title">📞 Nút Gọi Điện Cố Định</div>
+        <div class="panel-sub">Nút gọi điện luôn hiện ở giữa bên phải màn hình, khách bấm là gọi được ngay</div>
+
+        <div class="card">
+          <div class="card-title">📱 Cài đặt nút gọi</div>
+          <div class="row row-2">
+            <div class="field"><label>Số điện thoại (tel link)</label><input id="phone-href" placeholder="tel:0972410199"></div>
+            <div class="field"><label>Số hiển thị khi hover</label><input id="phone-label" placeholder="0972 410 199"></div>
+          </div>
+          <div class="field-hint" style="margin-top:8px;font-size:12px;color:var(--text-light)">💡 Nút này sẽ luôn hiện ở vị trí giữa bên phải dù khách cuộn trang. Khi bấm vào sẽ gọi trực tiếp.</div>
+        </div>
       </div>
 
     </div><!-- /content -->
@@ -466,11 +482,11 @@ const GH_BRANCH = 'main';
 // STATE
 // ════════════════════════════════════════════════
 let GH_TOKEN = '';
-let GH_SHA = ''; // SHA of current index.html (needed for update)
+let GH_SHA = '';
 let DIRTY = false;
 let dishes = [];
 let recipeData = [];
-let imgBlobs = {}; // key -> { blob, filename, base64 }
+let imgBlobs = {};
 let todayItems = [];
 
 const DISH_TAGS = ['Món khô','Đồ chiên','Mì - Bún','Canh - Súp','Cơm phần','Nước uống','Đặc biệt','Theo mùa','Tráng miệng'];
@@ -586,26 +602,22 @@ async function saveAll() {
   if (!GH_TOKEN) { toast('❌ Chưa đăng nhập!','err'); return; }
   showSaving(true);
   try {
-    // 1. Upload images first
     for (const key of Object.keys(imgBlobs)) {
       const {base64, filename} = imgBlobs[key];
       await uploadImageToGitHub('images/' + filename, base64);
     }
 
-    // 2. Get latest SHA (in case changed)
     const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
     if (check.ok) {
       const d = await check.json();
       GH_SHA = d.sha;
     }
 
-    // 3. Build updated HTML
     const resFile = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
     const fileData = await resFile.json();
     let html = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g,''))));
     html = applyFields(html);
 
-    // 4. Push to GitHub
     const encoded = btoa(unescape(encodeURIComponent(html)));
     const res = await ghPut(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`, {
       message: '✏️ Cập nhật website qua admin panel',
@@ -633,7 +645,6 @@ async function saveAll() {
 }
 
 async function uploadImageToGitHub(path, base64) {
-  // Check if file exists (to get SHA)
   let sha = undefined;
   try {
     const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`);
@@ -682,7 +693,6 @@ function fillAllFields(html) {
     let src = aboutImg.getAttribute('src') || '';
     const zone = document.getElementById('about-img-zone');
     if (src) {
-      // Show image from GitHub raw URL
       const rawUrl = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/${GH_BRANCH}/${src}`;
       zone.innerHTML = `<img src="${rawUrl}" onerror="this.style.display='none'"><div class="img-lay"><span style="font-size:22px">📷</span><span>THAY ẢNH</span></div>`;
       zone.onclick = () => triggerAboutImg();
@@ -726,6 +736,12 @@ function fillAllFields(html) {
   setV('footer-hours', g('footer-hours'));
   const zb = doc.getElementById('zalo-btn');
   if (zb) setV('zalo-href', zb.getAttribute('href')||'');
+
+  // Phone button
+  const pb = doc.getElementById('phone-btn');
+  if (pb) setV('phone-href', pb.getAttribute('href')||'');
+  const pl = doc.querySelector('.phone-label');
+  if (pl) setV('phone-label', pl.textContent.trim());
 
   setupAboutZone();
 }
@@ -913,13 +929,13 @@ function renderTodayAdmin() {
 
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.cssText = 'margin-bottom:12px;border-left:3px solid '+(item.available?'#27ae60':'#444');
+    card.style.cssText = 'margin-bottom:12px;border-left:4px solid '+(item.available?'var(--green)':'var(--cream3)');
     card.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold)">MÓN HÔM NAY #${String(i+1).padStart(2,'0')}</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--warm-dark)">MÓN HÔM NAY #${String(i+1).padStart(2,'0')}</div>
         <div style="display:flex;gap:8px;align-items:center">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:${item.available?'#27ae60':'#666'}">
-            <input type="checkbox" ${item.available?'checked':''} onchange="todayItems[${i}].available=this.checked;renderTodayAdmin();markDirty()" style="accent-color:#27ae60">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:${item.available?'var(--green)':'var(--text-muted)'}">
+            <input type="checkbox" ${item.available?'checked':''} onchange="todayItems[${i}].available=this.checked;renderTodayAdmin();markDirty()" style="accent-color:var(--green)">
             ${item.available?'✅ Còn hàng':'❌ Hết hàng'}
           </label>
           <button class="btn btn-red btn-sm" onclick="todayItems.splice(${i},1);renderTodayAdmin();markDirty()">🗑️ Xóa</button>
@@ -927,18 +943,18 @@ function renderTodayAdmin() {
       </div>
       <div style="display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:start">
         <div>
-          <div id="timg-zone-${i}" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;height:140px;display:flex;align-items:center;justify-content:center;transition:.2s">
+          <div id="timg-zone-${i}" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;overflow:hidden;background:#fff;height:140px;display:flex;align-items:center;justify-content:center;transition:.2s">
             ${imgSrc
-              ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`
-              : `<div style="text-align:center;color:#555;font-size:12px"><div style="font-size:28px;margin-bottom:6px">📷</div>Kéo ảnh hoặc click</div>`
+              ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.style.display='none'">`
+              : `<div style="text-align:center;color:var(--text-muted);font-size:12px"><div style="font-size:28px;margin-bottom:6px">📷</div>Kéo ảnh hoặc click</div>`
             }
-            <div style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:4px" id="timg-ov-${i}"><span style="font-size:22px">📷</span>THAY ẢNH</div>
+            <div style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:4px;border-radius:10px" id="timg-ov-${i}"><span style="font-size:22px">📷</span>THAY ẢNH</div>
           </div>
           <div style="margin-top:6px;display:flex;gap:6px">
-            <input value="${q(item.emoji||'🍽️')}" onchange="todayItems[${i}].emoji=this.value;markDirty()" style="background:#111;border:1px solid #333;color:#f0ece4;padding:5px 8px;font-size:18px;border-radius:4px;width:52px;text-align:center" title="Emoji khi chưa có ảnh">
+            <input value="${q(item.emoji||'🍽️')}" onchange="todayItems[${i}].emoji=this.value;markDirty()" style="background:var(--cream);border:1px solid var(--cream3);color:var(--text);padding:5px 8px;font-size:18px;border-radius:8px;width:52px;text-align:center" title="Emoji khi chưa có ảnh">
             <button class="btn btn-outline" style="flex:1;font-size:11px;padding:5px 8px" onclick="pickTodayImg(${i})">📂 Chọn ảnh</button>
           </div>
-          ${item.imgFile ? `<div style="font-size:10px;color:#555;margin-top:4px;word-break:break-all">${item.imgFile}</div>` : ''}
+          ${item.imgFile ? `<div style="font-size:10px;color:var(--text-muted);margin-top:4px;word-break:break-all">${item.imgFile}</div>` : ''}
         </div>
         <div>
           <div class="field" style="margin-bottom:10px"><label>Tên món</label><input value="${q(item.name)}" onchange="todayItems[${i}].name=this.value;markDirty()" placeholder="Tên món"></div>
@@ -953,9 +969,9 @@ function renderTodayAdmin() {
       const ov = document.getElementById('timg-ov-'+i);
       if (!zone) return;
       zone.onclick = () => pickTodayImg(i);
-      zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; if(ov) ov.style.display='flex'; };
-      zone.ondragleave = () => { zone.style.borderColor='#333'; if(ov) ov.style.display='none'; };
-      zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='#333'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyTodayImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+      zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave = () => { zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; };
+      zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyTodayImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
       zone.onmouseenter = () => { if(ov) ov.style.display='flex'; };
       zone.onmouseleave = () => { if(ov) ov.style.display='none'; };
     }, 0);
@@ -1000,9 +1016,9 @@ function setupAboutZone() {
   const zone = document.getElementById('about-img-zone');
   if (!zone) return;
   zone.onclick = () => triggerAboutImg();
-  zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; };
-  zone.ondragleave = () => { zone.style.borderColor='#333'; };
-  zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='#333'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyAboutImg(f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+  zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; };
+  zone.ondragleave = () => { zone.style.borderColor='var(--cream3)'; };
+  zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyAboutImg(f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
   zone.onmouseenter = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='flex'; };
   zone.onmouseleave = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; };
 }
@@ -1016,8 +1032,8 @@ async function applyAboutImg(file) {
   document.getElementById('about-img-name').textContent = '📸 ' + filename + ' (chưa lưu)';
   const url = URL.createObjectURL(file);
   const zone = document.getElementById('about-img-zone');
-  zone.style.cssText = 'position:relative;border:2px solid var(--gold);border-radius:6px;cursor:pointer;overflow:hidden;background:#111;min-height:160px';
-  zone.innerHTML = `<img src="${url}" style="width:100%;max-height:220px;object-fit:cover;display:block"><div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px"><span style="font-size:26px">📷</span><span>THAY ẢNH</span></div>`;
+  zone.style.cssText = 'position:relative;border:2px solid var(--warm);border-radius:10px;cursor:pointer;overflow:hidden;background:#fff;min-height:160px';
+  zone.innerHTML = `<img src="${url}" style="width:100%;max-height:220px;object-fit:cover;display:block"><div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px;border-radius:10px"><span style="font-size:26px">📷</span><span>THAY ẢNH</span></div>`;
   setupAboutZone();
   markDirty();
   toast('✅ Ảnh: '+filename+' (sẽ upload khi Lưu)','ok');
@@ -1115,6 +1131,11 @@ function applyFields(html) {
   st('footer-hours', V('footer-hours'));
   sa('zalo-btn', 'href', V('zalo-href'));
 
+  // Phone button
+  sa('phone-btn', 'href', V('phone-href'));
+  const phoneLabel = doc.querySelector('.phone-label');
+  if (phoneLabel) phoneLabel.textContent = V('phone-label');
+
   const recipeScript = doc.getElementById('recipe-data');
   if (recipeScript) {
     const cleanRecipes = recipeData.map(r => {
@@ -1155,8 +1176,8 @@ function renderRecipesAdmin() {
     card.innerHTML = `
       <div class="recipe-admin-head">
         <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;font-weight:700">CÔNG THỨC #${String(i+1).padStart(2,'0')}</div>
-          <div style="font-size:14px;font-weight:700;color:var(--w)">${q(r.name||'')}</div>
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-weight:700">CÔNG THỨC #${String(i+1).padStart(2,'0')}</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${q(r.name||'')}</div>
           ${r.featured ? '<div class="recipe-featured-badge">⭐ Nổi bật</div>' : ''}
         </div>
         <div style="display:flex;gap:8px;align-items:center">
@@ -1166,9 +1187,9 @@ function renderRecipesAdmin() {
       </div>
       <div class="recipe-admin-body">
         <div>
-          <div id="rimg-zone-${i}" style="position:relative;border:2px dashed #333;border-radius:6px;cursor:pointer;overflow:hidden;background:#111;height:150px;display:flex;align-items:center;justify-content:center;transition:.2s;margin-bottom:8px">
-            ${imgSrc ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : `<div style="text-align:center;color:#555;font-size:12px"><div style="font-size:26px;margin-bottom:4px">📷</div>Kéo ảnh hoặc click</div>`}
-            <div style="position:absolute;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:3px" id="rimg-ov-${i}"><span style="font-size:20px">📷</span>THAY ẢNH</div>
+          <div id="rimg-zone-${i}" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;overflow:hidden;background:#fff;height:150px;display:flex;align-items:center;justify-content:center;transition:.2s;margin-bottom:8px">
+            ${imgSrc ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.style.display='none'">` : `<div style="text-align:center;color:var(--text-muted);font-size:12px"><div style="font-size:26px;margin-bottom:4px">📷</div>Kéo ảnh hoặc click</div>`}
+            <div style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:3px;border-radius:10px" id="rimg-ov-${i}"><span style="font-size:20px">📷</span>THAY ẢNH</div>
           </div>
           <button class="btn btn-outline" style="width:100%;font-size:11px;margin-bottom:10px" onclick="pickRecipeImg(${i})">📂 Chọn ảnh</button>
           <div class="field" style="margin-bottom:8px"><label>Thời gian</label><input value="${q(r.time||'')}" onchange="recipeData[${i}].time=this.value;markDirty()" placeholder="vd: 30 phút"></div>
@@ -1186,11 +1207,11 @@ function renderRecipesAdmin() {
           <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><textarea onchange="recipeData[${i}].desc=this.value;markDirty()" placeholder="Mô tả...">${q(r.desc||'')}</textarea></div>
           <div class="field" style="margin-bottom:10px"><label>Tags (phân cách bằng dấu phẩy)</label><input value="${q((r.tags||[]).join(', '))}" onchange="recipeData[${i}].tags=this.value.split(',').map(function(s){return s.trim()}).filter(Boolean);markDirty()" placeholder="Handmade, Không bảo quản"></div>
           <div class="field" style="margin-bottom:10px">
-            <label>Nguyên liệu <span style="color:#444;font-weight:400">(mỗi dòng = 1 nguyên liệu)</span></label>
+            <label>Nguyên liệu <span style="color:var(--text-muted);font-weight:400">(mỗi dòng = 1 nguyên liệu)</span></label>
             <textarea rows="5" onchange="recipeData[${i}].ingredients=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.ingredients||[]).join('\n'))}</textarea>
           </div>
           <div class="field" style="margin-bottom:10px">
-            <label>Các bước làm <span style="color:#444;font-weight:400">(mỗi dòng = 1 bước)</span></label>
+            <label>Các bước làm <span style="color:var(--text-muted);font-weight:400">(mỗi dòng = 1 bước)</span></label>
             <textarea rows="5" onchange="recipeData[${i}].steps=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.steps||[]).join('\n'))}</textarea>
           </div>
           <div class="field">
@@ -1206,9 +1227,9 @@ function renderRecipesAdmin() {
       const ov   = document.getElementById('rimg-ov-' + i);
       if (!zone) return;
       zone.onclick      = () => pickRecipeImg(i);
-      zone.ondragover   = e => { e.preventDefault(); zone.style.borderColor='var(--gold)'; if(ov) ov.style.display='flex'; };
-      zone.ondragleave  = ()=> { zone.style.borderColor='#333'; if(ov) ov.style.display='none'; };
-      zone.ondrop       = e => { e.preventDefault(); zone.style.borderColor='#333'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyRecipeImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
+      zone.ondragover   = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave  = ()=> { zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; };
+      zone.ondrop       = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; const f=e.dataTransfer.files[0]; if(f?.type.startsWith('image/')) applyRecipeImg(i,f); else toast('❌ Chỉ chấp nhận file ảnh','err'); };
       zone.onmouseenter = ()=> { if(ov) ov.style.display='flex'; };
       zone.onmouseleave = ()=> { if(ov) ov.style.display='none'; };
     }, 0);
