@@ -5,143 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🍜 Lie No – Quản Trị Website</title>
 <style>
-:root{--red:#E60023;--red2:#ff4d6d;--bg:#ffffff;--bg2:#f5f5f5;--bg3:#efefef;--border:#e0e0e0;--text:#111111;--text2:#333;--text3:#767676}
+:root{--warm:#E44D26;--warm-dark:#C23616;--warm-light:#FF6B45;--green:#27AE60;--brown:#424242;--brown-dark:#212121;--cream:#F5F5F5;--cream2:#F0F0F0;--cream3:#E0E0E0;--text:#3A2518;--text-light:#7A6A5E;--text-muted:#A89888}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:var(--bg2);color:var(--text);min-height:100vh}
+body{font-family:'Be Vietnam Pro','Inter','Segoe UI',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
 
 /* ── HEADER ── */
-header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.hdr-title{font-size:19px;font-weight:700;color:var(--red);letter-spacing:2px}
-.hdr-sub{font-size:11px;color:var(--text3);margin-top:2px}
+header{background:var(--brown-dark);border-bottom:3px solid var(--warm);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.hdr-title{font-size:19px;font-weight:700;color:var(--warm);letter-spacing:2px}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
 .hdr-right{display:flex;gap:10px;align-items:center}
 
 /* ── BUTTONS ── */
-.btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:4px;transition:all .2s;text-transform:uppercase;font-family:inherit}
-.btn-gold{background:var(--red);color:#fff}
-.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(230,0,35,.35);background:var(--red2)}
-.btn-outline{background:transparent;border:1px solid rgba(230,0,35,.4);color:var(--red)}
-.btn-outline:hover{background:rgba(230,0,35,.06)}
+.btn{padding:9px 20px;border:none;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:1px;border-radius:24px;transition:all .2s;text-transform:uppercase;font-family:inherit}
+.btn-gold{background:linear-gradient(135deg,var(--warm),var(--warm-dark));color:#fff}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(180,131,74,.4)}
+.btn-outline{background:transparent;border:2px solid var(--warm);color:var(--warm-dark)}
+.btn-outline:hover{background:rgba(212,165,116,.1)}
 .btn-red{background:#c0392b;color:#fff;border:none}
 .btn-red:hover{background:#e74c3c}
-.btn-green{background:#27ae60;color:#fff;border:none}
+.btn-green{background:var(--green);color:#fff;border:none}
 .btn-sm{padding:5px 11px;font-size:11px}
 
-/* ── SETUP ── */
-#setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px}
-#setup h2{font-size:24px;color:var(--red)}
-#setup p{color:var(--text3);max-width:460px;line-height:1.8;font-size:13px}
+/* ── SETUP / LOGIN ── */
+#setup{display:flex;align-items:center;justify-content:center;min-height:88vh;flex-direction:column;gap:18px;text-align:center;padding:40px;background:var(--cream)}
+#setup h2{font-size:24px;color:var(--brown-dark)}
+#setup p{color:var(--text-light);max-width:480px;line-height:1.8;font-size:13px}
+.token-input-wrap{display:flex;gap:10px;width:100%;max-width:500px}
+.token-input-wrap input{flex:1;background:var(--white,#fff);border:2px solid var(--cream3);color:var(--text);padding:11px 14px;font-size:13px;border-radius:8px;font-family:inherit}
+.token-input-wrap input:focus{border-color:var(--warm);outline:none}
+.setup-hint{font-size:11px;color:var(--text-muted);max-width:500px;line-height:1.7}
+.setup-hint a{color:var(--warm-dark);text-decoration:none;font-weight:600}
+.setup-hint a:hover{text-decoration:underline}
 
 /* ── LAYOUT ── */
 #app{display:none}
 .app-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 58px)}
 
 /* ── SIDEBAR ── */
-.sidebar{background:#fff;border-right:1px solid var(--border);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
-.sidebar-section{padding:6px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-top:14px;margin-bottom:4px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:13px;color:var(--text3);border-left:3px solid transparent;transition:all .2s}
-.nav-item:hover{color:var(--text);background:var(--bg2)}
-.nav-item.active{color:var(--red);border-left-color:var(--red);background:rgba(230,0,35,.05)}
+.sidebar{background:var(--brown-dark);border-right:1px solid rgba(212,165,116,.15);padding:20px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto}
+.sidebar-section{padding:6px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,165,116,.4);margin-top:14px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.5);border-left:3px solid transparent;transition:all .2s}
+.nav-item:hover{color:rgba(255,255,255,.8);background:rgba(255,255,255,.05)}
+.nav-item.active{color:var(--warm);border-left-color:var(--warm);background:rgba(212,165,116,.1)}
 .nav-item .ico{font-size:16px;width:20px;text-align:center}
 
 /* ── CONTENT ── */
-.content{padding:28px 32px;overflow-y:auto}
+.content{padding:28px 32px;overflow-y:auto;background:var(--cream)}
 .panel{display:none}
 .panel.active{display:block}
-.panel-title{font-size:17px;font-weight:700;color:var(--red);margin-bottom:4px;letter-spacing:1px}
-.panel-sub{font-size:12px;color:var(--text3);margin-bottom:24px}
+.panel-title{font-size:17px;font-weight:700;color:var(--brown-dark);margin-bottom:4px;letter-spacing:1px}
+.panel-sub{font-size:12px;color:var(--text-muted);margin-bottom:24px}
 
 /* ── CARDS ── */
-.card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.card-title{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--warm-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 
 /* ── FIELDS ── */
 .row{display:grid;gap:14px;margin-bottom:14px}
 .row-2{grid-template-columns:1fr 1fr}
 .row-3{grid-template-columns:1fr 1fr 1fr}
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
-.field input,.field textarea,.field select{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:9px 11px;font-size:13px;border-radius:4px;width:100%;font-family:inherit;transition:.2s}
-.field input:focus,.field textarea:focus{border-color:var(--red);outline:none;background:#fff}
+.field label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:600}
+.field input,.field textarea,.field select{background:var(--cream);border:1px solid var(--cream3);color:var(--text);padding:9px 11px;font-size:13px;border-radius:8px;width:100%;font-family:inherit;transition:.2s}
+.field input:focus,.field textarea:focus{border-color:var(--warm);outline:none;box-shadow:0 0 0 3px rgba(212,165,116,.15)}
 .field textarea{resize:vertical;min-height:72px}
-.field-hint{font-size:10px;color:#bbb;margin-top:3px}
+.field-hint{font-size:10px;color:var(--text-muted);margin-top:3px}
 
-/* ── MULTI-IMAGE GALLERY ── */
-.img-gallery-zone{border:2px dashed var(--border);border-radius:6px;padding:10px;background:var(--bg2);transition:.2s}
-.img-gallery-zone.drag-over{border-color:var(--red);background:rgba(230,0,35,.03)}
-.img-gallery-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:40px}
-.img-thumb{position:relative;width:72px;height:72px;border-radius:4px;overflow:hidden;border:2px solid var(--border);cursor:pointer;background:#fff;flex-shrink:0;transition:.2s}
-.img-thumb:hover{border-color:#999}
-.img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.img-thumb .del-thumb{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;display:none;align-items:center;justify-content:center;padding:0;line-height:1}
-.img-thumb:hover .del-thumb{display:flex}
-.img-thumb.main-thumb{border-color:var(--red)}
-.img-thumb.main-thumb::after{content:'★';position:absolute;bottom:0;left:0;background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:0 3px 0 0}
-.img-add-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;background:transparent;border:1px dashed var(--border);border-radius:4px;cursor:pointer;font-size:11px;color:var(--text3);font-family:inherit;transition:.2s;margin-top:2px}
-.img-add-btn:hover{border-color:var(--red);color:var(--red)}
-.img-gallery-hint{font-size:10px;color:#bbb;margin-top:5px}
+/* ── IMG ZONE ── */
+.img-zone{position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;transition:.2s;overflow:hidden;background:#fff}
+.img-zone:hover,.img-zone.drag-over{border-color:var(--warm);background:rgba(212,165,116,.03)}
+.img-zone img{width:100%;display:block;max-height:220px;object-fit:cover}
+.img-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:120px;gap:6px;color:var(--text-muted);font-size:12px}
+.img-placeholder span{font-size:30px}
+.img-lay{position:absolute;inset:0;background:rgba(58,37,24,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px;border-radius:10px}
+.img-zone:hover .img-lay{opacity:1}
+.img-name{font-size:10px;color:var(--text-muted);padding:4px 8px;background:var(--cream2);border-top:1px solid var(--cream3);border-radius:0 0 8px 8px}
 
 /* ── MENU GRID ── */
-.menu-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:20px}
-.menu-item-card{background:#fff;border:2px solid var(--border);border-radius:8px;overflow:hidden;transition:border-color .2s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.menu-item-card:hover{border-color:rgba(230,0,35,.3)}
+.menu-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:20px}
+.menu-item-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;overflow:hidden;transition:border-color .2s;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.menu-item-card:hover{border-color:var(--warm)}
+.mic-img{position:relative;height:180px;background:var(--cream2);cursor:pointer;overflow:hidden;border-radius:12px 12px 0 0}
+.mic-img img{width:100%;height:100%;object-fit:cover}
+.mic-img .img-lay{font-size:11px;border-radius:12px 12px 0 0}
 .mic-body{padding:12px}
 .mic-body .field{margin-bottom:10px}
-.mic-foot{padding:8px 12px 10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.mic-num{font-size:10px;color:#ccc}
+.mic-foot{padding:8px 12px 10px;border-top:1px solid var(--cream3);display:flex;justify-content:space-between;align-items:center}
+.mic-num{font-size:10px;color:var(--text-muted)}
 
 .tags{display:flex;flex-wrap:wrap;gap:5px}
-.tag{padding:3px 9px;border-radius:20px;border:1px solid var(--border);font-size:11px;cursor:pointer;color:var(--text3);transition:.2s}
-.tag.active{border-color:var(--red);color:var(--red);background:rgba(230,0,35,.07)}
+.tag{padding:3px 9px;border-radius:20px;border:1px solid var(--cream3);font-size:11px;cursor:pointer;color:var(--text-muted);transition:.2s}
+.tag.active{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.1)}
 
 .badges{display:flex;gap:6px;flex-wrap:wrap}
-.badge-btn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);color:var(--text3);transition:.2s}
+.badge-btn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--cream3);color:var(--text-muted);transition:.2s}
 .badge-btn.b-hot.active{background:#e74c3c;border-color:#e74c3c;color:#fff}
-.badge-btn.b-new.active{background:var(--red);border-color:var(--red);color:#fff}
-.badge-btn.b-none.active{background:var(--bg3);border-color:var(--border);color:var(--text)}
+.badge-btn.b-new.active{background:var(--green);border-color:var(--green);color:#fff}
+.badge-btn.b-none.active{background:var(--cream3);border-color:var(--cream3);color:var(--text)}
 
-.add-dish{border:2px dashed var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;min-height:200px;cursor:pointer;flex-direction:column;gap:8px;color:#bbb;transition:.2s;background:#fff}
-.add-dish:hover{border-color:var(--red);color:var(--red)}
+.add-dish{border:2px dashed var(--cream3);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:240px;cursor:pointer;flex-direction:column;gap:8px;color:var(--text-muted);transition:.2s}
+.add-dish:hover{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.04)}
 .add-dish span{font-size:34px}
 
 /* ── REVIEW CARDS ── */
-.review-admin{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px}
+.review-admin{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .review-admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.review-num{font-size:11px;color:#ccc}
+.review-num{font-size:11px;color:var(--text-muted)}
 
 /* ── STATS GRID ── */
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
-.stat-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px}
+.stat-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .stat-card .field{margin-bottom:8px}
 
 /* ── CHANNEL CARDS ── */
-.channel-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.channel-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
 .channel-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .channel-icon{font-size:22px}
-.channel-name{font-size:13px;font-weight:600;color:var(--text)}
+.channel-name{font-size:13px;font-weight:600;color:var(--brown)}
 
 /* ── SAVE BAR ── */
-#save-bar{position:fixed;bottom:0;left:220px;right:0;background:#fff;border-top:2px solid var(--red);padding:12px 28px;display:none;align-items:center;justify-content:space-between;z-index:100;box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+#save-bar{position:fixed;bottom:0;left:220px;right:0;background:var(--brown-dark);border-top:3px solid var(--warm);padding:12px 28px;display:none;align-items:center;justify-content:space-between;z-index:100}
 #save-bar.show{display:flex}
-#save-bar p{font-size:12px;color:var(--text3)}
-#save-bar p strong{color:var(--red)}
+#save-bar p{font-size:12px;color:rgba(255,255,255,.6)}
+#save-bar p strong{color:var(--warm)}
 
 /* ── TOAST ── */
-#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:6px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+#toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;z-index:9999;display:none;box-shadow:0 4px 16px rgba(0,0,0,.2);max-width:360px}
 #toast.show{display:block}
-#toast.ok{background:#27ae60;color:#fff}
+#toast.ok{background:var(--green);color:#fff}
 #toast.err{background:#c0392b;color:#fff}
 #toast.info{background:#2980b9;color:#fff}
 
+/* ── RECIPE ADMIN ── */
+.recipe-admin-card{background:#fff;border:1px solid var(--cream3);border-radius:12px;padding:18px;margin-bottom:16px;border-left:4px solid transparent;box-shadow:0 1px 4px rgba(92,61,46,0.04)}
+.recipe-admin-card.is-featured{border-left-color:var(--warm)}
+.recipe-admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--cream3)}
+.recipe-admin-body{display:grid;grid-template-columns:200px 1fr;gap:18px}
+.recipe-featured-badge{font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:2px solid var(--warm);color:var(--warm-dark);border-radius:20px;font-weight:700}
+.add-recipe{border:2px dashed var(--cream3);border-radius:12px;display:flex;align-items:center;justify-content:center;min-height:72px;cursor:pointer;gap:10px;color:var(--text-muted);transition:.2s;font-size:13px;font-weight:700;letter-spacing:1px}
+.add-recipe:hover{border-color:var(--warm);color:var(--warm-dark);background:rgba(212,165,116,.04)}
+
+/* ── GITHUB STATUS ── */
+.gh-status{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.5);padding:6px 12px;border:1px solid rgba(255,255,255,.1);border-radius:20px}
+.gh-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.gh-dot.err{background:#e74c3c}
+
+/* ── SAVING OVERLAY ── */
+#saving-overlay{position:fixed;inset:0;background:rgba(58,37,24,.6);z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+#saving-overlay.show{display:flex}
+.saving-spinner{width:48px;height:48px;border:3px solid rgba(212,165,116,.2);border-top-color:var(--warm);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.saving-text{font-size:14px;color:var(--warm);letter-spacing:2px;font-weight:700}
+
 /* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--cream)}::-webkit-scrollbar-thumb{background:var(--cream3);border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--warm)}
 
 @media(max-width:768px){
   .app-wrap{grid-template-columns:1fr}
   .sidebar{display:none}
   #save-bar{left:0}
-  .stats-grid{grid-template-columns:1fr}
-  .row-2{grid-template-columns:1fr}
-  .row-3{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -149,71 +171,82 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
 
 <div id="toast"></div>
 
+<div id="saving-overlay">
+  <div class="saving-spinner"></div>
+  <div class="saving-text">Đang lưu lên GitHub...</div>
+</div>
+
 <div id="save-bar">
-  <p>Có thay đổi — nhấn <strong>Lưu Website</strong> để cập nhật</p>
+  <p>Có thay đổi — nhấn <strong>Lưu Website</strong> để cập nhật lên Netlify</p>
   <div style="display:flex;gap:10px">
-    <button class="btn btn-outline" onclick="reload()">↩ Hoàn tác</button>
-    <button class="btn btn-gold" onclick="saveAll()">💾 Lưu Website</button>
+    <button class="btn btn-outline" onclick="reloadFromGitHub()">↩ Hoàn tác</button>
+    <button class="btn btn-gold" onclick="saveAll()">☁️ Lưu Website</button>
   </div>
 </div>
 
 <header>
   <div>
     <div class="hdr-title">🍜 LIE NO – QUẢN TRỊ TOÀN BỘ WEBSITE</div>
-    <div class="hdr-sub">Chọn mục bên trái · Chỉnh sửa trực tiếp · Nhấn Lưu để áp dụng</div>
+    <div class="hdr-sub">Chỉnh sửa trực tiếp · Nhấn Lưu để cập nhật lên Netlify tự động</div>
   </div>
   <div class="hdr-right">
-    <button class="btn btn-outline" onclick="openFolder()">📂 Chọn Thư Mục</button>
-    <button class="btn btn-gold" id="btn-save" style="display:none" onclick="saveAll()">💾 Lưu Website</button>
+    <div class="gh-status" id="gh-status"><div class="gh-dot" id="gh-dot"></div><span id="gh-status-text">Chưa kết nối</span></div>
+    <button class="btn btn-outline" onclick="doLogout()" id="btn-logout" style="display:none">⏏ Đăng xuất</button>
+    <button class="btn btn-gold" id="btn-save" style="display:none" onclick="saveAll()">☁️ Lưu Website</button>
   </div>
 </header>
 
 <div id="setup">
-  <div style="font-size:56px">📁</div>
-  <h2>Chọn thư mục LieNo-Website</h2>
-  <p>Nhấn nút bên dưới, chọn thư mục <strong style="color:var(--red)">LieNo-Website</strong>. Sau đó bạn có thể chỉnh sửa mọi thứ — từ ảnh (nhiều ảnh/slideshow), thực đơn, giá, đánh giá đến thông tin liên hệ.</p>
-  <button class="btn btn-gold" style="font-size:14px;padding:14px 36px;margin-top:6px" onclick="openFolder()">📂 Chọn Thư Mục LieNo-Website</button>
-  <p style="font-size:11px;color:#888">Dùng Microsoft Edge hoặc Google Chrome · Chỉ cần chọn 1 lần</p>
+  <div style="font-size:56px">🔑</div>
+  <h2>Kết nối GitHub để quản trị website</h2>
+  <p>Nhập <strong style="color:var(--warm-dark)">GitHub Personal Access Token</strong> của bạn để bắt đầu chỉnh sửa website. Token được lưu trong trình duyệt, không gửi đi đâu ngoài GitHub.</p>
+  <div class="token-input-wrap">
+    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxx" autocomplete="off">
+    <button class="btn btn-gold" onclick="doLogin()">Kết nối →</button>
+  </div>
+  <div class="setup-hint">
+    💡 Chưa có token? Vào <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> → tick <strong>repo</strong> → Generate → copy token dán vào đây.<br><br>
+    ⚠️ Token chỉ hiện 1 lần duy nhất khi tạo. Nếu mất token, vào GitHub tạo lại.
+  </div>
 </div>
 
 <div id="app">
   <div class="app-wrap">
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-section">Nội dung</div>
-      <div class="nav-item active" onclick="go('hero',this)"><span class="ico">🏠</span> Trang chủ (Hero)</div>
-      <div class="nav-item" onclick="go('today',this)"><span class="ico">📅</span> Món hôm nay</div>
-      <div class="nav-item" onclick="go('about',this)"><span class="ico">👩‍🍳</span> Về chúng tôi</div>
-      <div class="nav-item" onclick="go('menu',this)"><span class="ico">🍜</span> Thực đơn</div>
-      <div class="nav-item" onclick="go('reviews',this)"><span class="ico">⭐</span> Đánh giá</div>
-      <div class="nav-item" onclick="go('order',this)"><span class="ico">📦</span> Đặt hàng</div>
-      <div class="nav-item" onclick="go('footer',this)"><span class="ico">🔗</span> Footer & Liên hệ</div>
+      <div class="nav-item active" onclick="go('hero')"><span class="ico">🏠</span> Trang chủ (Hero)</div>
+      <div class="nav-item" onclick="go('today')"><span class="ico">📅</span> Món hôm nay</div>
+      <div class="nav-item" onclick="go('about')"><span class="ico">👩‍🍳</span> Về chúng tôi</div>
+      <div class="nav-item" onclick="go('menu')"><span class="ico">🍜</span> Thực đơn</div>
+      <div class="nav-item" onclick="go('recipes')"><span class="ico">📖</span> Công thức nấu ăn</div>
+      <div class="nav-item" onclick="go('reviews')"><span class="ico">⭐</span> Đánh giá</div>
+      <div class="nav-item" onclick="go('order')"><span class="ico">📦</span> Đặt hàng</div>
+      <div class="nav-item" onclick="go('footer')"><span class="ico">🔗</span> Footer & Liên hệ</div>
+      <div class="nav-item" onclick="go('phone')"><span class="ico">📞</span> Nút gọi điện</div>
       <div class="sidebar-section" style="margin-top:20px">Thao tác</div>
       <div class="nav-item" onclick="openPreview()"><span class="ico">👁️</span> Xem website</div>
-      <div class="nav-item" onclick="saveAll()"><span class="ico">💾</span> Lưu ngay</div>
+      <div class="nav-item" onclick="saveAll()"><span class="ico">☁️</span> Lưu ngay</div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content" style="padding-bottom:80px">
 
-      <!-- ░░ HERO ░░ -->
       <div class="panel active" id="p-hero">
         <div class="panel-title">🏠 Trang Chủ (Hero)</div>
-        <div class="panel-sub">Phần đầu tiên khách thấy khi vào website</div>
+        <div class="panel-sub">Phần giới thiệu chính khi khách vào website</div>
 
         <div class="card">
           <div class="card-title">📝 Nội dung chính</div>
           <div class="row row-2">
-            <div class="field"><label>Tagline nhỏ (trên tên)</label><input id="hero-eyebrow" placeholder="Đồ ăn handmade từ tâm"><div class="field-hint">Dòng chữ nhỏ phía trên tên Lie No</div></div>
+            <div class="field"><label>Tagline nhỏ (trên tên)</label><input id="hero-eyebrow" placeholder="Đồ ăn handmade từ tâm"></div>
             <div class="field"><label>Tagline phụ (dưới tên)</label><input id="hero-subtitle" placeholder="Homemade · Tươi Ngon · Giao Tận Nơi"></div>
           </div>
           <div class="row">
             <div class="field"><label>Đoạn mô tả</label><textarea id="hero-desc"></textarea></div>
           </div>
           <div class="row row-2">
-            <div class="field"><label>Nút 1 (màu đỏ)</label><input id="hero-cta1" placeholder="Xem Thực Đơn"></div>
-            <div class="field"><label>Nút 2 (viền đỏ)</label><input id="hero-cta2" placeholder="Đặt Ngay Qua Zalo"></div>
+            <div class="field"><label>Nút 1 (chính)</label><input id="hero-cta1" placeholder="Xem Thực Đơn"></div>
+            <div class="field"><label>Nút 2 (phụ)</label><input id="hero-cta2" placeholder="Đặt Ngay Qua Zalo"></div>
           </div>
         </div>
 
@@ -236,10 +269,9 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         </div>
       </div>
 
-      <!-- ░░ TODAY ░░ -->
       <div class="panel" id="p-today">
         <div class="panel-title">📅 Món Hôm Nay (TODAY)</div>
-        <div class="panel-sub">Cập nhật danh sách món bán hôm nay · Bật/tắt trạng thái còn/hết hàng · Upload nhiều ảnh/slideshow</div>
+        <div class="panel-sub">Cập nhật danh sách món bán hôm nay · Hỗ trợ tải nhiều ảnh hiển thị dạng cuộn Carousel</div>
 
         <div class="card" style="margin-bottom:18px">
           <div class="card-title">⚙️ Cài đặt</div>
@@ -250,27 +282,31 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         </div>
 
         <div id="today-admin-list"></div>
+
         <button class="btn btn-gold" style="width:100%;padding:14px;font-size:13px;margin-top:4px" onclick="addTodayItem()">＋ Thêm món hôm nay</button>
       </div>
 
-      <!-- ░░ ABOUT ░░ -->
       <div class="panel" id="p-about">
         <div class="panel-title">👩‍🍳 Về Chúng Tôi</div>
-        <div class="panel-sub">Phần giới thiệu câu chuyện và hình ảnh gallery</div>
+        <div class="panel-sub">Phần giới thiệu câu chuyện và hình ảnh · Hỗ trợ nhiều ảnh</div>
 
         <div class="card">
-          <div class="card-title">🖼️ Ảnh gallery (nhiều ảnh – ảnh đầu tiên là ảnh chính)</div>
-          <div class="img-gallery-zone" id="about-gallery-zone"
-            ondragover="event.preventDefault();this.classList.add('drag-over')"
-            ondragleave="this.classList.remove('drag-over')"
-            ondrop="dropGallery(event,'about')">
-            <div class="img-gallery-grid" id="about-gallery-grid"></div>
-            <button class="img-add-btn" onclick="addGalleryImgs('about')">＋ Thêm ảnh (chọn nhiều cùng lúc)</button>
-            <div class="img-gallery-hint">⭐ Ảnh có viền đỏ = ảnh chính · Click vào ảnh để đặt làm ảnh chính · Hover để xóa</div>
-          </div>
-          <div class="row row-2" style="margin-top:14px">
-            <div class="field"><label>Nhãn trên badge (số)</label><input id="about-badge-num" placeholder="8+"></div>
-            <div class="field"><label>Nhãn dưới badge (chữ)</label><input id="about-badge-lbl" placeholder="Năm kinh nghiệm"></div>
+          <div class="card-title">🖼️ Ảnh đại diện</div>
+          <div class="row row-2">
+            <div>
+              <div id="about-img-zone" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;overflow:hidden;background:#fff;min-height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--text-muted);font-size:13px;transition:.2s">
+                <span style="font-size:34px">📷</span>
+                <span>Đang tải...</span>
+              </div>
+              <div style="font-size:10px;color:var(--text-muted);padding:5px 8px;background:var(--cream2);border:1px solid var(--cream3);border-top:none;border-radius:0 0 8px 8px;text-align:center;" id="about-img-name">Chưa có ảnh</div>
+              <button class="btn btn-outline" style="width:100%;margin-top:8px;font-size:12px" onclick="pickMultiImg('about', 0)">📂 Chọn ảnh từ máy tính</button>
+            </div>
+            <div>
+              <div class="row">
+                <div class="field"><label>Nhãn trên badge (số)</label><input id="about-badge-num" placeholder="5+"></div>
+                <div class="field"><label>Nhãn dưới badge (chữ)</label><input id="about-badge-lbl" placeholder="Năm kinh nghiệm"></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -278,7 +314,7 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
           <div class="card-title">📝 Nội dung</div>
           <div class="row row-2">
             <div class="field"><label>Eyebrow (chữ nhỏ)</label><input id="about-eyebrow" placeholder="Câu chuyện của chúng tôi"></div>
-            <div class="field"><label>Tiêu đề h2</label><input id="about-title" placeholder="Món Ngon Từ Bếp Nhà Đến Bàn Ăn"><div class="field-hint">In nghiêng: thêm * trước/sau · vd: *Từ Bếp Nhà*</div></div>
+            <div class="field"><label>Tiêu đề h2</label><input id="about-title" placeholder="Món Ngon Từ Bếp Nhà Đến Bàn Ăn"><div class="field-hint">Phần in nghiêng: thêm * trước và sau, vd: *Từ Bếp Nhà*</div></div>
           </div>
           <div class="row">
             <div class="field"><label>Đoạn văn 1</label><textarea id="about-p1"></textarea></div>
@@ -307,10 +343,9 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         </div>
       </div>
 
-      <!-- ░░ MENU ░░ -->
       <div class="panel" id="p-menu">
         <div class="panel-title">🍜 Thực Đơn</div>
-        <div class="panel-sub">Mỗi món có thể upload nhiều ảnh → hiển thị slideshow trên website</div>
+        <div class="panel-sub">Hỗ trợ tải nhiều ảnh cho từng món để hiển thị dạng Carousel</div>
 
         <div class="card" style="margin-bottom:20px">
           <div class="card-title">📢 Thông báo thực đơn</div>
@@ -320,15 +355,19 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         <div class="menu-admin-grid" id="menu-admin-grid"></div>
       </div>
 
-      <!-- ░░ REVIEWS ░░ -->
-      <div class="panel" id="p-reviews">
-        <div class="panel-title">⭐ Đánh Giá Khách Hàng</div>
-        <div class="panel-sub">Chỉnh sửa đánh giá hiển thị trên website · Thêm/xóa tùy ý</div>
-        <div id="reviews-admin"></div>
-        <button class="btn btn-gold" style="width:100%;padding:14px;font-size:13px;margin-top:4px" onclick="addReview()">＋ Thêm đánh giá mới</button>
+      <div class="panel" id="p-recipes">
+        <div class="panel-title">📖 Công Thức Nấu Ăn</div>
+        <div class="panel-sub">Hỗ trợ tải nhiều ảnh cho mỗi công thức. Chọn 1 công thức "Nổi bật" hiển thị to.</div>
+        <div id="recipes-admin-list"></div>
+        <div class="add-recipe" onclick="addRecipe()"><span style="font-size:26px">＋</span> Thêm Công Thức Mới</div>
       </div>
 
-      <!-- ░░ ORDER ░░ -->
+      <div class="panel" id="p-reviews">
+        <div class="panel-title">⭐ Đánh Giá Khách Hàng</div>
+        <div class="panel-sub">Chỉnh sửa 3 đánh giá hiển thị trên website</div>
+        <div id="reviews-admin"></div>
+      </div>
+
       <div class="panel" id="p-order">
         <div class="panel-title">📦 Phần Đặt Hàng</div>
         <div class="panel-sub">Tiêu đề, mô tả và các kênh liên hệ đặt hàng</div>
@@ -336,7 +375,7 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         <div class="card">
           <div class="card-title">📝 Nội dung</div>
           <div class="row">
-            <div class="field"><label>Tiêu đề</label><input id="order-title" placeholder="Sẵn Sàng Thưởng Thức Chưa?"><div class="field-hint">In nghiêng: thêm * trước/sau</div></div>
+            <div class="field"><label>Tiêu đề</label><input id="order-title" placeholder="Sẵn Sàng Thưởng Thức Chưa?"><div class="field-hint">Phần in nghiêng: thêm * trước và sau</div></div>
             <div class="field"><label>Mô tả</label><textarea id="order-desc"></textarea></div>
           </div>
         </div>
@@ -367,7 +406,6 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         </div>
       </div>
 
-      <!-- ░░ FOOTER ░░ -->
       <div class="panel" id="p-footer">
         <div class="panel-title">🔗 Footer & Thông Tin Liên Hệ</div>
         <div class="panel-sub">Phần cuối trang và nút Zalo nổi</div>
@@ -388,167 +426,299 @@ header{background:#fff;border-bottom:2px solid var(--red);padding:16px 28px;disp
         </div>
 
         <div class="card">
-          <div class="card-title">💬 Nút Zalo nổi (góc phải)</div>
+          <div class="card-title">📄 Dòng bản quyền (cuối cùng)</div>
+          <div class="row row-2">
+            <div class="field"><label>Dòng trái (bản quyền)</label><input id="footer-copy" placeholder="© 2025 Lie No · Đồ ăn handmade"></div>
+            <div class="field"><label>Dòng phải (credit)</label><input id="footer-credit" placeholder="Làm bằng ❤️ tại Việt Nam"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">💬 Nút Zalo nổi (góc phải dưới)</div>
           <div class="field"><label>Link Zalo của nút nổi</label><input id="zalo-href" placeholder="https://zalo.me/84972410199"></div>
         </div>
       </div>
 
-    </div><!-- /content -->
-  </div><!-- /app-wrap -->
-</div><!-- /app -->
+      <div class="panel" id="p-phone">
+        <div class="panel-title">📞 Nút Gọi Điện Cố Định</div>
+        <div class="panel-sub">Nút gọi điện luôn hiện ở giữa bên phải màn hình, khách bấm là gọi được ngay</div>
 
-<input type="file" id="__fi" accept="image/*" style="display:none">
-<input type="file" id="__fi-multi" accept="image/*" multiple style="display:none">
+        <div class="card">
+          <div class="card-title">📱 Cài đặt nút gọi</div>
+          <div class="row row-2">
+            <div class="field"><label>Số điện thoại (tel link)</label><input id="phone-href" placeholder="tel:0972410199"></div>
+            <div class="field"><label>Số hiển thị khi hover</label><input id="phone-label" placeholder="0972 410 199"></div>
+          </div>
+          <div class="field-hint" style="margin-top:8px;font-size:12px;color:var(--text-light)">💡 Nút này sẽ luôn hiện ở vị trí giữa bên phải dù khách cuộn trang. Khi bấm vào sẽ gọi trực tiếp.</div>
+        </div>
+      </div>
+
+    </div></div></div><input type="file" id="__fi" accept="image/*" multiple style="display:none">
 
 <script>
 // ════════════════════════════════════════════════
-// STATE
+// GITHUB CONFIG
 // ════════════════════════════════════════════════
-let DIR = null;
+const GH_OWNER = 'phanlienyenbai-pixel';
+const GH_REPO  = 'lieno-website';
+const GH_FILE  = 'index.html';
+const GH_BRANCH = 'main';
+
+// ════════════════════════════════════════════════
+// STATE (CẤU TRÚC ĐA ẢNH MỚI)
+// ════════════════════════════════════════════════
+let GH_TOKEN = '';
+let GH_SHA = '';
 let DIRTY = false;
-let dishes = [];        // [{imgs:[{imgFile,src,blobKey}], badge, tag, name, desc, price}]
-let todayItems = [];    // [{imgs:[{imgFile,src,blobKey}], name, desc, price, available, emoji}]
-let reviews = [];       // [{stars, text, author}]
-let aboutImgs = [];     // [{imgFile, src, blobKey}]
-let imgBlobs = {};      // blobKey -> { blob, filename }
+let imgBlobs = {}; // Cấu trúc lưu: { key: { blob, filename, base64 } }
+
+// Dữ liệu dùng cấu trúc mảng (array) cho ảnh
+let dishes = [];
+let recipeData = [];
+let todayItems = [];
+let aboutImgs = { imgFiles: [], srcs: [], blobKeys: [] };
 
 const DISH_TAGS = ['Món khô','Đồ chiên','Mì - Bún','Canh - Súp','Cơm phần','Nước uống','Đặc biệt','Theo mùa','Tráng miệng'];
 
 // ════════════════════════════════════════════════
-// FOLDER
+// HELPER: HÀM TRÍCH XUẤT NHIỀU ẢNH TỪ DOM
 // ════════════════════════════════════════════════
-async function openFolder() {
-  if (!window.showDirectoryPicker) { toast('❌ Cần dùng Edge hoặc Chrome mới nhất','err'); return; }
-  try {
-    DIR = await window.showDirectoryPicker({ mode:'readwrite' });
-    document.getElementById('setup').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('btn-save').style.display = 'inline-block';
-    await reload();
-    toast('✅ Đã mở: ' + DIR.name,'ok');
-  } catch(e) {
-    if (e.name !== 'AbortError') toast('❌ ' + e.message,'err');
-  }
+function extractImgs(container) {
+  if (!container) return { srcs: [], imgFiles: [] };
+  const imgs = Array.from(container.querySelectorAll('img'));
+  const srcs = imgs.map(img => img.getAttribute('src') || '');
+  const imgFiles = srcs.map(src => {
+    const m = src.match(/images[\\/]([^"?# ]+)/);
+    return m ? m[1] : '';
+  }).filter(Boolean);
+  return { srcs, imgFiles };
 }
 
-// ════════════════════════════════════════════════
-// LOAD
-// ════════════════════════════════════════════════
-async function reload() {
-  if (!DIR) return;
-  const fh = await DIR.getFileHandle('index.html');
-  const f = await fh.getFile();
-  const html = await f.text();
-  fillAllFields(html);
-  dishes = parseDishes(html);
-  todayItems = parseTodayItems(html);
-  reviews = parseReviews(html);
-  aboutImgs = parseAboutImgs(html);
-  renderMenuGrid();
-  renderTodayAdmin();
-  renderReviewsAdmin();
-  renderAboutGallery();
-  DIRTY = false;
-  document.getElementById('save-bar').classList.remove('show');
-}
-
-// ════════════════════════════════════════════════
-// PARSE HELPERS
-// ════════════════════════════════════════════════
-function parseImgsFromCarousel(el) {
-  const slides = el.querySelectorAll('.carousel-slide img');
-  if (slides.length) {
-    return Array.from(slides).map(img => {
-      const src = img.getAttribute('src')||'';
-      const m = src.match(/images[\/\\]([^"?# ]+)/);
-      return { imgFile: m ? m[1] : '', src, blobKey: null };
+// Hàm render lưới Thumbnail trong Admin
+function getThumbnailsHTML(item, type, index) {
+  let allImages = [];
+  if (item.srcs) allImages = allImages.concat(item.srcs);
+  if (item.blobKeys) {
+    item.blobKeys.forEach(key => {
+      if (imgBlobs[key]) allImages.push(URL.createObjectURL(imgBlobs[key].blob));
     });
   }
-  // Legacy: single img
-  const img = el.querySelector('img');
-  if (img) {
-    const src = img.getAttribute('src')||'';
-    const m = src.match(/images[\/\\]([^"?# ]+)/);
-    return [{ imgFile: m ? m[1] : '', src, blobKey: null }];
+  let html = `<div style="display:flex;flex-wrap:wrap;gap:8px;padding:12px;width:100%;align-items:center;justify-content:center;">`;
+  if (allImages.length > 0) {
+    html += allImages.map((src, idx) => `
+      <div style="position:relative; width:56px; height:56px; border-radius:6px; overflow:hidden; border:1px solid var(--cream3);box-shadow:0 2px 4px rgba(0,0,0,0.1)">
+        <img src="${src.startsWith('http') ? src : 'https://raw.githubusercontent.com/'+GH_OWNER+'/'+GH_REPO+'/'+GH_BRANCH+'/'+src}" style="width:100%; height:100%; object-fit:cover" onerror="this.style.display='none'">
+        <div style="position:absolute; top:2px; right:2px; background:rgba(231,76,60,0.9); color:white; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; cursor:pointer;font-weight:bold" onclick="removeImg('${type}', ${index}, ${idx}); event.stopPropagation();" title="Xóa ảnh này">✕</div>
+      </div>
+    `).join('');
+  } else {
+    html += `<div style="text-align:center;color:var(--text-muted);font-size:12px;width:100%"><div style="font-size:28px;margin-bottom:6px">📷</div>Kéo thả hoặc Click</div>`;
   }
-  return [];
+  html += `</div>`;
+  return html;
 }
 
-function parseDishes(html) {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const grid = doc.getElementById('menu-grid');
-  if (!grid) return [];
-  return Array.from(grid.querySelectorAll('.menu-card')).map(card => {
-    const ov = card.querySelector('.menu-card-overlay');
-    return {
-      imgs: parseImgsFromCarousel(card),
-      badge: card.querySelector('.badge-hot') ? 'hot' : card.querySelector('.badge-new') ? 'new' : 'none',
-      tag: ov?.querySelector('.menu-card-tag')?.textContent.trim()||'',
-      name: ov?.querySelector('h3')?.textContent.trim()||'',
-      desc: ov?.querySelector('p')?.textContent.trim()||'',
-      price: ov?.querySelector('.menu-card-price')?.textContent.trim()||''
-    };
-  });
-}
+// Hàm xóa ảnh chung cho các phần
+function removeImg(type, itemIndex, imgIndex) {
+  let item;
+  if (type === 'today') item = todayItems[itemIndex];
+  else if (type === 'dish') item = dishes[itemIndex];
+  else if (type === 'recipe') item = recipeData[itemIndex];
+  else if (type === 'about') item = aboutImgs;
 
-function parseTodayItems(html) {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const grid = doc.getElementById('today-grid');
-  if (!grid) return [];
-  return Array.from(grid.querySelectorAll('.today-item')).map(item => {
-    const ph = item.querySelector('.today-img-placeholder');
-    return {
-      imgs: parseImgsFromCarousel(item.querySelector('.today-img-wrap')||item),
-      name: item.querySelector('.today-name')?.textContent.trim()||'',
-      desc: item.querySelector('.today-desc')?.textContent.trim()||'',
-      price: item.querySelector('.today-price')?.textContent.trim()||'',
-      emoji: ph?.textContent.trim()||'🍽️',
-      available: !item.classList.contains('sold'),
-      blobKey: null
-    };
-  });
-}
-
-function parseReviews(html) {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const result = [];
-  for (let i = 1; i <= 20; i++) {
-    const starsEl = doc.getElementById(`rv${i}-stars`);
-    if (!starsEl) break;
-    result.push({
-      stars: starsEl.textContent.trim(),
-      text: doc.getElementById(`rv${i}-text`)?.textContent.trim()||'',
-      author: doc.getElementById(`rv${i}-author`)?.textContent.trim()||''
-    });
+  const oldImgsLen = (item.srcs || []).length;
+  if (imgIndex < oldImgsLen) {
+    item.srcs.splice(imgIndex, 1);
+    item.imgFiles.splice(imgIndex, 1);
+  } else {
+    item.blobKeys.splice(imgIndex - oldImgsLen, 1);
   }
-  // fallback: if none found, init 3 blank
-  if (!result.length) return [{stars:'★★★★★',text:'',author:''},{stars:'★★★★★',text:'',author:''},{stars:'★★★★★',text:'',author:''}];
-  return result;
+  markDirty();
+  if (type === 'today') renderTodayAdmin();
+  else if (type === 'dish') renderMenuGrid();
+  else if (type === 'recipe') renderRecipesAdmin();
+  else if (type === 'about') setupAboutZone();
 }
 
-function parseAboutImgs(html) {
-  const doc = new DOMParser().parseFromString(html, 'text/html');
-  const frame = doc.querySelector('.about-img-frame') || doc.querySelector('.about-visual');
-  if (!frame) {
-    // fallback single img
-    const img = doc.getElementById('about-img');
-    if (img) {
-      const src = img.getAttribute('src')||'';
-      const m = src.match(/images[\/\\]([^"?# ]+)/);
-      return [{ imgFile: m ? m[1] : '', src, blobKey: null }];
+// Hàm chọn nhiều ảnh chung
+function pickMultiImg(type, index) {
+  const fi = document.getElementById('__fi');
+  fi.onchange = async e => {
+    const files = Array.from(e.target.files);
+    for (const file of files) {
+      if (type === 'today') await applyTodayImg(index, file);
+      else if (type === 'dish') await applyDishImg(index, file);
+      else if (type === 'recipe') await applyRecipeImg(index, file);
+      else if (type === 'about') await applyAboutImg(file);
     }
-    return [];
-  }
-  return parseImgsFromCarousel(frame);
+    fi.value='';
+  };
+  fi.click();
 }
 
 // ════════════════════════════════════════════════
-// FILL FIELDS FROM HTML
+// LOGIN / LOGOUT
+// ════════════════════════════════════════════════
+async function doLogin() {
+  const token = document.getElementById('token-input').value.trim();
+  if (!token) { toast('❌ Vui lòng nhập token!','err'); return; }
+  GH_TOKEN = token;
+  toast('⏳ Đang kiểm tra token...','info');
+  const ok = await testToken();
+  if (!ok) return;
+  localStorage.setItem('gh_token_lieno', token);
+  showApp();
+  await reloadFromGitHub();
+}
+
+async function testToken() {
+  try {
+    const res = await ghGet(`repos/${GH_OWNER}/${GH_REPO}`);
+    if (!res.ok) {
+      toast('❌ Token không hợp lệ hoặc không có quyền truy cập repo!','err');
+      GH_TOKEN = '';
+      return false;
+    }
+    return true;
+  } catch(e) {
+    toast('❌ Lỗi kết nối: ' + e.message,'err');
+    return false;
+  }
+}
+
+function doLogout() {
+  if (!confirm('Đăng xuất? Token sẽ bị xóa khỏi trình duyệt.')) return;
+  localStorage.removeItem('gh_token_lieno');
+  GH_TOKEN = '';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('setup').style.display = 'flex';
+  document.getElementById('btn-save').style.display = 'none';
+  document.getElementById('btn-logout').style.display = 'none';
+  document.getElementById('token-input').value = '';
+  setGhStatus(false, 'Chưa kết nối');
+}
+
+function showApp() {
+  document.getElementById('setup').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('btn-save').style.display = 'inline-block';
+  document.getElementById('btn-logout').style.display = 'inline-block';
+  setGhStatus(true, GH_OWNER + '/' + GH_REPO);
+}
+
+function setGhStatus(ok, text) {
+  document.getElementById('gh-dot').className = 'gh-dot' + (ok ? '' : ' err');
+  document.getElementById('gh-status-text').textContent = text;
+}
+
+function ghGet(path) {
+  return fetch(`https://api.github.com/${path}`, {
+    headers: { 'Authorization': `token ${GH_TOKEN}`, 'Accept': 'application/vnd.github.v3+json' }
+  });
+}
+
+function ghPut(path, body) {
+  return fetch(`https://api.github.com/${path}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${GH_TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+}
+
+// ════════════════════════════════════════════════
+// LOAD TỪ GITHUB
+// ════════════════════════════════════════════════
+async function reloadFromGitHub() {
+  toast('⏳ Đang tải dữ liệu từ GitHub...','info');
+  try {
+    const res = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    if (!res.ok) throw new Error('Không thể đọc file index.html từ GitHub (status ' + res.status + ')');
+    const data = await res.json();
+    GH_SHA = data.sha;
+    const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+    fillAllFields(html);
+    dishes = parseDishes(html);
+    renderMenuGrid();
+    renderReviews(html);
+    recipeData = parseRecipes(html);
+    renderRecipesAdmin();
+    todayItems = parseTodayItems(html);
+    renderTodayAdmin();
+    DIRTY = false;
+    document.getElementById('save-bar').classList.remove('show');
+    toast('✅ Đã tải dữ liệu thành công!','ok');
+  } catch(e) {
+    toast('❌ ' + e.message,'err');
+    setGhStatus(false, 'Lỗi kết nối');
+  }
+}
+
+// ════════════════════════════════════════════════
+// LƯU LÊN GITHUB (UPLOAD NHIỀU ẢNH)
+// ════════════════════════════════════════════════
+async function saveAll() {
+  if (!GH_TOKEN) { toast('❌ Chưa đăng nhập!','err'); return; }
+  showSaving(true);
+  try {
+    // Vòng lặp upload toàn bộ mảng ảnh mới
+    for (const key of Object.keys(imgBlobs)) {
+      const {base64, filename} = imgBlobs[key];
+      await uploadImageToGitHub('images/' + filename, base64);
+    }
+
+    const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    if (check.ok) { const d = await check.json(); GH_SHA = d.sha; }
+
+    const resFile = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}?ref=${GH_BRANCH}&t=${Date.now()}`);
+    const fileData = await resFile.json();
+    let html = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g,''))));
+    html = applyFields(html);
+
+    const encoded = btoa(unescape(encodeURIComponent(html)));
+    const res = await ghPut(`repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`, {
+      message: '✏️ Cập nhật website & Carousel qua admin panel',
+      content: encoded,
+      sha: GH_SHA,
+      branch: GH_BRANCH
+    });
+
+    if (!res.ok) { const err = await res.json(); throw new Error(err.message || 'Lỗi khi lưu'); }
+    const saved = await res.json();
+    GH_SHA = saved.content.sha;
+    imgBlobs = {};
+    DIRTY = false;
+    document.getElementById('save-bar').classList.remove('show');
+    showSaving(false);
+    toast('✅ Đã lưu thành công! Netlify sẽ tự cập nhật.','ok');
+  } catch(e) {
+    showSaving(false);
+    toast('❌ ' + e.message,'err');
+  }
+}
+
+async function uploadImageToGitHub(path, base64) {
+  let sha = undefined;
+  try {
+    const check = await ghGet(`repos/${GH_OWNER}/${GH_REPO}/contents/${path}?ref=${GH_BRANCH}`);
+    if (check.ok) { const d = await check.json(); sha = d.sha; }
+  } catch(e) {}
+  const body = { message: '🖼️ Upload ảnh: ' + path, content: base64, branch: GH_BRANCH };
+  if (sha) body.sha = sha;
+  await ghPut(`repos/${GH_OWNER}/${GH_REPO}/contents/${path}`, body);
+}
+
+function showSaving(show) { document.getElementById('saving-overlay').className = show ? 'show' : ''; }
+
+// ════════════════════════════════════════════════
+// FILL DATA TỪ HTML GỐC
 // ════════════════════════════════════════════════
 function fillAllFields(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   const g = (id) => { const el = doc.getElementById(id); return el ? el.textContent.trim() : ''; };
-  const ga = (id, attr) => { const el = doc.getElementById(id); return el ? (el.getAttribute(attr)||'').trim() : ''; };
 
   setV('hero-eyebrow', g('hero-eyebrow'));
   setV('hero-subtitle', g('hero-subtitle'));
@@ -558,6 +728,27 @@ function fillAllFields(html) {
   setV('stat1-num', g('stat1-num')); setV('stat1-label', g('stat1-label'));
   setV('stat2-num', g('stat2-num')); setV('stat2-label', g('stat2-label'));
   setV('stat3-num', g('stat3-num')); setV('stat3-label', g('stat3-label'));
+
+  // Logic parse mảng ảnh About
+  const aboutImgFrame = doc.getElementById('about-img-frame') || doc.querySelector('.about-img-frame');
+  if (aboutImgFrame) {
+    const ext = extractImgs(aboutImgFrame);
+    aboutImgs.srcs = ext.srcs;
+    aboutImgs.imgFiles = ext.imgFiles;
+    aboutImgs.blobKeys = [];
+  } else {
+    // Fallback nếu code cũ
+    const aboutImg = doc.getElementById('about-img');
+    if(aboutImg) {
+      let src = aboutImg.getAttribute('src') || '';
+      if(src) {
+        aboutImgs.srcs = [src];
+        const m = src.match(/images[\\/]([^"?# ]+)/);
+        if(m) aboutImgs.imgFiles = [m[1]];
+      }
+    }
+  }
+  setupAboutZone();
 
   setV('about-badge-num', g('about-badge-num'));
   setV('about-badge-lbl', g('about-badge-lbl'));
@@ -574,7 +765,6 @@ function fillAllFields(html) {
   setV('today-phone', g('today-phone'));
   const tzl = doc.getElementById('today-zalo-link');
   if (tzl) setV('today-zalo-link-href', tzl.getAttribute('href')||'');
-
   setV('menu-phone', g('menu-phone'));
 
   const ot = doc.getElementById('order-title');
@@ -595,76 +785,44 @@ function fillAllFields(html) {
   setV('footer-hours', g('footer-hours'));
   const zb = doc.getElementById('zalo-btn');
   if (zb) setV('zalo-href', zb.getAttribute('href')||'');
+
+  const pb = doc.getElementById('phone-btn');
+  if (pb) setV('phone-href', pb.getAttribute('href')||'');
+  const pl = doc.querySelector('.phone-label');
+  if (!pl) { const pl2 = doc.getElementById('phone-label-text'); if(pl2) setV('phone-label', pl2.textContent.trim()); }
+  else setV('phone-label', pl.textContent.trim());
+
+  const fc = doc.getElementById('footer-copy');
+  if (fc) setV('footer-copy', fc.textContent.trim());
+  const fcr = doc.getElementById('footer-credit');
+  if (fcr) setV('footer-credit', fcr.textContent.trim());
 }
 
-function setV(id, val) { const el = document.getElementById(id); if (el) el.value = val||''; }
+function setV(id, val) { const el = document.getElementById(id); if (el) el.value = val || ''; }
 
 // ════════════════════════════════════════════════
-// RENDER ABOUT GALLERY
+// THỰC ĐƠN (HỖ TRỢ MẢNG ẢNH)
 // ════════════════════════════════════════════════
-function renderAboutGallery() {
-  const grid = document.getElementById('about-gallery-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-  aboutImgs.forEach((img, i) => {
-    const src = img.blobKey && imgBlobs[img.blobKey] ? URL.createObjectURL(imgBlobs[img.blobKey].blob) : (img.src || '');
-    const div = document.createElement('div');
-    div.className = 'img-thumb' + (i===0?' main-thumb':'');
-    div.title = i===0 ? 'Ảnh chính (★)' : 'Click để đặt làm ảnh chính';
-    div.innerHTML = `<img src="${src}" onerror="this.style.opacity='.3'"><button class="del-thumb" onclick="delAboutImg(event,${i})" title="Xóa ảnh">×</button>`;
-    div.onclick = (e) => { if (e.target.classList.contains('del-thumb')) return; setAboutMainImg(i); };
-    grid.appendChild(div);
+function parseDishes(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const grid = doc.getElementById('menu-grid');
+  if (!grid) return [];
+  const cards = grid.querySelectorAll('.menu-card');
+  return Array.from(cards).map(card => {
+    const ext = extractImgs(card);
+    const ov = card.querySelector('.menu-card-overlay');
+    const tagEl = ov?.querySelector('.menu-card-tag');
+    return {
+      imgFiles: ext.imgFiles, srcs: ext.srcs, blobKeys: [],
+      badge: card.querySelector('.badge-hot') ? 'hot' : card.querySelector('.badge-new') ? 'new' : 'none',
+      tag: tagEl?.textContent.trim()||'',
+      name: ov?.querySelector('h3')?.textContent.trim()||'',
+      desc: ov?.querySelector('p')?.textContent.trim()||'',
+      price: ov?.querySelector('.menu-card-price')?.textContent.trim()||''
+    };
   });
 }
 
-function setAboutMainImg(i) {
-  if (i === 0) return;
-  const img = aboutImgs.splice(i, 1)[0];
-  aboutImgs.unshift(img);
-  markDirty(); renderAboutGallery();
-}
-
-function delAboutImg(e, i) { e.stopPropagation(); aboutImgs.splice(i,1); markDirty(); renderAboutGallery(); }
-
-function addGalleryImgs(section) {
-  const fi = document.getElementById('__fi-multi');
-  fi.onchange = async (e) => {
-    const files = Array.from(e.target.files);
-    for (const file of files) {
-      const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-      const idx = section === 'about' ? aboutImgs.length : 0;
-      const filename = section + '-' + slug(file.name.replace(/\.[^.]+$/,'')) + '-' + Date.now() + '.' + ext;
-      const key = section + '_img_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
-      imgBlobs[key] = { blob: file, filename };
-      if (section === 'about') aboutImgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-    }
-    markDirty(); renderAboutGallery();
-    fi.value = '';
-    toast(`✅ Đã thêm ${files.length} ảnh`,'ok');
-  };
-  fi.click();
-}
-
-function dropGallery(e, section) {
-  e.preventDefault();
-  const zone = document.getElementById(section + '-gallery-zone');
-  if (zone) zone.classList.remove('drag-over');
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-  if (!files.length) { toast('❌ Chỉ chấp nhận file ảnh','err'); return; }
-  files.forEach(file => {
-    const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-    const filename = section + '-' + slug(file.name.replace(/\.[^.]+$/,'')) + '-' + Date.now() + '.' + ext;
-    const key = section + '_img_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
-    imgBlobs[key] = { blob: file, filename };
-    if (section === 'about') aboutImgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-  });
-  markDirty(); renderAboutGallery();
-  toast(`✅ Đã thêm ${files.length} ảnh`, 'ok');
-}
-
-// ════════════════════════════════════════════════
-// RENDER MENU GRID
-// ════════════════════════════════════════════════
 function renderMenuGrid() {
   const grid = document.getElementById('menu-admin-grid');
   grid.innerHTML = '';
@@ -672,114 +830,70 @@ function renderMenuGrid() {
     const card = document.createElement('div');
     card.className = 'menu-item-card';
     card.innerHTML = `
-      <div style="padding:10px;border-bottom:1px solid var(--border)">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:8px">📸 ẢNH SLIDESHOW – Món #${i+1}</div>
-        <div class="img-gallery-zone" id="dish-gallery-zone-${i}"
-          ondragover="event.preventDefault();document.getElementById('dish-gallery-zone-${i}').classList.add('drag-over')"
-          ondragleave="document.getElementById('dish-gallery-zone-${i}').classList.remove('drag-over')"
-          ondrop="dropDishImgs(event,${i})">
-          <div class="img-gallery-grid" id="dish-gallery-grid-${i}"></div>
-          <button class="img-add-btn" onclick="addDishImgs(${i})">＋ Thêm ảnh (chọn nhiều)</button>
-          <div class="img-gallery-hint">⭐ Ảnh đầu = ảnh chính · Click để đặt làm chính · Hover để xóa</div>
-        </div>
+      <div class="mic-img" style="height:auto;min-height:120px;background:#fdfcfb;border-bottom:1px solid var(--cream3)" onclick="pickMultiImg('dish', ${i})"
+        ondragover="event.preventDefault();this.style.borderColor='var(--warm)'"
+        ondragleave="this.style.borderColor='var(--cream3)'"
+        ondrop="event.preventDefault();this.style.borderColor='var(--cream3)';Array.from(event.dataTransfer.files).forEach(f => { if(f?.type.startsWith('image/')) applyDishImg(${i}, f); });">
+        ${getThumbnailsHTML(d, 'dish', i)}
+        <div class="img-lay" style="border-radius:12px 12px 0 0"><span style="font-size:20px">＋</span><span>THÊM ẢNH</span></div>
       </div>
       <div class="mic-body">
         <div class="field"><label>Tên món</label><input value="${q(d.name)}" onchange="upd(${i},'name',this.value)" placeholder="Tên món"></div>
         <div class="field"><label>Mô tả</label><textarea onchange="upd(${i},'desc',this.value)">${q(d.desc)}</textarea></div>
         <div class="field"><label>Giá</label><input value="${q(d.price)}" onchange="upd(${i},'price',this.value)" placeholder="vd: 110.000₫ / túi"></div>
-        <div class="field"><label>Loại</label>
-          <div class="tags">${DISH_TAGS.map(t=>`<div class="tag${d.tag===t?' active':''}" onclick="setDishTag(${i},'${t}',this)">${t}</div>`).join('')}</div>
-        </div>
-        <div class="field"><label>Nhãn</label>
-          <div class="badges">
-            <div class="badge-btn b-hot${d.badge==='hot'?' active':''}" onclick="setDishBadge(${i},'hot',this)">🔥 Bán chạy</div>
-            <div class="badge-btn b-new${d.badge==='new'?' active':''}" onclick="setDishBadge(${i},'new',this)">✨ Mới</div>
-            <div class="badge-btn b-none${d.badge==='none'?' active':''}" onclick="setDishBadge(${i},'none',this)">— Không nhãn</div>
-          </div>
-        </div>
+        <div class="field"><label>Loại</label><div class="tags">${DISH_TAGS.map(t=>`<div class="tag${d.tag===t?' active':''}" onclick="setDishTag(${i},'${t}',this)">${t}</div>`).join('')}</div></div>
+        <div class="field"><label>Nhãn</label><div class="badges">
+          <div class="badge-btn b-hot${d.badge==='hot'?' active':''}" onclick="setDishBadge(${i},'hot',this)">🔥 Bán chạy</div>
+          <div class="badge-btn b-new${d.badge==='new'?' active':''}" onclick="setDishBadge(${i},'new',this)">✨ Mới</div>
+          <div class="badge-btn b-none${d.badge==='none'?' active':''}" onclick="setDishBadge(${i},'none',this)">— Không nhãn</div>
+        </div></div>
       </div>
       <div class="mic-foot"><span class="mic-num">Món #${i+1}</span><button class="btn btn-red btn-sm" onclick="delDish(${i})">🗑️ Xóa</button></div>`;
     grid.appendChild(card);
-    renderDishGallery(i);
   });
-
-  const addBtn = document.createElement('div');
-  addBtn.className = 'add-dish';
-  addBtn.innerHTML = '<span>＋</span><p style="font-size:13px;font-weight:700">Thêm Món Mới</p>';
-  addBtn.onclick = addDish;
-  grid.appendChild(addBtn);
-}
-
-function renderDishGallery(i) {
-  const g = document.getElementById('dish-gallery-grid-'+i);
-  if (!g) return;
-  g.innerHTML = '';
-  const imgs = dishes[i].imgs || [];
-  imgs.forEach((img, j) => {
-    const src = img.blobKey && imgBlobs[img.blobKey] ? URL.createObjectURL(imgBlobs[img.blobKey].blob) : (img.src || '');
-    const div = document.createElement('div');
-    div.className = 'img-thumb' + (j===0?' main-thumb':'');
-    div.innerHTML = `<img src="${src}" onerror="this.style.opacity='.3'"><button class="del-thumb" onclick="delDishImg(event,${i},${j})" title="Xóa">×</button>`;
-    div.onclick = (e) => { if (e.target.classList.contains('del-thumb')) return; setDishMainImg(i,j); };
-    g.appendChild(div);
-  });
-}
-
-function setDishMainImg(i, j) {
-  if (j===0) return;
-  const img = dishes[i].imgs.splice(j,1)[0];
-  dishes[i].imgs.unshift(img);
-  markDirty(); renderDishGallery(i);
-}
-
-function delDishImg(e, i, j) { e.stopPropagation(); dishes[i].imgs.splice(j,1); markDirty(); renderDishGallery(i); }
-
-function addDishImgs(i) {
-  const fi = document.getElementById('__fi-multi');
-  fi.onchange = async (e) => {
-    const files = Array.from(e.target.files);
-    for (const file of files) {
-      const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-      const name = dishes[i].name || ('mon-'+(i+1));
-      const filename = slug(name) + '-' + (dishes[i].imgs.length+1) + '.' + ext;
-      const key = 'dish_'+i+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
-      imgBlobs[key] = { blob: file, filename };
-      dishes[i].imgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-    }
-    markDirty(); renderDishGallery(i);
-    fi.value = '';
-    toast(`✅ Đã thêm ${files.length} ảnh cho món #${i+1}`,'ok');
-  };
-  fi.click();
-}
-
-function dropDishImgs(e, i) {
-  e.preventDefault();
-  const zone = document.getElementById('dish-gallery-zone-'+i);
-  if (zone) zone.classList.remove('drag-over');
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
-  if (!files.length) { toast('❌ Chỉ chấp nhận file ảnh','err'); return; }
-  files.forEach(file => {
-    const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-    const name = dishes[i].name || ('mon-'+(i+1));
-    const filename = slug(name) + '-' + (dishes[i].imgs.length+1) + '.' + ext;
-    const key = 'dish_'+i+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
-    imgBlobs[key] = { blob: file, filename };
-    dishes[i].imgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-  });
-  markDirty(); renderDishGallery(i);
-  toast(`✅ Đã thêm ${files.length} ảnh`, 'ok');
+  const addBtn = document.createElement('div'); addBtn.className = 'add-dish'; addBtn.innerHTML = '<span>＋</span><p style="font-size:13px;font-weight:700">Thêm Món Mới</p>';
+  addBtn.onclick = addDish; grid.appendChild(addBtn);
 }
 
 function upd(i,k,v) { dishes[i][k]=v; markDirty(); }
 function setDishTag(i,t,el) { dishes[i].tag=t; markDirty(); el.closest('.tags').querySelectorAll('.tag').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
 function setDishBadge(i,b,el) { dishes[i].badge=b; markDirty(); el.closest('.badges').querySelectorAll('.badge-btn').forEach(x=>x.classList.remove('active')); el.classList.add('active'); }
 function delDish(i) { if(!confirm('Xóa "'+dishes[i].name+'"?')) return; dishes.splice(i,1); markDirty(); renderMenuGrid(); }
-function addDish() { dishes.push({imgs:[],badge:'none',tag:'Đặc biệt',name:'Món Mới',desc:'Mô tả món...', price:'Liên hệ để biết giá'}); markDirty(); renderMenuGrid(); setTimeout(()=>document.querySelector('.content').scrollTop=99999,100); }
+function addDish() { dishes.push({imgFiles:[],srcs:[],blobKeys:[],badge:'none',tag:'Đặc biệt',name:'Món Mới',desc:'Mô tả món...', price:'Liên hệ để biết giá'}); markDirty(); renderMenuGrid(); window.scrollTo({top:9e9,behavior:'smooth'}); }
+
+async function applyDishImg(i, file) {
+  const name = dishes[i].name || ('mon-'+(i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'dish-' + slug(name) + '-' + Math.floor(Math.random()*1000) + '.' + ext;
+  const key = 'dish_' + i + '_' + Date.now() + '_' + Math.floor(Math.random()*1000);
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
+  if(!dishes[i].blobKeys) dishes[i].blobKeys = [];
+  dishes[i].blobKeys.push(key);
+  markDirty(); renderMenuGrid();
+  toast('✅ Đã thêm ảnh: '+filename,'ok');
+}
 
 // ════════════════════════════════════════════════
-// TODAY ITEMS
+// MÓN HÔM NAY (HỖ TRỢ MẢNG ẢNH)
 // ════════════════════════════════════════════════
+function parseTodayItems(html) {
+  const doc = new DOMParser().parseFromString(html,'text/html');
+  const grid = doc.getElementById('today-grid');
+  if (!grid) return [];
+  return Array.from(grid.querySelectorAll('.today-item')).map((item) => {
+    const ext = extractImgs(item.querySelector('.today-img-wrap'));
+    return {
+      name: item.querySelector('.today-name')?.textContent.trim()||'',
+      desc: item.querySelector('.today-desc')?.textContent.trim()||'',
+      price: item.querySelector('.today-price')?.textContent.trim()||'',
+      emoji: item.querySelector('.today-img-placeholder')?.textContent.trim()||'🍽️',
+      available: !item.classList.contains('sold'),
+      imgFiles: ext.imgFiles, srcs: ext.srcs, blobKeys: []
+    };
+  });
+}
+
 function renderTodayAdmin() {
   const list = document.getElementById('today-admin-list');
   if (!list) return;
@@ -787,200 +901,118 @@ function renderTodayAdmin() {
   todayItems.forEach((item, i) => {
     const card = document.createElement('div');
     card.className = 'card';
-    card.style.cssText = 'margin-bottom:12px;border-left:3px solid '+(item.available?'#27ae60':'#ccc');
+    card.style.cssText = 'margin-bottom:12px;border-left:4px solid '+(item.available?'var(--green)':'var(--cream3)');
     card.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--red)">MÓN HÔM NAY #${String(i+1).padStart(2,'0')}</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--warm-dark)">MÓN HÔM NAY #${String(i+1).padStart(2,'0')}</div>
         <div style="display:flex;gap:8px;align-items:center">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:${item.available?'#27ae60':'#999'}">
-            <input type="checkbox" ${item.available?'checked':''} onchange="todayItems[${i}].available=this.checked;renderTodayAdmin();markDirty()" style="accent-color:#27ae60">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:${item.available?'var(--green)':'var(--text-muted)'}">
+            <input type="checkbox" ${item.available?'checked':''} onchange="todayItems[${i}].available=this.checked;renderTodayAdmin();markDirty()" style="accent-color:var(--green)">
             ${item.available?'✅ Còn hàng':'❌ Hết hàng'}
           </label>
           <button class="btn btn-red btn-sm" onclick="todayItems.splice(${i},1);renderTodayAdmin();markDirty()">🗑️ Xóa</button>
         </div>
       </div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--red);margin-bottom:8px">📸 ẢNH SLIDESHOW</div>
-        <div class="img-gallery-zone" id="today-gallery-zone-${i}"
-          ondragover="event.preventDefault();document.getElementById('today-gallery-zone-${i}').classList.add('drag-over')"
-          ondragleave="document.getElementById('today-gallery-zone-${i}').classList.remove('drag-over')"
-          ondrop="dropTodayImgs(event,${i})">
-          <div class="img-gallery-grid" id="today-gallery-grid-${i}"></div>
-          <button class="img-add-btn" onclick="addTodayImgs(${i})">＋ Thêm ảnh (chọn nhiều)</button>
-          <div class="img-gallery-hint">⭐ Ảnh đầu = ảnh chính · Click để đặt làm chính · Hover để xóa</div>
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:16px;align-items:start">
+        <div>
+          <div id="timg-zone-${i}" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;background:#fff;min-height:140px;display:flex;align-items:center;justify-content:center;transition:.2s">
+            ${getThumbnailsHTML(item, 'today', i)}
+            <div style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:4px;border-radius:10px" id="timg-ov-${i}"><span style="font-size:22px">＋</span>THÊM ẢNH</div>
+          </div>
+          <div style="margin-top:6px;display:flex;gap:6px">
+            <input value="${q(item.emoji||'🍽️')}" onchange="todayItems[${i}].emoji=this.value;markDirty()" style="background:var(--cream);border:1px solid var(--cream3);color:var(--text);padding:5px 8px;font-size:18px;border-radius:8px;width:52px;text-align:center" title="Emoji khi chưa có ảnh">
+            <button class="btn btn-outline" style="flex:1;font-size:11px;padding:5px 8px" onclick="pickMultiImg('today', ${i})">📂 Thêm ảnh</button>
+          </div>
         </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="field"><label>Tên món</label><input value="${q(item.name)}" onchange="todayItems[${i}].name=this.value;markDirty()" placeholder="Tên món"></div>
-        <div class="field"><label>Giá</label><input value="${q(item.price)}" onchange="todayItems[${i}].price=this.value;markDirty()" placeholder="110.000₫"></div>
-      </div>
-      <div class="field" style="margin-top:10px"><label>Mô tả ngắn</label><input value="${q(item.desc)}" onchange="todayItems[${i}].desc=this.value;markDirty()" placeholder="Mô tả"></div>`;
+        <div>
+          <div class="field" style="margin-bottom:10px"><label>Tên món</label><input value="${q(item.name)}" onchange="todayItems[${i}].name=this.value;markDirty()" placeholder="Tên món"></div>
+          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><input value="${q(item.desc)}" onchange="todayItems[${i}].desc=this.value;markDirty()" placeholder="Mô tả"></div>
+          <div class="field"><label>Giá</label><input value="${q(item.price)}" onchange="todayItems[${i}].price=this.value;markDirty()" placeholder="110.000₫"></div>
+        </div>
+      </div>`;
     list.appendChild(card);
-    renderTodayGallery(i);
+
+    setTimeout(() => {
+      const zone = document.getElementById('timg-zone-'+i);
+      const ov = document.getElementById('timg-ov-'+i);
+      if (!zone) return;
+      zone.onclick = () => pickMultiImg('today', i);
+      zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave = () => { zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; };
+      zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; Array.from(e.dataTransfer.files).forEach(f => { if(f?.type.startsWith('image/')) applyTodayImg(i,f); }); };
+      zone.onmouseenter = () => { if(ov) ov.style.display='flex'; };
+      zone.onmouseleave = () => { if(ov) ov.style.display='none'; };
+    }, 0);
   });
-}
-
-function renderTodayGallery(i) {
-  const g = document.getElementById('today-gallery-grid-'+i);
-  if (!g) return;
-  g.innerHTML = '';
-  const imgs = todayItems[i].imgs || [];
-  imgs.forEach((img, j) => {
-    const src = img.blobKey && imgBlobs[img.blobKey] ? URL.createObjectURL(imgBlobs[img.blobKey].blob) : (img.src||'');
-    const div = document.createElement('div');
-    div.className = 'img-thumb' + (j===0?' main-thumb':'');
-    div.innerHTML = `<img src="${src}" onerror="this.style.opacity='.3'"><button class="del-thumb" onclick="delTodayImg(event,${i},${j})" title="Xóa">×</button>`;
-    div.onclick = (e) => { if(e.target.classList.contains('del-thumb')) return; setTodayMainImg(i,j); };
-    g.appendChild(div);
-  });
-}
-
-function setTodayMainImg(i,j) { if(j===0) return; const img=todayItems[i].imgs.splice(j,1)[0]; todayItems[i].imgs.unshift(img); markDirty(); renderTodayGallery(i); }
-function delTodayImg(e,i,j) { e.stopPropagation(); todayItems[i].imgs.splice(j,1); markDirty(); renderTodayGallery(i); }
-
-function addTodayImgs(i) {
-  const fi = document.getElementById('__fi-multi');
-  fi.onchange = async (e) => {
-    const files = Array.from(e.target.files);
-    for (const file of files) {
-      const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-      const name = todayItems[i].name || ('today-'+(i+1));
-      const filename = 'today-' + slug(name) + '-' + (todayItems[i].imgs.length+1) + '.' + ext;
-      const key = 'today_'+i+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
-      imgBlobs[key] = { blob: file, filename };
-      todayItems[i].imgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-    }
-    markDirty(); renderTodayGallery(i);
-    fi.value = '';
-    toast(`✅ Đã thêm ${files.length} ảnh`,'ok');
-  };
-  fi.click();
-}
-
-function dropTodayImgs(e, i) {
-  e.preventDefault();
-  const zone = document.getElementById('today-gallery-zone-'+i);
-  if(zone) zone.classList.remove('drag-over');
-  const files = Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));
-  if(!files.length) { toast('❌ Chỉ chấp nhận file ảnh','err'); return; }
-  files.forEach(file => {
-    const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
-    const name = todayItems[i].name || ('today-'+(i+1));
-    const filename = 'today-' + slug(name) + '-' + (todayItems[i].imgs.length+1) + '.' + ext;
-    const key = 'today_'+i+'_'+Date.now()+'_'+Math.random().toString(36).slice(2,5);
-    imgBlobs[key] = { blob: file, filename };
-    todayItems[i].imgs.push({ imgFile: filename, src: URL.createObjectURL(file), blobKey: key });
-  });
-  markDirty(); renderTodayGallery(i);
-  toast(`✅ Đã thêm ${files.length} ảnh`, 'ok');
 }
 
 function addTodayItem() {
-  todayItems.push({imgs:[],name:'Món mới',desc:'Mô tả ngắn',price:'Liên hệ',available:true,emoji:'🍽️'});
-  renderTodayAdmin(); markDirty();
-  setTimeout(()=>document.querySelector('.content').scrollTop=99999,100);
+  todayItems.push({name:'Món mới',desc:'Mô tả ngắn',price:'Liên hệ',available:true,imgFiles:[],srcs:[],blobKeys:[],emoji:'🍽️'});
+  renderTodayAdmin(); markDirty(); document.querySelector('.content').scrollTop = 9999;
+}
+
+async function applyTodayImg(i, file) {
+  const name = todayItems[i].name || ('today-'+(i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'today-' + slug(name) + '-' + Math.floor(Math.random()*1000) + '.' + ext;
+  const key = 'today_'+i+'_'+Date.now()+'_'+Math.floor(Math.random()*1000);
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
+  if(!todayItems[i].blobKeys) todayItems[i].blobKeys = [];
+  todayItems[i].blobKeys.push(key);
+  markDirty(); renderTodayAdmin();
+  toast('✅ Đã thêm ảnh: '+filename,'ok');
 }
 
 // ════════════════════════════════════════════════
-// REVIEWS
+// ẢNH VỀ CHÚNG TÔI (HỖ TRỢ MẢNG ẢNH)
 // ════════════════════════════════════════════════
-function renderReviewsAdmin() {
-  const div = document.getElementById('reviews-admin');
-  div.innerHTML = '';
-  reviews.forEach((rv, i) => {
-    const card = document.createElement('div');
-    card.className = 'review-admin';
-    card.innerHTML = `
-      <div class="review-admin-head">
-        <div class="card-title" style="margin:0">⭐ Đánh giá ${i+1}</div>
-        <button class="btn btn-red btn-sm" onclick="delReview(${i})">🗑️ Xóa</button>
-      </div>
-      <div class="row row-3">
-        <div class="field"><label>Số sao</label>
-          <select id="rv${i+1}-stars" onchange="reviews[${i}].stars=this.value;markDirty()">
-            ${['★★★★★','★★★★☆','★★★☆☆'].map(s=>`<option${s===rv.stars?' selected':''}>${s}</option>`).join('')}
-          </select>
-        </div>
-        <div class="field" style="grid-column:span 2"><label>Tên người đánh giá</label><input id="rv${i+1}-author" value="${q(rv.author)}" onchange="reviews[${i}].author=this.value;markDirty()"></div>
-      </div>
-      <div class="field"><label>Nội dung đánh giá</label><textarea id="rv${i+1}-text" onchange="reviews[${i}].text=this.value;markDirty()">${q(rv.text)}</textarea></div>`;
-    div.appendChild(card);
-  });
+function setupAboutZone() {
+  const zone = document.getElementById('about-img-zone');
+  if (!zone) return;
+  zone.innerHTML = getThumbnailsHTML(aboutImgs, 'about', 0) + `<div id="about-img-overlay" style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;flex-direction:column;gap:4px;border-radius:10px"><span style="font-size:26px">＋</span><span>THÊM ẢNH</span></div>`;
+  zone.onclick = () => pickMultiImg('about', 0);
+  zone.ondragover = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='flex'; };
+  zone.ondragleave = () => { zone.style.borderColor='var(--cream3)'; const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; };
+  zone.ondrop = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; Array.from(e.dataTransfer.files).forEach(f => { if(f?.type.startsWith('image/')) applyAboutImg(f); }); };
+  zone.onmouseenter = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='flex'; };
+  zone.onmouseleave = () => { const ov=document.getElementById('about-img-overlay'); if(ov) ov.style.display='none'; };
+  let total = (aboutImgs.srcs||[]).length + (aboutImgs.blobKeys||[]).length;
+  document.getElementById('about-img-name').textContent = `Đã chọn ${total} ảnh`;
 }
 
-function addReview() {
-  reviews.push({stars:'★★★★★', text:'', author:''});
-  markDirty(); renderReviewsAdmin();
-  setTimeout(()=>document.querySelector('.content').scrollTop=99999,100);
-}
-
-function delReview(i) {
-  if(!confirm('Xóa đánh giá này?')) return;
-  reviews.splice(i,1); markDirty(); renderReviewsAdmin();
+async function applyAboutImg(file) {
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'about-' + Date.now() + '-' + Math.floor(Math.random()*1000) + '.' + ext;
+  const key = 'about_' + Date.now() + '_' + Math.floor(Math.random()*1000);
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
+  if(!aboutImgs.blobKeys) aboutImgs.blobKeys = [];
+  aboutImgs.blobKeys.push(key);
+  markDirty(); setupAboutZone();
+  toast('✅ Đã thêm ảnh About','ok');
 }
 
 // ════════════════════════════════════════════════
-// DIRTY / SAVE
+// XÂY DỰNG HTML CAROUSEL TRƯỚC KHI LƯU
 // ════════════════════════════════════════════════
-function markDirty() { DIRTY=true; document.getElementById('save-bar').classList.add('show'); }
-
-async function saveAll() {
-  if (!DIR) { toast('❌ Chưa chọn thư mục!','err'); return; }
-  toast('⏳ Đang lưu...','info');
-  try {
-    const perm = await DIR.requestPermission({ mode:'readwrite' });
-    if (perm !== 'granted') { toast('❌ Cần cấp quyền ghi!','err'); return; }
-
-    const imagesDir = await DIR.getDirectoryHandle('images', {create:true});
-    for (const key of Object.keys(imgBlobs)) {
-      const {blob, filename} = imgBlobs[key];
-      try {
-        const fh = await imagesDir.getFileHandle(filename, {create:true});
-        const w = await fh.createWritable();
-        await w.write(blob); await w.close();
-      } catch(e) { console.warn('img save fail', filename, e); }
-    }
-
-    const fh = await DIR.getFileHandle('index.html');
-    const file = await fh.getFile();
-    let html = await file.text();
-    html = applyFields(html);
-    const w = await fh.createWritable();
-    await w.write(html); await w.close();
-
-    imgBlobs = {};
-    DIRTY = false;
-    document.getElementById('save-bar').classList.remove('show');
-    toast('✅ Đã lưu thành công! Mở index.html để xem kết quả.','ok');
-  } catch(e) {
-    toast('❌ '+e.message,'err');
-    console.error(e);
+function buildCarouselHTML(item, altText, placeholderHTML) {
+  let allImages = [];
+  if (item.imgFiles && item.imgFiles.length > 0) allImages = item.imgFiles.map(f => 'images/' + f);
+  if (item.blobKeys && item.blobKeys.length > 0) {
+    item.blobKeys.forEach(key => { if(imgBlobs[key]) allImages.push('images/' + imgBlobs[key].filename); });
   }
+  if (allImages.length === 0) return placeholderHTML || '';
+  if (allImages.length === 1) return `<img src="${allImages[0]}" alt="${q(altText)}">`;
+  const imgs = allImages.map(src => `<img src="${src}" alt="${q(altText)}">`).join('');
+  return `<div class="img-carousel">\n${imgs}\n</div>`;
 }
 
-// ════════════════════════════════════════════════
-// BUILD CAROUSEL HTML for a list of imgs
-// ════════════════════════════════════════════════
-function buildCarouselHTML(imgs, altText) {
-  if (!imgs || !imgs.length) {
-    return `<div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80" alt="${q(altText)}"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>`;
-  }
-  const slides = imgs.map(img => {
-    const src = img.imgFile ? 'images/'+img.imgFile : (img.src || '');
-    return `<div class="carousel-slide"><img src="${q(src)}" alt="${q(altText)}"></div>`;
-  }).join('');
-  return `<div class="carousel-wrap" data-carousel><div class="carousel-slides">${slides}</div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>`;
-}
-
-// ════════════════════════════════════════════════
-// APPLY FIELDS → HTML string
-// ════════════════════════════════════════════════
 function applyFields(html) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
-  const st = (id, val) => { const el = doc.getElementById(id); if(el) el.textContent = val||''; };
-  const sa = (id, attr, val) => { const el = doc.getElementById(id); if(el) el.setAttribute(attr, val||''); };
+  const st = (id, val) => { const el = doc.getElementById(id); if (el) el.textContent = val||''; };
+  const sa = (id, attr, val) => { const el = doc.getElementById(id); if (el) el.setAttribute(attr, val||''); };
 
-  // Hero
   st('hero-eyebrow', V('hero-eyebrow'));
   st('hero-subtitle', V('hero-subtitle'));
   st('hero-desc', V('hero-desc'));
@@ -990,22 +1022,11 @@ function applyFields(html) {
   st('stat2-num', V('stat2-num')); st('stat2-label', V('stat2-label'));
   st('stat3-num', V('stat3-num')); st('stat3-label', V('stat3-label'));
 
-  // About – replace about-img-frame with carousel
-  const aboutFrame = doc.querySelector('.about-img-frame');
-  if (aboutFrame && aboutImgs.length) {
-    // Build carousel inside frame
-    const mainImg = aboutImgs[0];
-    if (aboutImgs.length === 1) {
-      // Single image – keep original structure
-      const img = doc.getElementById('about-img');
-      if (img && mainImg.imgFile) img.setAttribute('src', 'images/'+mainImg.imgFile);
-    } else {
-      // Multiple images – replace with carousel
-      aboutFrame.innerHTML = buildCarouselHTML(aboutImgs, 'Lie No');
-    }
-  } else if (aboutFrame && aboutImgs.length === 0) {
-    // keep existing
+  const aboutVisual = doc.querySelector('.about-img-frame');
+  if (aboutVisual) {
+    aboutVisual.innerHTML = buildCarouselHTML(aboutImgs, 'Về chúng tôi', '<div class="rc-img-placeholder" style="height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--g1)">📷</div>');
   }
+
   st('about-badge-num', V('about-badge-num'));
   st('about-badge-lbl', V('about-badge-lbl'));
   st('about-eyebrow', V('about-eyebrow'));
@@ -1018,126 +1039,196 @@ function applyFields(html) {
   st('feat3-icon', V('feat3-icon')); st('feat3-text', V('feat3-text'));
   st('feat4-icon', V('feat4-icon')); st('feat4-text', V('feat4-text'));
 
-  // Today phone
   st('today-phone', V('today-phone'));
   const tzl2 = doc.getElementById('today-zalo-link');
   if (tzl2) tzl2.setAttribute('href', V('today-zalo-link-href'));
-
-  // Today grid
   const todayGrid = doc.getElementById('today-grid');
   if (todayGrid) {
-    todayGrid.innerHTML = '\n      <!-- ADMIN:TODAY-ITEMS -->\n' +
+    todayGrid.innerHTML = '\n      \n' +
       todayItems.map((item, i) => {
         const num = String(i+1).padStart(2,'0');
         const soldClass = item.available ? '' : ' sold';
         const statusClass = item.available ? 'on' : 'off';
         const statusText = item.available ? 'Còn hàng' : 'Hết hàng';
-        let imgHTML;
-        if (item.imgs && item.imgs.length) {
-          imgHTML = buildCarouselHTML(item.imgs, item.name);
-        } else {
-          imgHTML = `<div class="today-img-placeholder">${item.emoji||'🍽️'}</div>`;
-        }
+        const imgHTML = buildCarouselHTML(item, item.name, `<div class="today-img-placeholder">${item.emoji||'🍽️'}</div>`);
         return `      <div class="today-item${soldClass}">\n        <div class="today-img-wrap">\n          ${imgHTML}\n          <span class="today-status ${statusClass}">${statusText}</span>\n        </div>\n        <div class="today-info">\n          <div class="today-num">${num}</div>\n          <div class="today-name">${item.name}</div>\n          <div class="today-desc">${item.desc}</div>\n          <div class="today-price">${item.price}</div>\n        </div>\n      </div>`;
-      }).join('\n') + '\n      <!-- /ADMIN:TODAY-ITEMS -->\n    ';
+      }).join('\n') + '\n      \n    ';
   }
 
-  // Menu phone
   st('menu-phone', V('menu-phone'));
-
-  // Menu grid with carousel
   const menuGrid = doc.getElementById('menu-grid');
   if (menuGrid) {
     menuGrid.innerHTML = '\n\n' + dishes.map((d,i) => {
-      const carousel = buildCarouselHTML(d.imgs, d.name);
+      const imgHTML = buildCarouselHTML(d, d.name, `<img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80" alt="${d.name}">`);
       const badge = d.badge==='hot' ? '\n      <span class="badge-hot">Bán chạy</span>' : d.badge==='new' ? '\n      <span class="badge-new">Mới</span>' : '';
-      return `    <!-- MON ${i+1}: ${d.name} -->\n    <div class="menu-card">\n      ${carousel}${badge}\n      <div class="menu-card-overlay">\n        <span class="menu-card-tag">${d.tag}</span>\n        <h3>${d.name}</h3>\n        <p>${d.desc}</p>\n        <span class="menu-card-price">${d.price}</span>\n      </div>\n    </div>`;
+      return `    \n    <div class="menu-card">\n      ${imgHTML}${badge}\n      <div class="menu-card-overlay">\n        <span class="menu-card-tag">${d.tag}</span>\n        <h3>${d.name}</h3>\n        <p>${d.desc}</p>\n        <span class="menu-card-price">${d.price}</span>\n      </div>\n    </div>`;
     }).join('\n\n') + '\n\n  ';
   }
 
-  // Reviews – rebuild full reviews-grid
-  const reviewsGrid = doc.querySelector('.reviews-grid');
-  if (reviewsGrid) {
-    reviewsGrid.innerHTML = reviews.map((rv, i) => `
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars" id="rv${i+1}-stars">${rv.stars}</div>
-      <p class="review-text" id="rv${i+1}-text">${rv.text}</p>
-      <span class="review-author" id="rv${i+1}-author">${rv.author}</span>
-    </div>`).join('');
-  }
+  for (let i=1;i<=3;i++) { st(`rv${i}-stars`, V(`rv${i}-stars`)); st(`rv${i}-text`, V(`rv${i}-text`)); st(`rv${i}-author`, V(`rv${i}-author`)); }
 
-  // Order
   const ot = doc.getElementById('order-title');
   if (ot) ot.innerHTML = toEm(V('order-title'));
   st('order-desc', V('order-desc'));
   const oz = doc.getElementById('order-zalo');
-  if (oz) { oz.setAttribute('href', V('order-zalo-href')); const divs = oz.querySelectorAll('div'); if(divs[1]) divs[1].textContent = V('order-zalo-text'); }
+  if (oz) { oz.setAttribute('href', V('order-zalo-href')); const divs = oz.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-zalo-text'); }
   const ofb = doc.getElementById('order-fb');
-  if (ofb) { ofb.setAttribute('href', V('order-fb-href')); const divs = ofb.querySelectorAll('div'); if(divs[1]) divs[1].textContent = V('order-fb-text'); }
+  if (ofb) { ofb.setAttribute('href', V('order-fb-href')); const divs = ofb.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-fb-text'); }
   const op = doc.getElementById('order-phone');
-  if (op) { op.setAttribute('href', V('order-phone-href')); const divs = op.querySelectorAll('div'); if(divs[1]) divs[1].textContent = V('order-phone-text'); }
+  if (op) { op.setAttribute('href', V('order-phone-href')); const divs = op.querySelectorAll('div'); if (divs[1]) divs[1].textContent = V('order-phone-text'); }
 
-  // Footer
   st('footer-desc', V('footer-desc'));
   st('footer-zalo', V('footer-zalo'));
   const ffb = doc.getElementById('footer-fb');
-  if (ffb) { const a = ffb.querySelector('a'); if(a) a.setAttribute('href', V('footer-fb-href')); }
+  if (ffb) { const a = ffb.querySelector('a'); if (a) a.setAttribute('href', V('footer-fb-href')); }
   st('footer-area', V('footer-area'));
   st('footer-hours', V('footer-hours'));
   sa('zalo-btn', 'href', V('zalo-href'));
+  sa('phone-btn', 'href', V('phone-href'));
+  const phoneLabel = doc.querySelector('.phone-label') || doc.getElementById('phone-label-text');
+  if (phoneLabel) phoneLabel.textContent = V('phone-label');
+  const footerCopy = doc.getElementById('footer-copy');
+  if (footerCopy) footerCopy.innerHTML = V('footer-copy').replace(/Lie No/g,'<span class="gold-text">Lie No</span>');
+  const footerCredit = doc.getElementById('footer-credit');
+  if (footerCredit) footerCredit.textContent = V('footer-credit');
+
+  const recipeScript = doc.getElementById('recipe-data');
+  if (recipeScript) {
+    const cleanRecipes = recipeData.map(r => {
+      let allImages = [];
+      if (r.imgFiles && r.imgFiles.length > 0) allImages = r.imgFiles.map(f => 'images/' + f);
+      if (r.blobKeys && r.blobKeys.length > 0) { r.blobKeys.forEach(k => { if(imgBlobs[k]) allImages.push('images/' + imgBlobs[k].filename); }); }
+      const { blobKeys, imgFiles, srcs, img, ...clean } = r;
+      clean.imgs = allImages;
+      if (allImages.length > 0) clean.img = allImages[0]; // fallback cho an toàn
+      return clean;
+    });
+    recipeScript.textContent = '\n' + JSON.stringify(cleanRecipes, null, 2) + '\n';
+  }
 
   return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
 }
 
 // ════════════════════════════════════════════════
-// HELPERS
+// RECIPES CÔNG THỨC (HỖ TRỢ MẢNG ẢNH)
 // ════════════════════════════════════════════════
-function V(id) { return (document.getElementById(id)?.value||'').trim(); }
-function q(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function toEm(s) { return (s||'').replace(/\*([^*]+)\*/g,'<em>$1</em>'); }
-function slug(s) {
-  const m = {à:'a',á:'a',ạ:'a',ả:'a',ã:'a',â:'a',ầ:'a',ấ:'a',ậ:'a',ẩ:'a',ẫ:'a',ă:'a',ằ:'a',ắ:'a',ặ:'a',ẳ:'a',ẵ:'a',è:'e',é:'e',ẹ:'e',ẻ:'e',ẽ:'e',ê:'e',ề:'e',ế:'e',ệ:'e',ể:'e',ễ:'e',ì:'i',í:'i',ị:'i',ỉ:'i',ĩ:'i',ò:'o',ó:'o',ọ:'o',ỏ:'o',õ:'o',ô:'o',ồ:'o',ố:'o',ộ:'o',ổ:'o',ỗ:'o',ơ:'o',ờ:'o',ớ:'o',ợ:'o',ở:'o',ỡ:'o',ù:'u',ú:'u',ụ:'u',ủ:'u',ũ:'u',ư:'u',ừ:'u',ứ:'u',ự:'u',ử:'u',ữ:'u',ỳ:'y',ý:'y',ỵ:'y',ỷ:'y',ỹ:'y',đ:'d'};
-  return (s||'').toLowerCase().replace(/[^\u0000-\u007E]/g,c=>m[c]||'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function parseRecipes(html) {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const el = doc.getElementById('recipe-data');
+  if (!el) return [];
+  try { 
+    const parsed = JSON.parse(el.textContent); 
+    return parsed.map(r => ({
+      ...r,
+      imgFiles: r.imgs ? r.imgs.map(p => p.replace('images/','')) : (r.img ? [r.img.replace('images/','')] : []),
+      srcs: r.imgs || (r.img ? [r.img] : []),
+      blobKeys: []
+    }));
+  } catch(e) { return []; }
+}
+
+function renderRecipesAdmin() {
+  const list = document.getElementById('recipes-admin-list');
+  if (!list) return;
+  list.innerHTML = '';
+  recipeData.forEach((r, i) => {
+    const card = document.createElement('div');
+    card.className = 'recipe-admin-card' + (r.featured ? ' is-featured' : '');
+    const featuredBtn = r.featured ? `<div class="recipe-featured-badge">⭐ Đang nổi bật</div>` : `<button class="btn btn-outline btn-sm" onclick="setFeatured(${i})">⭐ Đặt nổi bật</button>`;
+    card.innerHTML = `
+      <div class="recipe-admin-head">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);font-weight:700">CÔNG THỨC #${String(i+1).padStart(2,'0')}</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text)">${q(r.name||'')}</div>
+          ${r.featured ? '<div class="recipe-featured-badge">⭐ Nổi bật</div>' : ''}
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          ${featuredBtn}
+          <button class="btn btn-red btn-sm" onclick="delRecipe(${i})">🗑️ Xóa</button>
+        </div>
+      </div>
+      <div class="recipe-admin-body">
+        <div>
+          <div id="rimg-zone-${i}" style="position:relative;border:2px dashed var(--cream3);border-radius:10px;cursor:pointer;background:#fff;min-height:150px;display:flex;align-items:center;justify-content:center;transition:.2s;margin-bottom:8px">
+            ${getThumbnailsHTML(r, 'recipe', i)}
+            <div style="position:absolute;inset:0;background:rgba(58,37,24,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;flex-direction:column;gap:3px;border-radius:10px" id="rimg-ov-${i}"><span style="font-size:20px">＋</span>THÊM ẢNH</div>
+          </div>
+          <button class="btn btn-outline" style="width:100%;font-size:11px;margin-bottom:10px" onclick="pickMultiImg('recipe', ${i})">📂 Thêm ảnh</button>
+          <div class="field" style="margin-bottom:8px"><label>Thời gian</label><input value="${q(r.time||'')}" onchange="recipeData[${i}].time=this.value;markDirty()" placeholder="vd: 30 phút"></div>
+          <div class="field" style="margin-bottom:8px"><label>Độ khó</label>
+            <select onchange="recipeData[${i}].difficulty=this.value;markDirty()">
+              <option value="easy" ${r.difficulty==='easy'?'selected':''}>● ○ ○ Dễ</option>
+              <option value="medium" ${r.difficulty==='medium'?'selected':''}>● ● ○ Trung bình</option>
+              <option value="hard" ${r.difficulty==='hard'?'selected':''}>● ● ● Khó</option>
+            </select>
+          </div>
+          <div class="field"><label>Khẩu phần</label><input value="${q(r.serves||'')}" onchange="recipeData[${i}].serves=this.value;markDirty()" placeholder="vd: 4 người"></div>
+        </div>
+        <div>
+          <div class="field" style="margin-bottom:10px"><label>Tên công thức</label><input value="${q(r.name||'')}" onchange="recipeData[${i}].name=this.value;markDirty()" style="font-size:13px;font-weight:600"></div>
+          <div class="field" style="margin-bottom:10px"><label>Mô tả ngắn</label><textarea onchange="recipeData[${i}].desc=this.value;markDirty()">${q(r.desc||'')}</textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Tags (phân cách dấu phẩy)</label><input value="${q((r.tags||[]).join(', '))}" onchange="recipeData[${i}].tags=this.value.split(',').map(function(s){return s.trim()}).filter(Boolean);markDirty()"></div>
+          <div class="field" style="margin-bottom:10px"><label>Nguyên liệu</label><textarea rows="5" onchange="recipeData[${i}].ingredients=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.ingredients||[]).join('\n'))}</textarea></div>
+          <div class="field" style="margin-bottom:10px"><label>Các bước làm</label><textarea rows="5" onchange="recipeData[${i}].steps=this.value.split('\n').map(function(s){return s.trim()}).filter(Boolean);markDirty()">${q((r.steps||[]).join('\n'))}</textarea></div>
+          <div class="field"><label>💡 Mẹo của Liên</label><textarea rows="3" onchange="recipeData[${i}].tips=this.value;markDirty()">${q(r.tips||'')}</textarea></div>
+        </div>
+      </div>`;
+    list.appendChild(card);
+
+    setTimeout(() => {
+      const zone = document.getElementById('rimg-zone-' + i);
+      const ov   = document.getElementById('rimg-ov-' + i);
+      if (!zone) return;
+      zone.onclick      = () => pickMultiImg('recipe', i);
+      zone.ondragover   = e => { e.preventDefault(); zone.style.borderColor='var(--warm)'; if(ov) ov.style.display='flex'; };
+      zone.ondragleave  = ()=> { zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; };
+      zone.ondrop       = e => { e.preventDefault(); zone.style.borderColor='var(--cream3)'; if(ov) ov.style.display='none'; Array.from(e.dataTransfer.files).forEach(f => { if(f?.type.startsWith('image/')) applyRecipeImg(i,f); }); };
+      zone.onmouseenter = ()=> { if(ov) ov.style.display='flex'; };
+      zone.onmouseleave = ()=> { if(ov) ov.style.display='none'; };
+    }, 0);
+  });
+}
+
+function addRecipe() { recipeData.push({id:'cong-thuc-'+Date.now(),name:'Công Thức Mới',imgs:[],imgFiles:[],srcs:[],blobKeys:[],time:'30 phút',difficulty:'easy',serves:'2 người',desc:'Mô tả...',tags:['Handmade'],ingredients:['Nguyên liệu 1'],steps:['Bước 1'],tips:'',featured:false}); markDirty(); renderRecipesAdmin(); document.querySelector('.content').scrollTop = 9999; }
+function delRecipe(i) { if (!confirm('Xóa công thức "' + recipeData[i].name + '"?')) return; recipeData.splice(i, 1); markDirty(); renderRecipesAdmin(); }
+function setFeatured(i) { recipeData.forEach((r, idx) => r.featured = (idx === i)); markDirty(); renderRecipesAdmin(); }
+
+async function applyRecipeImg(i, file) {
+  const name = recipeData[i].name || ('recipe-' + (i+1));
+  const ext = file.name.split('.').pop().toLowerCase().replace('jpeg','jpg');
+  const filename = 'recipe-' + slug(name) + '-' + Math.floor(Math.random()*1000) + '.' + ext;
+  const key = 'recipe_' + i + '_' + Date.now() + '_' + Math.floor(Math.random()*1000);
+  const base64 = await fileToBase64(file);
+  imgBlobs[key] = { blob: file, filename, base64 };
+  if(!recipeData[i].blobKeys) recipeData[i].blobKeys = [];
+  recipeData[i].blobKeys.push(key);
+  markDirty(); renderRecipesAdmin();
+  toast('✅ Đã thêm ảnh: ' + filename, 'ok');
 }
 
 // ════════════════════════════════════════════════
-// NAVIGATION
+// TIỆN ÍCH
 // ════════════════════════════════════════════════
-function go(id, el) {
+function go(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('p-'+id).classList.add('active');
-  if(el) el.classList.add('active');
+  event.currentTarget.classList.add('active');
   document.querySelector('.content').scrollTop = 0;
 }
+function openPreview() { window.open(`https://github.com/${GH_OWNER}/${GH_REPO}`, '_blank'); toast('💡 Vào Netlify để xem URL website của bạn','info'); }
+function markDirty() { DIRTY=true; document.getElementById('save-bar').classList.add('show'); }
+function V(id) { return (document.getElementById(id)?.value||'').trim(); }
+function q(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toEm(s) { return (s||'').replace(/\*([^*]+)\*/g,'<em>$1</em>'); }
+function slug(s) { const m = {à:'a',á:'a',ạ:'a',ả:'a',ã:'a',â:'a',ầ:'a',ấ:'a',ậ:'a',ẩ:'a',ẫ:'a',ă:'a',ằ:'a',ắ:'a',ặ:'a',ẳ:'a',ẵ:'a',è:'e',é:'e',ẹ:'e',ẻ:'e',ẽ:'e',ê:'e',ề:'e',ế:'e',ệ:'e',ể:'e',ễ:'e',ì:'i',í:'i',ị:'i',ỉ:'i',ĩ:'i',ò:'o',ó:'o',ọ:'o',ỏ:'o',õ:'o',ô:'o',ồ:'o',ố:'o',ộ:'o',ổ:'o',ỗ:'o',ơ:'o',ờ:'o',ớ:'o',ợ:'o',ở:'o',ỡ:'o',ù:'u',ú:'u',ụ:'u',ủ:'u',ũ:'u',ư:'u',ừ:'u',ứ:'u',ự:'u',ử:'u',ữ:'u',ỳ:'y',ý:'y',ỵ:'y',ỷ:'y',ỹ:'y',đ:'d'}; return s.toLowerCase().replace(/[^\u0000-\u007E]/g,c=>m[c]||'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+function fileToBase64(file) { return new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(r.result.split(',')[1]); r.onerror = reject; r.readAsDataURL(file); }); }
+let _tt; function toast(msg, type='ok') { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'show '+type; clearTimeout(_tt); _tt = setTimeout(()=>t.className='', type==='err'?6000:3500); }
 
-function openPreview() {
-  if (!DIR) return;
-  toast('💡 Mở file index.html trong thư mục để xem website','info');
-}
-
-// ════════════════════════════════════════════════
-// TOAST
-// ════════════════════════════════════════════════
-let _tt;
-function toast(msg, type='ok') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'show '+type;
-  clearTimeout(_tt);
-  _tt = setTimeout(()=>t.className='', type==='err'?5000:3000);
-}
-
-// Auto-mark dirty on field changes
-document.addEventListener('input', e => {
-  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) && e.target.closest('#app')) markDirty();
-});
-
-window.onload = () => {
-  if (!window.showDirectoryPicker) {
-    document.getElementById('setup').innerHTML = `<div style="font-size:50px">⚠️</div><h2 style="color:#e74c3c">Trình duyệt không hỗ trợ</h2><p>Vui lòng dùng <strong>Microsoft Edge</strong> hoặc <strong>Google Chrome</strong> phiên bản mới nhất.</p>`;
-  }
-};
+document.addEventListener('input', e => { if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName) && e.target.closest('#app')) markDirty(); });
+document.getElementById('token-input').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+window.onload = () => { const saved = localStorage.getItem('gh_token_lieno'); if (saved) { GH_TOKEN = saved; document.getElementById('token-input').value = saved; testToken().then(ok => { if (ok) { showApp(); reloadFromGitHub(); } else { localStorage.removeItem('gh_token_lieno'); GH_TOKEN = ''; } }); } setupAboutZone(); renderReviews(document.documentElement.innerHTML); };
+function renderReviews(html) { const doc=new DOMParser().parseFromString(html,'text/html'); const div=document.getElementById('reviews-admin'); if(!div)return; div.innerHTML=''; for(let i=1;i<=3;i++){ const stars=doc.getElementById(`rv${i}-stars`)?.textContent.trim()||'★★★★★'; const text=doc.getElementById(`rv${i}-text`)?.textContent.trim()||''; const author=doc.getElementById(`rv${i}-author`)?.textContent.trim()||''; const card=document.createElement('div'); card.className='review-admin'; card.innerHTML=`<div class="review-admin-head"><div class="card-title" style="margin:0">⭐ Đánh giá ${i}</div><span class="review-num">#${i}</span></div><div class="row row-3"><div class="field"><label>Số sao</label><select id="rv${i}-stars" onchange="markDirty()">${['★★★★★','★★★★☆','★★★☆☆'].map(s=>`<option${s===stars?' selected':''}>${s}</option>`).join('')}</select></div><div class="field" style="grid-column:span 2"><label>Tên người đánh giá</label><input id="rv${i}-author" value="${q(author)}" onchange="markDirty()"></div></div><div class="field"><label>Nội dung đánh giá</label><textarea id="rv${i}-text" onchange="markDirty()">${q(text)}</textarea></div>`; div.appendChild(card); } }
 </script>
 </body>
 </html>
