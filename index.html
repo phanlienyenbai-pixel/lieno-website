@@ -835,64 +835,143 @@ window.changeQty = function(delta) {
 };
 
 // submitOrder: Khi khách bấm "Gửi đơn qua Zalo"
-// Soạn sẵn tin nhắn đặt hàng → mở Zalo bằng deep-link
+// Zalo KHÔNG hỗ trợ ?text= trong URL → không thể điền sẵn tin nhắn qua link.
+// Giải pháp: Hiện màn hình "Bước 2" với tin nhắn soạn sẵn để khách copy rồi paste vào Zalo.
 window.submitOrder = function() {
-  var box     = document.getElementById('om-box');
-  var name    = box.dataset.name    || '';
-  var price   = box.dataset.price   || '';
-  var unit    = box.dataset.unit    || '';
-  var qty     = parseInt(box.dataset.qty, 10) || 1;
+  var box      = document.getElementById('om-box');
+  var name     = box.dataset.name    || '';
+  var price    = box.dataset.price   || '';
+  var unit     = box.dataset.unit    || '';
+  var qty      = parseInt(box.dataset.qty, 10) || 1;
   var priceNum = parseInt(box.dataset.priceNum, 10) || 0;
-  var total   = formatMoney(priceNum * qty) + '₫';
+  var total    = formatMoney(priceNum * qty) + '₫';
 
   // Đọc địa chỉ và ghi chú từ form
   var address = (document.getElementById('om-address') || {}).value || '';
   var note    = (document.getElementById('om-note')    || {}).value || '';
 
-  // Bắt buộc nhập địa chỉ
+  // Bắt buộc nhập địa chỉ trước khi tiếp tục
   if (!address.trim()) {
     var addrEl = document.getElementById('om-address');
     if (addrEl) {
       addrEl.style.borderColor = 'var(--red)';
+      addrEl.style.boxShadow = '0 0 0 3px rgba(228,77,38,.15)';
       addrEl.focus();
       addrEl.placeholder = '⚠️ Vui lòng nhập địa điểm giao hàng!';
-      // Trả lại style bình thường sau 2 giây
-      setTimeout(function(){ addrEl.style.borderColor=''; addrEl.placeholder='Nhập địa chỉ hoặc số nhà, tên đường, khu vực...'; }, 2500);
+      setTimeout(function(){
+        addrEl.style.borderColor = '';
+        addrEl.style.boxShadow = '';
+        addrEl.placeholder = 'Nhập địa chỉ hoặc số nhà, tên đường, khu vực...';
+      }, 2500);
     }
     return;
   }
 
-  // ── Soạn tin nhắn đặt hàng ──
+  // ── Soạn tin nhắn đặt hàng hoàn chỉnh ──
   var lines = [
     '🛒 ĐẶT HÀNG – LIE NO',
-    '─────────────────',
-    '🍽 Món: ' + name,
+    '─────────────────────',
+    '🍽  Món: ' + name,
     '📦 Số lượng: ' + qty + (unit ? ' ' + unit : ''),
     '💰 Đơn giá: ' + price,
     '💵 Tổng tiền: ' + total,
-    '📍 Địa điểm giao: ' + address.trim(),
+    '📍 Địa chỉ giao: ' + address.trim(),
   ];
   if (note.trim()) lines.push('📝 Ghi chú: ' + note.trim());
-  lines.push('─────────────────');
-  lines.push('(Đặt qua website Lie No)');
+  lines.push('─────────────────────');
 
   var msg = lines.join('\n');
 
-  // Lấy số điện thoại Zalo
+  // Lấy số điện thoại Zalo để mở đúng cửa sổ chat
   var phone = getZaloPhone();
+  // Link chỉ mở đúng người chat, KHÔNG điền text (Zalo không hỗ trợ)
+  var zaloUrl = 'https://zalo.me/' + phone;
 
-  // Tạo link Zalo:
-  // - Trên thiết bị có app Zalo: mở thẳng app, điền sẵn tin nhắn
-  // - Trên desktop/không có app: mở Zalo web
-  // encodeURIComponent đảm bảo ký tự đặc biệt không bị vỡ link
-  var zaloUrl = 'https://zalo.me/' + phone + '?text=' + encodeURIComponent(msg);
+  // ── Chuyển sang màn hình Bước 2: Copy & Gửi ──
+  // Thay toàn bộ nội dung om-box bằng màn hình hướng dẫn
+  box.innerHTML =
+    '<div style="padding:22px 20px 20px">'
 
-  // Mở Zalo trong tab mới
-  window.open(zaloUrl, '_blank');
+    // Tiêu đề bước 2
+    + '<div style="text-align:center;margin-bottom:18px">'
+    +   '<div style="font-size:28px;margin-bottom:6px">✅</div>'
+    +   '<div style="font-size:16px;font-weight:800;color:var(--dk)">Đơn hàng đã sẵn sàng!</div>'
+    +   '<div style="font-size:12px;color:var(--g6);margin-top:4px">Thực hiện 2 bước đơn giản bên dưới</div>'
+    + '</div>'
 
-  // Đóng popup sau khi mở Zalo
-  closeOrderModal();
+    // Bước 1: Copy tin nhắn
+    + '<div style="background:var(--g1);border:1.5px solid var(--g3);border-radius:12px;padding:14px;margin-bottom:14px">'
+    +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px">① Sao chép tin nhắn này</div>'
+    // Hộp hiển thị tin nhắn soạn sẵn — dùng <pre> để giữ xuống dòng
+    +   '<pre id="om-msg-preview" style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:12.5px;color:var(--dk);line-height:1.7;white-space:pre-wrap;word-break:break-word;margin:0;max-height:180px;overflow-y:auto;padding-right:4px">' + escHtml(msg) + '</pre>'
+    // Nút Copy
+    +   '<button id="om-copy-btn" onclick="copyOrderMsg()" style="margin-top:10px;width:100%;padding:10px;background:var(--dk);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;transition:.2s">📋 Nhấn để Sao chép</button>'
+    + '</div>'
+
+    // Bước 2: Mở Zalo và paste
+    + '<div style="background:#EEF5FF;border:1.5px solid #C3D9FF;border-radius:12px;padding:14px;margin-bottom:14px">'
+    +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0068FF;margin-bottom:8px">② Mở Zalo và gửi tin</div>'
+    +   '<div style="font-size:12px;color:var(--g7);line-height:1.6;margin-bottom:10px">'
+    +     'Bấm nút bên dưới → Zalo mở đúng cửa sổ chat → <strong>Dán (paste)</strong> tin nhắn vừa copy → Nhấn <strong>Gửi</strong>'
+    +   '</div>'
+    +   '<a href="' + zaloUrl + '" target="_blank" class="om-submit" style="display:flex;text-decoration:none">💬 Mở Zalo để gửi đơn</a>'
+    + '</div>'
+
+    // Nút quay lại sửa đơn
+    + '<button onclick="closeOrderModal()" style="width:100%;padding:10px;background:transparent;border:1.5px solid var(--g3);border-radius:10px;font-size:12px;color:var(--g6);cursor:pointer;font-family:inherit;transition:.2s">← Đóng</button>'
+
+    + '</div>';
+
+  // Lưu tin nhắn vào biến toàn cục để hàm copy dùng
+  window.__orderMsg = msg;
 };
+
+// copyOrderMsg: Copy tin nhắn đơn hàng vào clipboard
+// Dùng Clipboard API hiện đại, fallback về execCommand nếu trình duyệt cũ
+window.copyOrderMsg = function() {
+  var msg = window.__orderMsg || '';
+  var btn = document.getElementById('om-copy-btn');
+
+  // Clipboard API (hiện đại, cần HTTPS hoặc localhost)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(msg).then(function() {
+      showCopied(btn);
+    }).catch(function() {
+      fallbackCopy(msg, btn);
+    });
+  } else {
+    // Fallback: tạo textarea ẩn, select rồi execCommand('copy')
+    fallbackCopy(msg, btn);
+  }
+};
+
+// fallbackCopy: Cách copy cũ, tương thích trình duyệt không hỗ trợ Clipboard API
+function fallbackCopy(text, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try { document.execCommand('copy'); showCopied(btn); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+// showCopied: Đổi nút thành "✅ Đã sao chép!" trong 2 giây
+function showCopied(btn) {
+  if (!btn) return;
+  btn.textContent = '✅ Đã sao chép! Giờ mở Zalo và dán vào';
+  btn.style.background = 'var(--green)';
+  setTimeout(function() {
+    btn.innerHTML = '📋 Nhấn để Sao chép';
+    btn.style.background = 'var(--dk)';
+  }, 2500);
+}
+
+// escHtml: Escape HTML để hiển thị an toàn trong <pre>
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
 // formatMoney: Định dạng số thành chuỗi có dấu chấm phân cách hàng nghìn
 // Ví dụ: 110000 → "110.000"
