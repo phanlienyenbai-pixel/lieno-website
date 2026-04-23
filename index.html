@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Lie No 🍜">
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <style>
     :root{--red:#E44D26;--red-dark:#C23616;--red-light:#FF6B45;--orange:#FF9F43;--green:#27AE60;--green-light:#E8F8EF;--yellow:#F1C40F;--bg:#F5F5F5;--white:#FFF;--g1:#FAFAFA;--g2:#F0F0F0;--g3:#E0E0E0;--g4:#BDBDBD;--g5:#9E9E9E;--g6:#757575;--g7:#616161;--dk:#212121;--dk2:#424242;--sh:0 2px 8px rgba(0,0,0,.08);--shl:0 4px 20px rgba(0,0,0,.12)}
     *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--dk);overflow-x:hidden;font-size:14px}
@@ -235,10 +235,21 @@
 <section id="today"><div class="container">
   <div class="today-top"><div class="today-badge"><div class="today-badge-icon"><span>🔥</span> MÓN HÔM NAY</div></div><div class="today-date-box"><div class="today-date" id="today-date">--.--.--</div><div class="today-date-label">Cập nhật mỗi ngày</div></div></div>
   <div class="today-grid" id="today-grid">
-    <!-- ADMIN:TODAY-ITEMS -->
-    <div class="today-item"><div class="today-img-wrap"><img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh"><span class="today-status on">Còn hàng</span></div><div class="today-info"><div class="today-num">01</div><div class="today-name">Khô Gà Lá Chanh</div><div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div><div class="today-order-row"><div class="today-price">110.000₫ / Túi</div><button class="today-order-btn" onclick="openOrderModal(this)">💬 Đặt món</button></div></div></div>
-    <!-- /ADMIN:TODAY-ITEMS -->
-  </div>
+      <!-- ADMIN:TODAY-ITEMS -->
+      <div class="today-item">
+        <div class="today-img-wrap">
+          <img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh">
+          <span class="today-status on">Còn hàng</span>
+        </div>
+        <div class="today-info">
+          <div class="today-num">01</div>
+          <div class="today-name">Khô Gà Lá Chanh</div>
+          <div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div>
+          <div class="today-order-row"><div class="today-price">110.000₫ / Túi</div><button class="today-order-btn" onclick="openOrderModal(this)">💬 Đặt món</button></div>
+        </div>
+      </div>
+      <!-- /ADMIN:TODAY-ITEMS -->
+    </div>
   <div class="today-footer"><div class="today-note">✨ Đặt trước trước <strong>9h sáng</strong> để chắc suất · Zalo: <strong id="today-phone">0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="today-cta" id="today-zalo-link">Đặt ngay →</a></div>
 </div></section>
 <!-- ADMIN:TODAY:END -->
@@ -283,18 +294,82 @@
 
 <!-- about-imgs-data: lưu danh sách ảnh của phần About dưới dạng JSON ẩn -->
 <!-- Nếu mảng có nhiều hơn 1 ảnh → JS sẽ render Carousel; nếu chỉ 1 ảnh → hiển thị bình thường -->
-<script id="about-imgs-data" type="application/json">[]</script>
+<script id="about-imgs-data" type="application/json">["images/about.jpg"]</script>
 
 <section id="menu"><div class="container">
   <div class="section-header"><span class="section-tag">Hôm nay có gì ngon?</span><h2 class="section-title">Thực Đơn <em>Của Chúng Tôi</em></h2><div class="section-line"></div></div>
   <div class="menu-notice"><p>✨ Thực đơn thay đổi thường xuyên. Liên hệ Zalo <strong id="menu-phone">0972 410 199</strong> để biết món hôm nay!</p></div>
   <div class="menu-grid" id="menu-grid">
-    <div class="menu-card"><img src="images/kho-ga-cay.jpg" alt="Khô Gà Cay"><span class="badge-hot">Bán chạy</span><div class="menu-card-overlay"><span class="menu-card-tag">Món khô</span><h3>Khô Gà Cay</h3><p>Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</p><span class="menu-card-price">110.000₫ / túi</span></div></div>
-    <div class="menu-card"><img src="images/chan-ga-sot-thai.jpg" alt="Chân Gà Sốt Thái"><span class="badge-hot">Bán chạy</span><div class="menu-card-overlay"><span class="menu-card-tag">Đặc biệt</span><h3>Chân Gà Sốt Thái</h3><p>Chân gà ngâm sốt Thái chua ngọt cay, giòn sần sật</p><span class="menu-card-price">55.000₫ / hộp</span></div></div>
-    <div class="menu-card"><img src="images/nuoc-dua-tac.jpg" alt="Nước Dừa Tắc"><span class="badge-new">Mới</span><div class="menu-card-overlay"><span class="menu-card-tag">Nước uống</span><h3>Nước Dừa Tắc</h3><p>Nước dừa non + quất + mít + dứa, mát lạnh giải nhiệt</p><span class="menu-card-price">25.000₫ / chai</span></div></div>
-    <div class="menu-card"><img src="images/mi-xao-gion.jpg" alt="Sốt Thái"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Sốt Thái</h3><p>Chộn cả thế giới</p><span class="menu-card-price">40.000₫/chai</span></div></div>
-    <div class="menu-card"><img src="images/com-phan-van-phong.jpg" alt="Sốt Thái Chấm"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Sốt Thái Chấm</h3><p>Chấm cả nhân gian</p><span class="menu-card-price">40.000₫/chai</span></div></div>
-    <div class="menu-card"><img src="images/mon-dac-biet-theo-mua.jpg" alt="Chẩm chéo Điện Biên"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Chẩm chéo Điện Biên</h3><p>Chẩm chéo ướt giã tay người Thái Điện Biên. Siêu ngon!</p><span class="menu-card-price">65.000₫/hộp</span></div></div>
+
+    <!-- MON 1: Khô Gà Cay -->
+    <div class="menu-card">
+      <img src="images/kho-ga-cay.jpg" alt="Khô Gà Cay">
+      <span class="badge-hot">Bán chạy</span>
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Món khô</span>
+        <h3>Khô Gà Cay</h3>
+        <p>Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</p>
+        <span class="menu-card-price">110.000₫ / túi</span>
+      </div>
+    </div>
+
+    <!-- MON 2: Chân Gà Sốt Thái -->
+    <div class="menu-card">
+      <img src="images/chan-ga-sot-thai.jpg" alt="Chân Gà Sốt Thái">
+      <span class="badge-hot">Bán chạy</span>
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Đặc biệt</span>
+        <h3>Chân Gà Sốt Thái</h3>
+        <p>Chân gà ngâm sốt Thái chua ngọt cay, giòn sần sật</p>
+        <span class="menu-card-price">55.000₫ / hộp</span>
+      </div>
+    </div>
+
+    <!-- MON 3: Nước Dừa Tắc -->
+    <div class="menu-card">
+      <img src="images/nuoc-dua-tac.jpg" alt="Nước Dừa Tắc">
+      <span class="badge-new">Mới</span>
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Nước uống</span>
+        <h3>Nước Dừa Tắc</h3>
+        <p>Nước dừa non + quất + mít + dứa, mát lạnh giải nhiệt</p>
+        <span class="menu-card-price">25.000₫ / chai</span>
+      </div>
+    </div>
+
+    <!-- MON 4: Sốt Thái -->
+    <div class="menu-card">
+      <img src="images/mi-xao-gion.jpg" alt="Sốt Thái">
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Canh - Súp</span>
+        <h3>Sốt Thái</h3>
+        <p>Chộn cả thế giới</p>
+        <span class="menu-card-price">40.000₫/chai</span>
+      </div>
+    </div>
+
+    <!-- MON 5: Sốt Thái Chấm -->
+    <div class="menu-card">
+      <img src="images/com-phan-van-phong.jpg" alt="Sốt Thái Chấm">
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Canh - Súp</span>
+        <h3>Sốt Thái Chấm</h3>
+        <p>Chấm cả nhân gian</p>
+        <span class="menu-card-price">40.000₫/chai</span>
+      </div>
+    </div>
+
+    <!-- MON 6: Chẩm chéo Điện Biên -->
+    <div class="menu-card">
+      <img src="images/mon-dac-biet-theo-mua.jpg" alt="Chẩm chéo Điện Biên">
+      <div class="menu-card-overlay">
+        <span class="menu-card-tag">Canh - Súp</span>
+        <h3>Chẩm chéo Điện Biên</h3>
+        <p>Chẩm chéo ướt giã tay người Thái Điện Biên. Siêu ngon!</p>
+        <span class="menu-card-price">65.000₫/hộp</span>
+      </div>
+    </div>
+
   </div>
 </div></section>
 
@@ -308,7 +383,117 @@
 <div class="recipe-modal" id="recipe-modal" role="dialog" aria-modal="true"><div class="rm-overlay" onclick="closeRecipe()"></div><div class="rm-box" id="rm-box"></div></div>
 
 <script id="recipe-data" type="application/json">
-[{"id":"kho-ga-la-chanh","name":"Khô Gà Lá Chanh","img":"images/kho-ga.jpg","imgs":[],"time":"2 tiếng","difficulty":"medium","serves":"4 người","desc":"Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.","tags":["Không chất bảo quản","Nguyên liệu tươi","Handmade"],"ingredients":["500g ức gà tươi","3 cây sả (đập dập, băm nhuyễn)","5–6 lá chanh (thái chỉ mỏng)","2 quả ớt tươi (băm nhỏ)","2 muỗng canh nước mắm ngon","1 muỗng canh đường","1/2 muỗng cà phê muối","1/4 muỗng cà phê tiêu xay"],"steps":["Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.","Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.","Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.","Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.","Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.","Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."],"tips":"Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.","featured":true},{"id":"chan-ga-sot-thai","name":"Chân Gà Sốt Thái","img":"images/chan-ga-sot-thai.jpg","imgs":[],"time":"45 phút + 4h ngâm","difficulty":"easy","serves":"2–3 người","desc":"Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.","tags":["Chua ngọt cay","Giòn sần sật","Để tủ lạnh"],"ingredients":["500g chân gà rửa sạch","3–4 quả ớt sừng","4 tép tỏi","2 cây sả","3 muỗng canh nước mắm","2 muỗng canh đường","3 muỗng canh giấm gạo","1 muỗng canh dầu hào","Tiêu xanh"],"steps":["Luộc chân gà với sả và gừng 20 phút.","Vớt ra thả ngay vào nước đá lạnh 10 phút.","Pha sốt: nước mắm + đường + giấm + dầu hào.","Ớt, tỏi, sả băm nhỏ cho vào sốt.","Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.","Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."],"tips":"Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.","featured":false},{"id":"nuoc-dua-tac","name":"Nước Dừa Tắc","img":"images/nuoc-dua-tac.jpg","imgs":[],"time":"15 phút","difficulty":"easy","serves":"2 ly","desc":"Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.","tags":["Không đường thêm","Tự nhiên 100%","Giải nhiệt"],"ingredients":["300ml nước dừa non","3–4 quả tắc","50g mít chín","50g dứa tươi","Đá viên","1 nhúm muối hột"],"steps":["Mít và dứa cắt miếng vừa ăn.","Tắc vắt lấy nước cốt, lọc bỏ hạt.","Hòa nước dừa với nước cốt tắc và muối.","Cho đá viên, xếp mít và dứa lên trên.","Đổ hỗn hợp vào từ từ. Thưởng thức ngay."],"tips":"Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.","featured":false}]
+[
+  {
+    "id": "kho-ga-la-chanh",
+    "name": "Khô Gà Lá Chanh",
+    "img": "images/recipe-kho-ga-la-chanh.jpg",
+    "imgs": [
+      "images/recipe-kho-ga-la-chanh-01.jpg"
+    ],
+    "time": "2 tiếng",
+    "difficulty": "medium",
+    "serves": "4 người",
+    "desc": "Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.",
+    "tags": [
+      "Không chất bảo quản",
+      "Nguyên liệu tươi",
+      "Handmade"
+    ],
+    "ingredients": [
+      "500g ức gà tươi",
+      "3 cây sả (đập dập, băm nhuyễn)",
+      "5–6 lá chanh (thái chỉ mỏng)",
+      "2 quả ớt tươi (băm nhỏ)",
+      "2 muỗng canh nước mắm ngon",
+      "1 muỗng canh đường",
+      "1/2 muỗng cà phê muối",
+      "1/4 muỗng cà phê tiêu xay"
+    ],
+    "steps": [
+      "Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.",
+      "Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.",
+      "Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.",
+      "Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.",
+      "Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.",
+      "Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."
+    ],
+    "tips": "Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.",
+    "featured": true
+  },
+  {
+    "id": "chan-ga-sot-thai",
+    "name": "Chân Gà Sốt Thái",
+    "img": "images/recipe-chan-ga-sot-thai.jpg",
+    "imgs": [
+      "images/recipe-chan-ga-sot-thai-01.jpg"
+    ],
+    "time": "45 phút + 4h ngâm",
+    "difficulty": "easy",
+    "serves": "2–3 người",
+    "desc": "Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.",
+    "tags": [
+      "Chua ngọt cay",
+      "Giòn sần sật",
+      "Để tủ lạnh"
+    ],
+    "ingredients": [
+      "500g chân gà rửa sạch",
+      "3–4 quả ớt sừng",
+      "4 tép tỏi",
+      "2 cây sả",
+      "3 muỗng canh nước mắm",
+      "2 muỗng canh đường",
+      "3 muỗng canh giấm gạo",
+      "1 muỗng canh dầu hào",
+      "Tiêu xanh"
+    ],
+    "steps": [
+      "Luộc chân gà với sả và gừng 20 phút.",
+      "Vớt ra thả ngay vào nước đá lạnh 10 phút.",
+      "Pha sốt: nước mắm + đường + giấm + dầu hào.",
+      "Ớt, tỏi, sả băm nhỏ cho vào sốt.",
+      "Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.",
+      "Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."
+    ],
+    "tips": "Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.",
+    "featured": false
+  },
+  {
+    "id": "nuoc-dua-tac",
+    "name": "Nước Dừa Tắc",
+    "img": "images/nuoc-dua-tac.jpg",
+    "imgs": [
+      "images/recipe-nuoc-dua-tac-01.jpg"
+    ],
+    "time": "15 phút",
+    "difficulty": "easy",
+    "serves": "2 ly",
+    "desc": "Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.",
+    "tags": [
+      "Không đường thêm",
+      "Tự nhiên 100%",
+      "Giải nhiệt"
+    ],
+    "ingredients": [
+      "300ml nước dừa non",
+      "3–4 quả tắc",
+      "50g mít chín",
+      "50g dứa tươi",
+      "Đá viên",
+      "1 nhúm muối hột"
+    ],
+    "steps": [
+      "Mít và dứa cắt miếng vừa ăn.",
+      "Tắc vắt lấy nước cốt, lọc bỏ hạt.",
+      "Hòa nước dừa với nước cốt tắc và muối.",
+      "Cho đá viên, xếp mít và dứa lên trên.",
+      "Đổ hỗn hợp vào từ từ. Thưởng thức ngay."
+    ],
+    "tips": "Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.",
+    "featured": false
+  }
+]
 </script>
 
 <!-- ADMIN:REVIEWS:START -->
@@ -327,13 +512,13 @@
   <div class="section-header">
     <span class="section-tag">Đặt hàng ngay</span>
   <h2 id="order-title">Sẵn Sàng Thưởng Thức <em>Chưa?</em></h2>
-  <p id="order-desc">Đặt trước trước 9h sáng để chắc suất. Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
+  <p id="order-desc">Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
   <div class="order-channels">
     <a href="https://zalo.me/84972410199" target="_blank" class="channel-btn" id="order-zalo"><span class="icon">💬</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhanh nhất</div><div>Zalo: 0972 410 199</div></div></a>
     <a href="https://www.facebook.com/lien.no.9" target="_blank" class="channel-btn" id="order-fb"><span class="icon">📘</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhắn tin</div><div>Facebook: Lie No</div></div></a>
     <a href="tel:0972410199" class="channel-btn" id="order-phone"><span class="icon">📞</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Gọi trực tiếp</div><div>0972 410 199</div></div></a>
   </div>
-</div></section>
+</div></div></section>
 <!-- ADMIN:ORDER:END -->
 
 <!-- ADMIN:FOOTER:START -->
@@ -1122,4 +1307,5 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeOrderModal();
 });
 </script>
+
 </body></html>
