@@ -3,610 +3,259 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lie No – Đồ Ăn Handmade</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" href="icon-lieno.png">
+  <link rel="icon" type="image/png" href="icon-lieno.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Lie No 🍜">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root { --red:#E60023; --red-light:#ff4d6d; --bg:#ffffff; --bg2:#f5f5f5; --bg3:#efefef; --bg4:#e8e8e8; --text:#111111; --text2:#333333; --text3:#767676; --border:#e0e0e0; }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { font-family:'Be Vietnam Pro',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; }
+    /* ── BIẾN MÀU SẮC CHỦ ĐẠO ── */
+    :root{--red:#E44D26;--red-dark:#C23616;--red-light:#FF6B45;--orange:#FF9F43;--green:#27AE60;--green-light:#E8F8EF;--yellow:#F1C40F;--bg:#F5F5F5;--white:#FFF;--g1:#FAFAFA;--g2:#F0F0F0;--g3:#E0E0E0;--g4:#BDBDBD;--g5:#9E9E9E;--g6:#757575;--g7:#616161;--dk:#212121;--dk2:#424242;--sh:0 2px 8px rgba(0,0,0,.08);--shl:0 4px 20px rgba(0,0,0,.12)}
+    
+    /* ── CẤU HÌNH CƠ BẢN ── */
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--dk);overflow-x:hidden;font-size:14px}
+    
+    /* ── THANH ĐIỀU HƯỚNG (NAV) ── */
+    nav{position:fixed;top:0;width:100%;z-index:999;background:var(--red);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;box-shadow:0 2px 8px rgba(228,77,38,.3)}
+    .nav-logo{font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:8px}.nav-logo span{font-weight:400;opacity:.85}.nav-logo-icon{font-size:24px}
+    .nav-links{display:flex;gap:4px;list-style:none}.nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:20px;transition:.2s}.nav-links a:hover{background:rgba(255,255,255,.15);color:#fff}
+    
+    /* ── NÚT GỌI ĐIỆN CỐ ĐỊNH ── */
+    .phone-fixed{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:9998;display:flex;flex-direction:column;align-items:center;gap:6px}
+    .phone-btn{display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:var(--green);border-radius:50%;text-decoration:none;color:#fff;font-size:22px;box-shadow:0 4px 16px rgba(39,174,96,.4);animation:pr 2s infinite;transition:transform .2s}.phone-btn:hover{transform:scale(1.1)}
+    @keyframes pr{0%,100%{box-shadow:0 4px 16px rgba(39,174,96,.4),0 0 0 0 rgba(39,174,96,.3)}50%{box-shadow:0 4px 16px rgba(39,174,96,.4),0 0 0 12px rgba(39,174,96,0)}}
+    .phone-label{background:var(--dk);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:14px;white-space:nowrap;opacity:0;transition:.2s;pointer-events:none}.phone-fixed:hover .phone-label{opacity:1}
+    
+    /* ── LAYOUT CHUNG ── */
+    section{padding:48px 24px}.container{max-width:1100px;margin:0 auto}
+    .section-header{text-align:center;margin-bottom:36px}.section-tag{display:inline-block;background:rgba(228,77,38,.08);color:var(--red);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:14px;margin-bottom:12px}
+    .section-title{font-size:clamp(22px,4vw,32px);font-weight:800;color:var(--dk);line-height:1.3}.section-title em{color:var(--red);font-style:normal}.section-line{width:40px;height:3px;background:var(--red);margin:14px auto 0;border-radius:2px}
 
-    /* NAV */
-    nav { position:fixed; top:0; width:100%; z-index:999; background:rgba(255,255,255,0.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:16px 40px; display:flex; align-items:center; justify-content:space-between; }
-    .nav-logo { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--red); letter-spacing:3px; text-transform:uppercase; }
-    .nav-logo span { color:var(--text); font-weight:400; }
-    .nav-links { display:flex; gap:32px; list-style:none; }
-    .nav-links a { color:var(--text2); text-decoration:none; font-size:13px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; transition:all .3s; }
-    .nav-links a:hover { color:var(--red); }
+    /* ── CAROUSEL (BĂNG CHUYỀN ẢNH) ── */
+    .img-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; height: 100%; scrollbar-width: none; -ms-overflow-style: none; }
+    .img-carousel::-webkit-scrollbar { display: none; }
+    .img-carousel img { flex: 0 0 100%; scroll-snap-align: center; object-fit: cover; }
 
-    /* HERO */
-    #hero { min-height:100vh; background:linear-gradient(135deg,#fff5f5 0%,#ffffff 50%,#fff0f0 100%); display:flex; align-items:center; justify-content:center; padding-top:80px; position:relative; overflow:hidden; }
-    #hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(230,0,35,.06) 0%,transparent 70%); }
-    .hero-inner { text-align:center; position:relative; z-index:1; padding:0 20px; }
-    .hero-eyebrow { font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--red); margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:16px; }
-    .hero-eyebrow::before,.hero-eyebrow::after { content:''; display:inline-block; width:40px; height:1px; background:var(--red); opacity:.5; }
-    .hero-title { font-family:'Playfair Display',serif; font-size:clamp(56px,10vw,110px); font-weight:700; line-height:.95; color:var(--text); margin-bottom:10px; }
-    .hero-title .gold { color:var(--red); font-style:italic; }
-    .hero-subtitle { font-size:15px; color:var(--text3); letter-spacing:2px; font-weight:300; margin:20px 0 40px; text-transform:uppercase; }
-    .hero-divider { width:80px; height:2px; background:linear-gradient(to right,transparent,var(--red),transparent); margin:0 auto 40px; }
-    .hero-desc { font-size:16px; color:var(--text3); max-width:520px; margin:0 auto 50px; line-height:1.8; }
-    .btn-primary { background:var(--red); color:#ffffff; padding:15px 38px; font-size:13px; font-weight:600; letter-spacing:2px; text-transform:uppercase; border:none; cursor:pointer; text-decoration:none; display:inline-block; transition:all .35s; clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); }
-    .btn-primary:hover { transform:translateY(-2px); background:var(--red-light); box-shadow:0 12px 40px rgba(230,0,35,.3); }
-    .btn-outline { border:1px solid rgba(230,0,35,.5); color:var(--red); padding:15px 38px; font-size:13px; font-weight:500; letter-spacing:2px; text-transform:uppercase; cursor:pointer; text-decoration:none; display:inline-block; transition:all .35s; background:transparent; clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%); }
-    .btn-outline:hover { background:rgba(230,0,35,.06); border-color:var(--red); }
-    .hero-cta { display:inline-flex; gap:16px; flex-wrap:wrap; justify-content:center; }
-    .hero-stats { display:flex; justify-content:center; gap:60px; margin-top:70px; padding-top:40px; border-top:1px solid var(--border); }
-    .stat { text-align:center; }
-    .stat-num { font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:var(--red); display:block; }
-    .stat-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--text3); margin-top:4px; }
+    /* ── MÓN HÔM NAY ── */
+    #today{background:var(--white);padding:80px 24px 48px;border-bottom:1px solid var(--g2)}
+    .today-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--g2)}.today-badge{display:flex;align-items:center;gap:10px}.today-badge-icon{background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:6px}.today-badge-icon span{font-size:18px}.today-date-box{text-align:right}.today-date{font-size:20px;font-weight:800;color:var(--red)}.today-date-label{font-size:11px;color:var(--g5);margin-top:2px}
+    .today-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.today-item{background:var(--white);border-radius:10px;border:1px solid var(--g2);overflow:hidden;transition:.2s;position:relative}.today-item:hover{box-shadow:var(--shl);transform:translateY(-2px)}.today-item.sold{opacity:.45}
+    .today-img-wrap{height:170px;overflow:hidden;position:relative;background:var(--g1)}
+    .today-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .3s}.today-item:hover .today-img-wrap img{transform:scale(1.04)}.today-img-placeholder{height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--g1)}
+    .today-status{position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;z-index:10}.today-status.on{background:var(--green-light);color:var(--green)}.today-status.off{background:var(--g2);color:var(--g5)}
+    .today-info{padding:14px 16px}.today-num{font-size:10px;color:var(--g4);font-weight:700;margin-bottom:4px}.today-name{font-size:16px;font-weight:700;color:var(--dk);margin-bottom:4px}.today-desc{font-size:12px;color:var(--g6);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.today-price{font-size:16px;font-weight:800;color:var(--red)}
+    .today-footer{margin-top:24px;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--g2)}.today-note{font-size:12px;color:var(--g6)}.today-note strong{color:var(--red)}.today-cta{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:8px 20px;border-radius:20px;text-decoration:none;transition:.2s}.today-cta:hover{background:var(--red-dark)}
+    
+    /* ── HERO (TRANG CHỦ) ── */
+    #hero{background:linear-gradient(135deg,#FFF5F2 0%,#FFF 50%,#F0FFF4 100%);padding:60px 24px;position:relative;overflow:hidden}#hero::after{content:'';position:absolute;top:-60px;right:-60px;width:250px;height:250px;border-radius:50%;background:rgba(228,77,38,.04)}
+    .hero-inner{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:1}.hero-eyebrow{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:14px;margin-bottom:20px}
+    .hero-title{font-size:clamp(40px,8vw,72px);font-weight:800;line-height:1;color:var(--dk);margin-bottom:8px}.hero-title .gold{color:var(--red)}.hero-subtitle{font-size:14px;color:var(--g6);letter-spacing:1px;font-weight:500;margin:16px 0 28px}.hero-divider{width:50px;height:3px;background:var(--red);margin:0 auto 24px;border-radius:2px}.hero-desc{font-size:15px;color:var(--g7);max-width:480px;margin:0 auto 32px;line-height:1.8}
+    .btn-primary{background:var(--red);color:#fff;padding:12px 32px;font-size:14px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:.2s;border-radius:24px}.btn-primary:hover{background:var(--red-dark);box-shadow:0 4px 16px rgba(228,77,38,.3);transform:translateY(-1px)}
+    .btn-outline{border:2px solid var(--red);color:var(--red);padding:11px 32px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;transition:.2s;background:transparent;border-radius:24px}.btn-outline:hover{background:var(--red);color:#fff}
+    .hero-cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}.hero-stats{display:flex;justify-content:center;gap:48px;margin-top:48px;padding-top:28px;border-top:1px solid var(--g3)}.stat{text-align:center}.stat-num{font-size:28px;font-weight:800;color:var(--red);display:block}.stat-label{font-size:11px;color:var(--g5);margin-top:2px;font-weight:500}
+    
+    /* ── ABOUT (GIỚI THIỆU) ── */
+    #about{background:var(--white);border-bottom:1px solid var(--g2)}.about-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}.about-visual{position:relative}.about-img-frame{width:100%;aspect-ratio:3/4;background:var(--g1);border-radius:12px;overflow:hidden;position:relative}.about-img-frame img{width:100%;height:100%;object-fit:cover}
+    .about-badge{position:absolute;bottom:-12px;right:-12px;background:var(--red);color:#fff;padding:14px 18px;border-radius:10px;text-align:center;box-shadow:var(--shl);z-index:5}.about-badge .num{font-size:28px;font-weight:800;display:block;line-height:1}.about-badge .lbl{font-size:9px;letter-spacing:1px;text-transform:uppercase;display:block;margin-top:2px;opacity:.9}
+    .about-corner{position:absolute;top:-8px;left:-8px;width:40px;height:40px;border-top:3px solid var(--red);border-left:3px solid var(--red);border-radius:4px 0 0 0}
+    .about-text .eyebrow{display:inline-block;background:rgba(228,77,38,.08);color:var(--red);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:12px;margin-bottom:14px}
+    .about-text h2{font-size:28px;font-weight:800;color:var(--dk);line-height:1.3;margin-bottom:18px}.about-text h2 em{color:var(--red);font-style:normal}.about-text p{color:var(--g7);line-height:1.8;font-size:14px;margin-bottom:12px}
+    .about-features{margin-top:24px;display:flex;flex-direction:column;gap:12px}.feature-item{display:flex;align-items:center;gap:12px}.feature-icon{width:36px;height:36px;flex-shrink:0;background:rgba(228,77,38,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}.feature-text{font-size:13px;color:var(--g7)}
+    
+    /* ── MENU (THỰC ĐƠN) ── */
+    #menu{background:var(--bg)}.menu-notice{max-width:600px;margin:0 auto 32px;text-align:center;background:var(--white);border:1px solid var(--g2);padding:16px 24px;border-radius:10px}.menu-notice p{font-size:13px;color:var(--g6);line-height:1.6}.menu-notice strong{color:var(--red)}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;max-width:1100px;margin:0 auto}.menu-card{position:relative;overflow:hidden;aspect-ratio:4/5;background:var(--g1);cursor:pointer;border-radius:10px;border:1px solid var(--g2)}.menu-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.menu-card:hover img{transform:scale(1.05)}
+    .menu-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.05) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;border-radius:10px;pointer-events:none}
+    .menu-card-tag{display:inline-block;padding:3px 10px;background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;width:fit-content;border-radius:12px}.menu-card-tag.special{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff}
+    .menu-card h3{font-size:18px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}.menu-card p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.menu-card-price{font-size:16px;font-weight:800;color:var(--orange)}
+    .badge-new{position:absolute;top:12px;right:12px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:10}.badge-hot{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:10}
+    
+    /* ── ĐẶT HÀNG ── */
+    #order{background:var(--white);text-align:center;border-bottom:1px solid var(--g2)}.order-inner{max-width:600px;margin:0 auto}.order-inner h2{font-size:clamp(24px,5vw,36px);font-weight:800;color:var(--dk);line-height:1.2;margin-bottom:14px}.order-inner h2 em{color:var(--red);font-style:normal}.order-inner p{font-size:14px;color:var(--g6);line-height:1.7;margin-bottom:32px}
+    .order-channels{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.channel-btn{display:flex;align-items:center;gap:10px;padding:14px 24px;border:1px solid var(--g3);background:var(--white);color:var(--dk);text-decoration:none;font-size:13px;font-weight:600;transition:.2s;border-radius:10px}.channel-btn:hover{border-color:var(--red);box-shadow:var(--sh)}.channel-btn .icon{font-size:20px}
+    
+    /* ── ĐÁNH GIÁ ── */
+    #reviews{background:var(--bg)}.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}.review-card{background:var(--white);border:1px solid var(--g2);padding:28px 24px;border-radius:10px;transition:.2s}.review-card:hover{box-shadow:var(--shl);transform:translateY(-2px)}.review-quote{font-size:36px;line-height:.8;color:var(--red);opacity:.3;margin-bottom:12px}.review-text{font-size:13px;color:var(--g7);line-height:1.7;font-style:italic;margin-bottom:18px}.review-author{font-size:12px;font-weight:700;color:var(--red)}.review-stars{color:var(--yellow);font-size:14px;margin-bottom:12px}
+    
+    /* ── RECIPES (CÔNG THỨC) ── */
+    #recipes{background:var(--white);border-bottom:1px solid var(--g2)}.section-sub{font-size:13px;color:var(--g5);max-width:500px;margin:10px auto 0;line-height:1.7}
+    .recipes-wrapper{max-width:1100px;margin:0 auto}.recipe-featured{display:grid;grid-template-columns:1.1fr 1fr;border:1px solid var(--g2);overflow:hidden;background:var(--white);margin-bottom:16px;border-radius:10px}.rf-img{position:relative;overflow:hidden;min-height:380px}.rf-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block}.recipe-featured:hover .rf-img img{transform:scale(1.03)}.rf-badge{position:absolute;top:16px;left:0;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:0 14px 14px 0;z-index:10}
+    .rf-content{padding:32px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px}.recipe-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.recipe-meta>span{font-size:12px;color:var(--g5)}.recipe-diff{font-size:12px}.diff-easy{color:var(--green)}.diff-medium{color:var(--orange)}.diff-hard{color:var(--red)}.recipe-name{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--dk);line-height:1.3}.recipe-desc{font-size:13px;color:var(--g6);line-height:1.8}.recipe-tags{display:flex;flex-wrap:wrap;gap:6px}.rtag{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--red);border:1px solid rgba(228,77,38,.2);padding:3px 10px;border-radius:12px;font-weight:600}
+    .btn-recipe{align-self:flex-start;background:var(--red);border:none;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 24px;cursor:pointer;transition:.2s;border-radius:20px}.btn-recipe:hover{background:var(--red-dark)}
+    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}.recipe-card{background:var(--white);overflow:hidden;transition:.2s;cursor:pointer;border-radius:10px;border:1px solid var(--g2)}.recipe-card:hover{box-shadow:var(--shl);transform:translateY(-2px)}.rc-img{height:200px;overflow:hidden;position:relative}.rc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}.recipe-card:hover .rc-img img{transform:scale(1.04)}.rc-img-placeholder{height:100%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:38px}
+    .rc-body{padding:20px 18px}.rc-meta{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:center}.rc-meta>span{font-size:11px;color:var(--g5)}.rc-name{font-size:18px;font-weight:700;color:var(--dk);line-height:1.3;margin-bottom:6px}.rc-desc{font-size:12px;color:var(--g6);line-height:1.7;margin-bottom:14px}.rc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}.rc-link{font-size:11px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;transition:.2s}.rc-link:hover{color:var(--red-dark)}
+    
+    /* ── MODAL CÔNG THỨC ── */
+    .recipe-modal{position:fixed;inset:0;z-index:9997;display:none;align-items:center;justify-content:center;padding:16px}.recipe-modal.open{display:flex}.rm-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}.rm-box{position:relative;z-index:1;background:var(--white);max-width:820px;width:100%;max-height:92vh;overflow-y:auto;animation:rmS .25s ease;border-radius:14px;box-shadow:var(--shl)}@keyframes rmS{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.rm-box::-webkit-scrollbar{width:4px}.rm-box::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+    .rm-hero{position:relative;height:250px;overflow:hidden;border-radius:14px 14px 0 0}.rm-hero img{width:100%;height:100%;object-fit:cover;display:block}.rm-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(33,33,33,.85) 0%,rgba(0,0,0,.1) 55%);pointer-events:none}.rm-hero-info{position:absolute;bottom:24px;left:28px;right:56px;pointer-events:none}.rm-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.rm-meta span{font-size:10px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.3);padding:3px 10px;border-radius:12px}.rm-hero-info h2{font-size:clamp(20px,4vw,32px);font-weight:800;color:#fff;line-height:1.2}
+    .rm-close{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;border-radius:50%;transition:.2s}.rm-close:hover{background:var(--red)}
+    .rm-body{padding:28px}.rm-cols{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;margin-bottom:22px}.rm-section-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--g2)}
+    .ingredient-list{list-style:none}.ingredient-list li{padding:6px 0;border-bottom:1px solid var(--g2);font-size:13px;color:var(--g7);display:flex;align-items:flex-start;gap:8px;line-height:1.5}.ingredient-list li::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0;margin-top:6px}
+    .steps-list{list-style:none;display:flex;flex-direction:column;gap:14px}.step-item{display:flex;gap:12px}.step-num{width:26px;height:26px;flex-shrink:0;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;margin-top:2px}.step-text{font-size:13px;color:var(--g7);line-height:1.8;flex:1}
+    .rm-tips{background:var(--green-light);border:1px solid rgba(39,174,96,.15);padding:16px 18px;margin-top:4px;border-radius:8px}.rm-tips .tip-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;font-weight:700}.rm-tips p{font-size:13px;color:var(--g7);line-height:1.8}
+    .rm-cta{margin-top:20px;padding-top:18px;border-top:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.rm-cta-note{font-size:12px;color:var(--g5)}.rm-cta-note strong{color:var(--red)}.rm-cta-btn{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:8px 20px;text-decoration:none;border-radius:20px;transition:.2s}.rm-cta-btn:hover{background:var(--red-dark)}
 
-    /* SECTIONS */
-    section { padding:100px 40px; }
-    .section-header { text-align:center; margin-bottom:60px; }
-    .section-eyebrow { font-size:11px; letter-spacing:5px; text-transform:uppercase; color:var(--red); margin-bottom:16px; display:block; }
-    .section-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,52px); font-weight:700; line-height:1.2; color:var(--text); }
-    .section-title em { color:var(--red); font-style:italic; }
-    .section-divider { width:60px; height:2px; background:linear-gradient(to right,transparent,var(--red),transparent); margin:20px auto 0; }
-
-    /* ABOUT */
-    #about { background:var(--bg2); }
-    .about-inner { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-    .about-visual { position:relative; }
-    .about-img-frame { width:100%; aspect-ratio:3/4; background:var(--bg3); border:1px solid rgba(230,0,35,.15); overflow:hidden; position:relative; }
-    .about-img-frame img { width:100%; height:100%; object-fit:cover; }
-    .about-badge { position:absolute; bottom:-20px; right:-20px; background:var(--red); color:#fff; padding:20px; font-family:'Playfair Display',serif; text-align:center; }
-    .about-badge .num { font-size:36px; font-weight:700; display:block; line-height:1; }
-    .about-badge .lbl { font-size:10px; letter-spacing:2px; text-transform:uppercase; display:block; margin-top:4px; }
-    .about-corner { position:absolute; top:-12px; left:-12px; width:60px; height:60px; border-top:2px solid var(--red); border-left:2px solid var(--red); }
-    .about-text .eyebrow { font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--red); margin-bottom:16px; display:block; }
-    .about-text h2 { font-family:'Playfair Display',serif; font-size:38px; font-weight:700; color:var(--text); line-height:1.2; margin-bottom:24px; }
-    .about-text h2 em { color:var(--red); font-style:italic; }
-    .about-text p { color:var(--text3); line-height:1.9; font-size:15px; margin-bottom:16px; }
-    .about-features { margin-top:30px; display:flex; flex-direction:column; gap:14px; }
-    .feature-item { display:flex; align-items:center; gap:14px; }
-    .feature-icon { width:36px; height:36px; flex-shrink:0; border:1px solid rgba(230,0,35,.3); display:flex; align-items:center; justify-content:center; color:var(--red); font-size:16px; }
-    .feature-text { font-size:14px; color:var(--text2); }
-
-    /* MENU */
-    #menu { background:var(--bg3); }
-    .menu-notice { max-width:600px; margin:0 auto 50px; text-align:center; background:rgba(230,0,35,.04); border:1px solid rgba(230,0,35,.15); padding:20px 30px; }
-    .menu-notice p { font-size:13px; color:var(--text3); letter-spacing:.5px; line-height:1.7; }
-    .menu-notice strong { color:var(--red); }
-    .menu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:2px; max-width:1200px; margin:0 auto; }
-    .menu-card { position:relative; overflow:hidden; aspect-ratio:4/5; background:var(--bg4); cursor:pointer; }
-    .menu-card img { width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
-    .menu-card:hover img { transform:scale(1.05); }
-    .menu-card-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.8) 0%,transparent 55%); display:flex; flex-direction:column; justify-content:flex-end; padding:28px; }
-    .menu-card-tag { display:inline-block; padding:4px 12px; background:var(--red); color:#ffffff; font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; width:fit-content; }
-    .menu-card-tag.special { background:transparent; border:1px solid #fff; color:#fff; }
-    .menu-card h3 { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:#fff; line-height:1.2; margin-bottom:6px; }
-    .menu-card p { font-size:13px; color:rgba(255,255,255,.7); line-height:1.5; margin-bottom:12px; }
-    .menu-card-price { font-size:18px; font-weight:600; color:#fff; letter-spacing:1px; }
-    .badge-new { position:absolute; top:16px; right:16px; background:var(--red); color:#fff; font-size:10px; font-weight:700; letter-spacing:1px; padding:5px 12px; text-transform:uppercase; }
-    .badge-hot { position:absolute; top:16px; right:16px; background:var(--red); color:#fff; font-size:10px; font-weight:700; letter-spacing:1px; padding:5px 12px; text-transform:uppercase; }
-
-    /* ORDER */
-    #order { background:var(--red); text-align:center; position:relative; overflow:hidden; }
-    #order::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(255,255,255,.08) 0%,transparent 70%); pointer-events:none; }
-    .order-inner { position:relative; z-index:1; max-width:700px; margin:0 auto; }
-    .order-inner .section-eyebrow { color:rgba(255,255,255,.75); }
-    .order-inner h2 { font-family:'Playfair Display',serif; font-size:clamp(36px,6vw,60px); font-weight:700; color:#ffffff; line-height:1.1; margin-bottom:20px; }
-    .order-inner h2 em { color:rgba(255,255,255,.85); font-style:italic; }
-    .order-inner p { font-size:16px; color:rgba(255,255,255,.8); line-height:1.8; margin-bottom:40px; }
-    .order-channels { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
-    .channel-btn { display:flex; align-items:center; gap:12px; padding:16px 30px; border:1px solid rgba(255,255,255,.4); background:rgba(255,255,255,.1); color:#ffffff; text-decoration:none; font-size:14px; font-weight:500; transition:all .3s; }
-    .channel-btn:hover { background:rgba(255,255,255,.2); border-color:#fff; }
-    .channel-btn .icon { font-size:22px; }
-
-    /* REVIEWS */
-    #reviews { background:var(--bg2); text-align:center; }
-    .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; margin:0 auto; }
-    .review-card { background:var(--bg); border:1px solid var(--border); padding:36px 30px; transition:all .3s; border-radius:12px; }
-    .review-card:hover { border-color:rgba(230,0,35,.3); box-shadow:0 8px 32px rgba(230,0,35,.08); }
-    .review-quote { font-size:48px; line-height:.8; color:var(--red); opacity:.25; font-family:'Playfair Display',serif; margin-bottom:16px; }
-    .review-text { font-size:14px; color:var(--text3); line-height:1.8; font-style:italic; margin-bottom:24px; }
-    .review-author { font-size:13px; font-weight:600; color:var(--red); letter-spacing:1px; text-transform:uppercase; }
-    .review-stars { color:var(--red); font-size:14px; margin-bottom:16px; }
-
-    /* FOOTER */
-    footer { background:var(--text); border-top:1px solid rgba(255,255,255,.08); padding:60px 40px 30px; }
-    .footer-top { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:60px; margin-bottom:50px; }
-    .footer-brand .logo { font-family:'Playfair Display',serif; font-size:30px; font-weight:700; color:var(--red); letter-spacing:3px; margin-bottom:16px; display:block; }
-    .footer-brand p { font-size:14px; color:rgba(255,255,255,.45); line-height:1.8; max-width:280px; }
-    .footer-col h4 { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--red); margin-bottom:20px; font-weight:600; }
-    .footer-col ul { list-style:none; }
-    .footer-col ul li { margin-bottom:12px; font-size:14px; color:rgba(255,255,255,.5); }
-    .footer-col ul li a { color:inherit; text-decoration:none; transition:color .2s; }
-    .footer-col ul li a:hover { color:#fff; }
-    .footer-bottom { border-top:1px solid rgba(255,255,255,.08); padding-top:24px; display:flex; justify-content:space-between; align-items:center; }
-    .footer-bottom p { font-size:12px; color:rgba(255,255,255,.3); }
-    .footer-bottom .gold-text { color:var(--red); }
-
-    /* TODAY */
-    #today { background:var(--bg); padding:80px 40px; position:relative; overflow:hidden; }
-    #today::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(230,0,35,.04) 0%,transparent 70%); pointer-events:none; }
-    .today-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
-    .today-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:40px; border-bottom:2px solid var(--border); padding-bottom:28px; }
-    .today-word { font-family:'Playfair Display',serif; font-size:clamp(72px,12vw,140px); font-weight:700; line-height:1; letter-spacing:-4px; color:transparent; -webkit-text-stroke:1.5px rgba(230,0,35,.25); position:relative; user-select:none; }
-    .today-word::after { content:'TODAY'; position:absolute; left:0; top:0; color:transparent; -webkit-text-stroke:0; background:linear-gradient(135deg,var(--red) 0%,var(--red-light) 40%,transparent 70%); -webkit-background-clip:text; background-clip:text; opacity:.12; }
-    .today-right { text-align:right; padding-bottom:8px; }
-    .today-date { font-size:clamp(22px,3.5vw,38px); font-weight:700; color:var(--red); letter-spacing:3px; font-variant-numeric:tabular-nums; font-family:'Be Vietnam Pro',sans-serif; }
-    .today-label { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--text3); margin-top:6px; }
-    .today-divider { width:40px; height:2px; background:var(--red); margin:6px 0 0 auto; }
-    .today-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1px; background:var(--border); }
-    .today-item { background:var(--bg); position:relative; transition:background .25s; overflow:hidden; }
-    .today-item:hover { background:var(--bg2); }
-    .today-item.sold { opacity:.45; }
-    .today-num { font-size:10px; letter-spacing:3px; color:var(--text3); margin-bottom:10px; font-variant-numeric:tabular-nums; opacity:.5; }
-    .today-name { font-family:'Playfair Display',serif; font-size:18px; font-weight:600; color:var(--text); line-height:1.3; margin-bottom:6px; }
-    .today-desc { font-size:12px; color:var(--text3); line-height:1.6; margin-bottom:14px; }
-    .today-price { font-size:16px; font-weight:700; color:var(--red); letter-spacing:1px; }
-    .today-status { position:absolute; top:12px; right:12px; font-size:9px; letter-spacing:2px; text-transform:uppercase; font-weight:700; padding:3px 9px; }
-    .today-status.on { color:#27ae60; background:rgba(39,174,96,.1); border:1px solid rgba(39,174,96,.3); }
-    .today-status.off { color:#999; border:1px solid var(--border); background:var(--bg2); }
-    .today-img-wrap { position:relative; height:180px; overflow:hidden; background:var(--bg3); }
-    .today-img-wrap img { width:100%; height:100%; object-fit:cover; transition:transform .5s,opacity .3s; }
-    .today-item:hover .today-img-wrap img { transform:scale(1.04); }
-    .today-img-placeholder { height:100%; display:flex; align-items:center; justify-content:center; font-size:36px; background:linear-gradient(135deg,var(--bg3),var(--bg4)); }
-    .today-info { padding:20px 20px 18px; }
-    .today-footer { margin-top:32px; display:flex; align-items:center; justify-content:space-between; padding-top:20px; border-top:1px solid var(--border); }
-    .today-note { font-size:12px; color:var(--text3); letter-spacing:.5px; }
-    .today-note strong { color:var(--red); }
-    .today-cta { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--red); border:1px solid rgba(230,0,35,.3); padding:8px 18px; text-decoration:none; transition:.2s; }
-    .today-cta:hover { background:rgba(230,0,35,.06); border-color:var(--red); }
-    @media(max-width:768px) { .today-header { flex-direction:column; align-items:flex-start; gap:16px; } .today-right { text-align:left; } .today-divider { margin:6px auto 0 0; } .today-grid { grid-template-columns:1fr 1fr; } }
-    @media(max-width:480px) { .today-grid { grid-template-columns:1fr; } }
-
-    /* ZALO FLOAT */
-    .zalo-float { position:fixed; bottom:30px; right:30px; z-index:9999; }
-    .zalo-btn { display:flex; align-items:center; justify-content:center; width:56px; height:56px; background:linear-gradient(135deg,#0068FF,#0099FF); border-radius:50%; text-decoration:none; color:#fff; font-size:26px; box-shadow:0 4px 20px rgba(0,104,255,.5); animation:pulse-zalo 2s infinite; transition:transform .2s; }
-    .zalo-btn:hover { transform:scale(1.1); }
-    @keyframes pulse-zalo { 0%,100%{box-shadow:0 4px 20px rgba(0,104,255,.5),0 0 0 0 rgba(0,104,255,.4)} 50%{box-shadow:0 4px 20px rgba(0,104,255,.5),0 0 0 12px rgba(0,104,255,0)} }
-    .zalo-tooltip { position:absolute; right:70px; top:50%; transform:translateY(-50%); background:#0068FF; color:#fff; font-size:13px; font-weight:500; padding:8px 14px; white-space:nowrap; border-radius:4px; opacity:0; pointer-events:none; transition:opacity .2s; }
-    .zalo-float:hover .zalo-tooltip { opacity:1; }
-
-    /* ZALO FLOAT */
-    .zalo-float { position:fixed; bottom:30px; right:30px; z-index:9999; }
-    .zalo-btn { display:flex; align-items:center; justify-content:center; width:56px; height:56px; background:linear-gradient(135deg,#0068FF,#0099FF); border-radius:50%; text-decoration:none; color:#fff; font-size:26px; box-shadow:0 4px 20px rgba(0,104,255,.5); animation:pulse-zalo 2s infinite; transition:transform .2s; }
-    .zalo-btn:hover { transform:scale(1.1); }
-    @keyframes pulse-zalo { 0%,100%{box-shadow:0 4px 20px rgba(0,104,255,.5),0 0 0 0 rgba(0,104,255,.4)} 50%{box-shadow:0 4px 20px rgba(0,104,255,.5),0 0 0 12px rgba(0,104,255,0)} }
-    .zalo-tooltip { position:absolute; right:70px; top:50%; transform:translateY(-50%); background:#0068FF; color:#fff; font-size:13px; font-weight:500; padding:8px 14px; white-space:nowrap; border-radius:4px; opacity:0; pointer-events:none; transition:opacity .2s; }
-    .zalo-float:hover .zalo-tooltip { opacity:1; }
-
-    /* CAROUSEL / SLIDESHOW */
-    .carousel-wrap { position:relative; width:100%; height:100%; }
-    .carousel-slides { display:flex; width:100%; height:100%; overflow:hidden; }
-    .carousel-slide { min-width:100%; height:100%; flex-shrink:0; transition:transform .45s ease; }
-    .carousel-slide img { width:100%; height:100%; object-fit:cover; }
-    .carousel-dots { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:5px; z-index:5; }
-    .carousel-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.5); cursor:pointer; transition:.2s; border:none; padding:0; }
-    .carousel-dot.active { background:#fff; width:18px; border-radius:3px; }
-    .carousel-prev,.carousel-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.45); color:#fff; border:none; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:14px; z-index:5; display:none; align-items:center; justify-content:center; transition:.2s; }
-    .carousel-wrap:hover .carousel-prev,.carousel-wrap:hover .carousel-next { display:flex; }
-    .carousel-prev { left:6px; }
-    .carousel-next { right:6px; }
-    .carousel-prev:hover,.carousel-next:hover { background:rgba(0,0,0,.7); }
-
-    /* ABOUT GALLERY */
-    .about-gallery { display:grid; grid-template-columns:1fr 1fr; gap:4px; margin-top:8px; }
-    .about-gallery-img { aspect-ratio:1; overflow:hidden; cursor:pointer; }
-    .about-gallery-img img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
-    .about-gallery-img:hover img { transform:scale(1.06); }
-    .about-gallery-main { grid-column:span 2; aspect-ratio:4/3; }
-
-    /* LIGHTBOX */
-    #lightbox { position:fixed; inset:0; background:rgba(0,0,0,.92); z-index:99999; display:none; align-items:center; justify-content:center; }
-    #lightbox.open { display:flex; }
-    #lightbox img { max-width:90vw; max-height:88vh; object-fit:contain; border:2px solid rgba(255,255,255,.1); }
-    #lightbox-close { position:absolute; top:20px; right:24px; background:none; border:none; color:#fff; font-size:32px; cursor:pointer; line-height:1; }
-    #lightbox-prev,#lightbox-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); color:#fff; width:48px; height:48px; border-radius:50%; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:.2s; }
-    #lightbox-prev:hover,#lightbox-next:hover { background:rgba(255,255,255,.3); }
-    #lightbox-prev { left:20px; }
-    #lightbox-next { right:20px; }
-
-    @media(max-width:768px) {
-      nav { padding:14px 20px; }
-      .nav-links { display:none; }
-      section { padding:70px 20px; }
-      .about-inner { grid-template-columns:1fr; gap:50px; }
-      .reviews-grid { grid-template-columns:1fr; }
-      .footer-top { grid-template-columns:1fr; gap:36px; }
-      .hero-stats { gap:30px; }
-      .menu-grid { grid-template-columns:repeat(2,1fr); }
-    }
-    @media(max-width:480px) { .menu-grid { grid-template-columns:1fr; } }
+    /* ── FOOTER (CHÂN TRANG) ── */
+    footer{background:var(--dk);padding:48px 24px 20px}.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:48px;max-width:1100px;margin:0 auto 36px}.footer-brand .logo{font-size:24px;font-weight:800;color:var(--red);letter-spacing:1px;margin-bottom:12px;display:block}.footer-brand p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;max-width:280px}
+    .footer-col h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:16px;font-weight:700}.footer-col ul{list-style:none}.footer-col ul li{margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.4)}.footer-col ul li a{color:inherit;text-decoration:none;transition:.2s}.footer-col ul li a:hover{color:var(--red-light)}
+    .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto}.footer-bottom p{font-size:11px;color:rgba(255,255,255,.25)}.footer-bottom .gold-text{color:var(--red)}
+    
+    /* ── NÚT ZALO NỔI ── */
+    .zalo-float{position:fixed;bottom:24px;right:20px;z-index:9999}.zalo-btn{display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:linear-gradient(135deg,#0068FF,#0099FF);border-radius:50%;text-decoration:none;color:#fff;font-size:22px;box-shadow:0 4px 16px rgba(0,104,255,.35);animation:pz 2s infinite;transition:transform .2s}.zalo-btn:hover{transform:scale(1.1)}
+    .zalo-tooltip{position:absolute;right:62px;top:50%;transform:translateY(-50%);background:#0068FF;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;white-space:nowrap;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}.zalo-float:hover .zalo-tooltip{opacity:1}
+    
+    /* ── MOBILE RESPONSIVE ── */
+    @media(max-width:768px){nav{padding:0 16px}.nav-links{display:none}section{padding:36px 16px}#today{padding:72px 16px 36px}.about-inner{grid-template-columns:1fr;gap:36px}.reviews-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr;gap:28px}.hero-stats{gap:24px}.menu-grid{grid-template-columns:repeat(2,1fr)}.recipe-featured{grid-template-columns:1fr}.rf-img{min-height:220px}.rf-content{padding:22px 18px}.rm-cols{grid-template-columns:1fr}.rm-hero{height:180px}.rm-body{padding:20px 16px}.phone-fixed{right:14px}.phone-btn{width:46px;height:46px;font-size:18px}.today-top{flex-direction:column;gap:12px;align-items:flex-start}.today-date-box{text-align:left}.today-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.menu-grid{grid-template-columns:1fr}.today-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 
-<!-- ====== NAV ====== -->
 <nav>
-  <div class="nav-logo">Lie <span>No</span></div>
+  <div class="nav-logo" id="nav-logo-wrap"><span class="nav-logo-icon">🍜</span> Lie <span>No</span></div>
   <ul class="nav-links">
     <li><a href="#today">Hôm nay</a></li>
     <li><a href="#about">Về chúng tôi</a></li>
     <li><a href="#menu">Thực đơn</a></li>
+    <li><a href="#recipes">Công thức</a></li>
     <li><a href="#reviews">Đánh giá</a></li>
     <li><a href="#order">Đặt hàng</a></li>
   </ul>
 </nav>
 
-<!-- ====== HERO ====== -->
-<!-- ADMIN:HERO:START -->
-<section id="hero">
-  <div class="hero-inner">
-    <p class="hero-eyebrow" id="hero-eyebrow">Đồ ăn handmade từ tâm</p>
-    <h1 class="hero-title"><span class="gold">Lie</span> No</h1>
-    <p class="hero-subtitle" id="hero-subtitle">Homemade · Tươi Ngon · Giao Tận Nơi</p>
-    <div class="hero-divider"></div>
-    <p class="hero-desc" id="hero-desc">Từng món ăn được chế biến thủ công bằng tình yêu và nguyên liệu tươi sạch. Hương vị thuần Việt, chất lượng đảm bảo, phục vụ tận tâm.</p>
-    <div class="hero-cta">
-      <a href="#menu" class="btn-primary" id="hero-cta1">Xem Thực Đơn</a>
-      <a href="https://zalo.me/84972410199" target="_blank" class="btn-outline" id="hero-cta2">Đặt Ngay Qua Zalo</a>
+<div class="phone-fixed">
+  <a href="tel:0972410199" class="phone-btn" id="phone-btn" title="Gọi ngay">📞</a>
+  <span class="phone-label" id="phone-label-text">0972 410 199</span>
+</div>
+
+<section id="today"><div class="container">
+  <div class="today-top"><div class="today-badge"><div class="today-badge-icon"><span>🔥</span> MÓN HÔM NAY</div></div><div class="today-date-box"><div class="today-date" id="today-date">--.--.--</div><div class="today-date-label">Cập nhật mỗi ngày</div></div></div>
+  <div class="today-grid" id="today-grid">
+    <div class="today-item"><div class="today-img-wrap"><img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh"><span class="today-status on">Còn hàng</span></div><div class="today-info"><div class="today-num">01</div><div class="today-name">Khô Gà Lá Chanh</div><div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div><div class="today-price">110.000₫ / Túi</div></div></div>
     </div>
-    <div class="hero-stats">
-      <div class="stat"><span class="stat-num" id="stat1-num">4.6K+</span><span class="stat-label" id="stat1-label">Người theo dõi</span></div>
-      <div class="stat"><span class="stat-num" id="stat2-num">100+</span><span class="stat-label" id="stat2-label">Khách hàng thân thiết</span></div>
-      <div class="stat"><span class="stat-num" id="stat3-num">100%</span><span class="stat-label" id="stat3-label">Handmade</span></div>
+  <div class="today-footer"><div class="today-note">✨ Đặt trước trước <strong>9h sáng</strong> để chắc suất · Zalo: <strong id="today-phone">0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="today-cta" id="today-zalo-link">Đặt ngay →</a></div>
+</div></section>
+<section id="hero"><div class="hero-inner">
+  <p class="hero-eyebrow" id="hero-eyebrow">Đồ ăn handmade từ tâm</p>
+  <h1 class="hero-title"><span class="gold">Lie</span> No</h1>
+  <p class="hero-subtitle" id="hero-subtitle">Homemade · Tươi Ngon · Giao Tận Nơi</p>
+  <div class="hero-divider"></div>
+  <p class="hero-desc" id="hero-desc">Từng món ăn được chế biến thủ công bằng tình yêu và nguyên liệu tươi sạch. Hương vị thuần Việt, chất lượng đảm bảo, phục vụ tận tâm.</p>
+  <div class="hero-cta"><a href="#menu" class="btn-primary" id="hero-cta1">Xem Thực Đơn</a><a href="https://zalo.me/84972410199" target="_blank" class="btn-outline" id="hero-cta2">Đặt Ngay Qua Zalo</a></div>
+  <div class="hero-stats"><div class="stat"><span class="stat-num" id="stat1-num">4.6K+</span><span class="stat-label" id="stat1-label">Người theo dõi</span></div><div class="stat"><span class="stat-num" id="stat2-num">100+</span><span class="stat-label" id="stat2-label">Khách hàng thân thiết</span></div><div class="stat"><span class="stat-num" id="stat3-num">100%</span><span class="stat-label" id="stat3-label">Handmade</span></div></div>
+</div></section>
+<section id="about"><div class="about-inner container">
+  <div class="about-visual"><div class="about-corner"></div><div class="about-img-frame" id="about-img-frame"><img id="about-img" src="images/about.jpg" alt="Lie No cooking"></div><div class="about-badge"><span class="num" id="about-badge-num">8+</span><span class="lbl" id="about-badge-lbl">Năm kinh nghiệm</span></div></div>
+  <div class="about-text">
+    <span class="eyebrow" id="about-eyebrow">Câu chuyện của chúng tôi</span>
+    <h2 id="about-title">Món Ngon <em>Từ Bếp Nhà</em> Đến Bàn Ăn</h2>
+    <p id="about-p1">Lie No được sinh ra từ tình yêu ẩm thực và mong muốn mang đến những bữa ăn ngon, lành mạnh, được chế biến hoàn toàn thủ công — không chất bảo quản, không phẩm màu nhân tạo.</p>
+    <p id="about-p2">Mỗi ngày thực đơn được cập nhật theo mùa và cảm hứng, đảm bảo món nào cũng tươi ngon nhất khi đến tay bạn.</p>
+    <div class="about-features">
+      <div class="feature-item"><div class="feature-icon" id="feat1-icon">🌿</div><div class="feature-text" id="feat1-text">Nguyên liệu tươi sạch, chọn lọc kỹ càng</div></div>
+      <div class="feature-item"><div class="feature-icon" id="feat2-icon">👐</div><div class="feature-text" id="feat2-text">Chế biến thủ công 100%, không chất bảo quản</div></div>
+      <div class="feature-item"><div class="feature-icon" id="feat3-icon">🚀</div><div class="feature-text" id="feat3-text">Giao hàng nhanh trong khu vực, đóng gói cẩn thận</div></div>
+      <div class="feature-item"><div class="feature-icon" id="feat4-icon">💛</div><div class="feature-text" id="feat4-text">Phục vụ tận tâm, cam kết hài lòng 100%</div></div>
     </div>
   </div>
-</section>
-<!-- ADMIN:HERO:END -->
-
-<!-- ====== TODAY ====== -->
-<!-- ADMIN:TODAY:START -->
-<section id="today">
-  <div class="today-inner">
-    <div class="today-header">
-      <div class="today-word">TODAY</div>
-      <div class="today-right">
-        <div class="today-date" id="today-date">--.--.--</div>
-        <div class="today-divider"></div>
-        <div class="today-label">Món đang có hôm nay</div>
-      </div>
-    </div>
-
-    <div class="today-grid" id="today-grid">
-      <!-- ADMIN:TODAY-ITEMS -->
-      <div class="today-item">
-        <div class="today-img-wrap">
-          <div class="carousel-wrap" data-carousel style="height:100%">
-            <div class="carousel-slides">
-              <div class="carousel-slide"><img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh"></div>
-            </div>
-            <div class="carousel-dots"></div>
-            <button class="carousel-prev">&#8249;</button>
-            <button class="carousel-next">&#8250;</button>
-          </div>
-          <span class="today-status on">Còn hàng</span>
-        </div>
-        <div class="today-info">
-          <div class="today-num">01</div>
-          <div class="today-name">Khô Gà Lá Chanh</div>
-          <div class="today-desc">Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</div>
-          <div class="today-price">110.000₫ / Túi</div>
-        </div>
-      </div>
-      <!-- /ADMIN:TODAY-ITEMS -->
-    </div>
-
-    <div class="today-footer">
-      <div class="today-note">✨ Đặt trước trước <strong>9h sáng</strong> để chắc suất · Zalo: <strong id="today-phone">0972 410 199</strong></div>
-      <a href="https://zalo.me/0972410199" target="_blank" class="today-cta" id="today-zalo-link">Đặt ngay →</a>
-    </div>
-  </div>
-</section>
-<!-- ADMIN:TODAY:END -->
-
-<!-- ====== ABOUT ====== -->
-<!-- ADMIN:ABOUT:START -->
-<section id="about">
-  <div class="about-inner">
-    <div class="about-visual">
-      <div class="about-corner"></div>
-      <div class="about-img-frame">
-        <img id="about-img" src="images/about.jpg" alt="Lie No cooking">
-      </div>
-      <div class="about-badge"><span class="num" id="about-badge-num">8+</span><span class="lbl" id="about-badge-lbl">Năm kinh nghiệm</span></div>
-    </div>
-    <div class="about-text">
-      <span class="eyebrow" id="about-eyebrow">Câu chuyện của chúng tôi</span>
-      <h2 id="about-title">Món Ngon <em>Từ Bếp Nhà</em> Đến Bàn Ăn</h2>
-      <p id="about-p1">Lie No được sinh ra từ tình yêu ẩm thực và mong muốn mang đến những bữa ăn ngon, lành mạnh, được chế biến hoàn toàn thủ công — không chất bảo quản, không phẩm màu nhân tạo.</p>
-      <p id="about-p2">Mỗi ngày thực đơn được cập nhật theo mùa và cảm hứng, đảm bảo món nào cũng tươi ngon nhất khi đến tay bạn.</p>
-      <div class="about-features">
-        <div class="feature-item"><div class="feature-icon" id="feat1-icon">🌿</div><div class="feature-text" id="feat1-text">Nguyên liệu tươi sạch, chọn lọc kỹ càng</div></div>
-        <div class="feature-item"><div class="feature-icon" id="feat2-icon">👐</div><div class="feature-text" id="feat2-text">Chế biến thủ công 100%, không chất bảo quản</div></div>
-        <div class="feature-item"><div class="feature-icon" id="feat3-icon">🚀</div><div class="feature-text" id="feat3-text">Giao hàng nhanh trong khu vực, đóng gói cẩn thận</div></div>
-        <div class="feature-item"><div class="feature-icon" id="feat4-icon">💛</div><div class="feature-text" id="feat4-text">Phục vụ tận tâm, cam kết hài lòng 100%</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ADMIN:ABOUT:END -->
-
-<!-- ====== MENU ====== -->
-<section id="menu">
-  <div class="section-header">
-    <span class="section-eyebrow">Hôm nay có gì ngon?</span>
-    <h2 class="section-title">Thực Đơn <em>Của Chúng Tôi</em></h2>
-    <div class="section-divider"></div>
-  </div>
-  <div class="menu-notice">
-    <p>✨ Thực đơn thay đổi thường xuyên. Liên hệ Zalo <strong id="menu-phone">0972 410 199</strong> để biết món hôm nay và đặt hàng sớm nhất!</p>
-  </div>
-
-  <!-- KHU VỰC THỰC ĐƠN - ADMIN CẬP NHẬT TẠI ĐÂY
-       Mỗi .menu-card là 1 món. Copy/xóa cả khối để thêm/bớt món.
-       ================================================================ -->
+</div></section>
+<section id="menu"><div class="container">
+  <div class="section-header"><span class="section-tag">Hôm nay có gì ngon?</span><h2 class="section-title">Thực Đơn <em>Của Chúng Tôi</em></h2><div class="section-line"></div></div>
+  <div class="menu-notice"><p>✨ Thực đơn thay đổi thường xuyên. Liên hệ Zalo <strong id="menu-phone">0972 410 199</strong> để biết món hôm nay!</p></div>
   <div class="menu-grid" id="menu-grid">
-
-    <!-- MON 1: Khô Gà Cay -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="images/kho-ga-cay.jpg" alt="Khô Gà Cay"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <span class="badge-hot">Bán chạy</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Món khô</span>
-        <h3>Khô Gà Cay</h3>
-        <p>Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</p>
-        <span class="menu-card-price">110.000₫ / túi</span>
-      </div>
     </div>
+</div></section>
+<section id="recipes"><div class="container">
+  <div class="section-header"><span class="section-tag">Bí quyết từ bếp nhà</span><h2 class="section-title">Công Thức <em>Lie No Chia Sẻ</em></h2><div class="section-line"></div><p class="section-sub">Những công thức được Liên nghiên cứu, thử nghiệm và hoàn thiện.</p></div>
+  <div class="recipes-wrapper"><div class="recipe-featured" id="recipe-featured"></div><div class="recipe-grid" id="recipe-grid"></div></div>
+</div></section>
+<div class="recipe-modal" id="recipe-modal" role="dialog" aria-modal="true"><div class="rm-overlay" onclick="closeRecipe()"></div><div class="rm-box" id="rm-box"></div></div>
 
-    <!-- MON 2: Chân Gà Sốt Thái -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="images/chan-ga-sot-thai.jpg" alt="Chân Gà Sốt Thái"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <span class="badge-hot">Bán chạy</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Món nguội</span>
-        <h3>Chân Gà Sốt Thái</h3>
-        <p>Chân gà ngâm sốt Thái chua ngọt cay, giòn sần sật</p>
-        <span class="menu-card-price">55.000₫ / hộp</span>
-      </div>
-    </div>
+<script id="recipe-data" type="application/json">
+[]
+</script>
 
-    <!-- MON 3: Nước Dừa Tắc -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="images/nuoc-dua-tac.jpg" alt="Nước Dừa Tắc"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <span class="badge-new">Mới</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Nước uống</span>
-        <h3>Nước Dừa Tắc</h3>
-        <p>Nước dừa non + quất + mít + dứa, mát lạnh giải nhiệt</p>
-        <span class="menu-card-price">25.000₫ / chai</span>
-      </div>
-    </div>
-
-    <!-- MON 4: Mì Xào Giòn -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&amp;q=80" alt="Mì Xào Giòn"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Mì - Bún</span>
-        <h3>Mì Xào Giòn</h3>
-        <p>Mì xào vàng ruộm, topping phong phú, đậm đà hương vị</p>
-        <span class="menu-card-price">Liên hệ để biết giá</span>
-      </div>
-    </div>
-
-    <!-- MON 5: Cơm Phần Văn Phòng -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&amp;q=80" alt="Cơm Phần Văn Phòng"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Cơm phần</span>
-        <h3>Cơm Phần Văn Phòng</h3>
-        <p>Cơm trắng dẻo + thức ăn đổi món hàng ngày, đủ chất</p>
-        <span class="menu-card-price">Liên hệ để biết giá</span>
-      </div>
-    </div>
-
-    <!-- MON 6: Món Đặc Biệt Theo Mùa -->
-    <div class="menu-card">
-      <div class="carousel-wrap" data-carousel><div class="carousel-slides"><div class="carousel-slide"><img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&amp;q=80" alt="Món Đặc Biệt Theo Mùa"></div></div><div class="carousel-dots"></div><button class="carousel-prev">&#8249;</button><button class="carousel-next">&#8250;</button></div>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Theo mùa</span>
-        <h3>Món Đặc Biệt Theo Mùa</h3>
-        <p>Xuất hiện thi thoảng, số lượng có hạn — inbox nhanh kẻo hết!</p>
-        <span class="menu-card-price">Cập nhật thường xuyên</span>
-      </div>
-    </div>
-
-  </div>
-  <!-- KẾT THÚC KHU VỰC THỰC ĐƠN -->
-
-</section>
-
-<!-- ====== REVIEWS ====== -->
-<!-- ADMIN:REVIEWS:START -->
-<section id="reviews">
-  <div class="section-header">
-    <span class="section-eyebrow">Khách hàng nói gì?</span>
-    <h2 class="section-title">Cảm Nhận <em>Thực Tế</em></h2>
-    <div class="section-divider"></div>
-  </div>
+<section id="reviews"><div class="container">
+  <div class="section-header"><span class="section-tag">Khách hàng nói gì?</span><h2 class="section-title">Cảm Nhận <em>Thực Tế</em></h2><div class="section-line"></div></div>
   <div class="reviews-grid">
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars" id="rv1-stars">★★★★★</div>
-      <p class="review-text" id="rv1-text">Mười điểm không có nhưng! Chân gà ngon quá trời, ăn một hộp không đủ.</p>
-      <span class="review-author" id="rv1-author">— Ánh Nguyệt · Thế giới giày dép Nguyệt Hà</span>
-    </div>
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars" id="rv2-stars">★★★★★</div>
-      <p class="review-text" id="rv2-text">Chuẩn combo này hồi bé hay ăn. Bánh mỳ bà Hoa + nước đậu mãi đỉnh. Cho em 1 chai nhé!</p>
-      <span class="review-author" id="rv2-author">— Khách hàng thân thiết</span>
-    </div>
-    <div class="review-card">
-      <div class="review-quote">"</div>
-      <div class="review-stars" id="rv3-stars">★★★★★</div>
-      <p class="review-text" id="rv3-text">Khô gà nhà Liên ăn nghiện lắm, order tuần nào cũng có. Giao hàng nhanh, đóng gói đẹp!</p>
-      <span class="review-author" id="rv3-author">— Minh Trang · Khách quen</span>
-    </div>
+    <div class="review-card"><div class="review-quote">"</div><div class="review-stars" id="rv1-stars">★★★★★</div><p class="review-text" id="rv1-text">Mười điểm không có nhưng! Chân gà ngon quá trời, ăn một hộp không đủ.</p><span class="review-author" id="rv1-author">— Ánh Nguyệt · Thế giới giày dép Nguyệt Hà</span></div>
+    <div class="review-card"><div class="review-quote">"</div><div class="review-stars" id="rv2-stars">★★★★★</div><p class="review-text" id="rv2-text">Chuẩn combo này hồi bé hay ăn. Bánh mỳ bà Hoa + nước đậu mãi đỉnh!</p><span class="review-author" id="rv2-author">— Khách hàng thân thiết</span></div>
+    <div class="review-card"><div class="review-quote">"</div><div class="review-stars" id="rv3-stars">★★★★★</div><p class="review-text" id="rv3-text">Khô gà nhà Liên ăn nghiện lắm, order tuần nào cũng có. Giao hàng nhanh!</p><span class="review-author" id="rv3-author">— Minh Trang · Khách quen</span></div>
   </div>
-</section>
-<!-- ADMIN:REVIEWS:END -->
-
-<!-- ====== ORDER ====== -->
-<!-- ADMIN:ORDER:START -->
-<section id="order">
-  <div class="order-inner">
-    <span class="section-eyebrow">Đặt hàng ngay hôm nay</span>
-    <h2 id="order-title">Sẵn Sàng Thưởng Thức <em>Chưa?</em></h2>
-    <p id="order-desc">Đặt trước trước 9h sáng để chắc suất. Giao hàng trong khu vực Hà Nội. Liên hệ Zalo để được tư vấn món và báo giá nhanh nhất.</p>
-    <div class="order-channels">
-      <a href="https://zalo.me/0972410199" target="_blank" class="channel-btn" id="order-zalo">
-        <span class="icon">💬</span>
-        <div><div style="font-size:12px;opacity:.6;letter-spacing:1px;text-transform:uppercase">Nhanh nhất</div><div>Zalo: 0972 410 199</div></div>
-      </a>
-      <a href="https://www.facebook.com/lien.no.9" target="_blank" class="channel-btn" id="order-fb">
-        <span class="icon">📘</span>
-        <div><div style="font-size:12px;opacity:.6;letter-spacing:1px;text-transform:uppercase">Nhắn tin</div><div>Facebook: Lie No</div></div>
-      </a>
-      <a href="tel:0972410199" class="channel-btn" id="order-phone">
-        <span class="icon">📞</span>
-        <div><div style="font-size:12px;opacity:.6;letter-spacing:1px;text-transform:uppercase">Gọi trực tiếp</div><div>0972 410 199</div></div>
-      </a>
-    </div>
+</div></section>
+<section id="order"><div class="order-inner container">
+  <span class="section-tag">Đặt hàng ngay</span>
+  <h2 id="order-title">Sẵn Sàng Thưởng Thức <em>Chưa?</em></h2>
+  <p id="order-desc">Đặt trước trước 9h sáng để chắc suất. Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
+  <div class="order-channels">
+    <a href="https://zalo.me/84972410199" target="_blank" class="channel-btn" id="order-zalo"><span class="icon">💬</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhanh nhất</div><div>Zalo: 0972 410 199</div></div></a>
+    <a href="https://www.facebook.com/lien.no.9" target="_blank" class="channel-btn" id="order-fb"><span class="icon">📘</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhắn tin</div><div>Facebook: Lie No</div></div></a>
+    <a href="tel:0972410199" class="channel-btn" id="order-phone"><span class="icon">📞</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Gọi trực tiếp</div><div>0972 410 199</div></div></a>
   </div>
-</section>
-<!-- ADMIN:ORDER:END -->
-
-<!-- ====== FOOTER ====== -->
-<!-- ADMIN:FOOTER:START -->
+</div></section>
 <footer>
   <div class="footer-top">
-    <div class="footer-brand">
-      <span class="logo">LIE NO</span>
-      <p id="footer-desc">Đồ ăn handmade tươi ngon, chế biến thủ công mỗi ngày. Không chất bảo quản, không phẩm màu — chỉ có tình yêu ẩm thực thuần Việt.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Khám phá</h4>
-      <ul>
-        <li><a href="#about">Về chúng tôi</a></li>
-        <li><a href="#menu">Thực đơn hôm nay</a></li>
-        <li><a href="#reviews">Đánh giá khách hàng</a></li>
-        <li><a href="#order">Cách đặt hàng</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Liên hệ</h4>
-      <ul>
-        <li id="footer-zalo">Zalo: 0972 410 199</li>
-        <li id="footer-fb"><a href="https://www.facebook.com/lien.no.9" target="_blank">Facebook: Lie No</a></li>
-        <li id="footer-area">Giao hàng: Khu vực Hà Nội</li>
-        <li id="footer-hours">Giờ nhận đơn: 7h – 10h sáng</li>
-      </ul>
-    </div>
+    <div class="footer-brand"><span class="logo" id="footer-logo">LIE NO</span><p id="footer-desc">Đồ ăn handmade tươi ngon, chế biến thủ công mỗi ngày. Không chất bảo quản — chỉ có tình yêu ẩm thực thuần Việt.</p></div>
+    <div class="footer-col"><h4>Khám phá</h4><ul><li><a href="#about">Về chúng tôi</a></li><li><a href="#menu">Thực đơn hôm nay</a></li><li><a href="#recipes">Công thức nấu ăn</a></li><li><a href="#reviews">Đánh giá khách hàng</a></li><li><a href="#order">Cách đặt hàng</a></li></ul></div>
+    <div class="footer-col"><h4>Liên hệ</h4><ul><li id="footer-zalo">Zalo: 0972 410 199</li><li id="footer-fb"><a href="https://www.facebook.com/lien.no.9" target="_blank">Facebook: Lie No</a></li><li id="footer-area">Giao hàng: Khu vực Lục Yên - Lào Cai</li><li id="footer-hours">Giờ nhận đơn: 7h – 10h sáng</li></ul></div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 <span class="gold-text">Lie No</span> · Đồ ăn handmade</p>
-    <p>Làm bằng ❤️ tại Hà Nội</p>
+    <p id="footer-copy">© 2025 <span class="gold-text">Lie No</span> · Đồ ăn handmade</p>
+    <p id="footer-credit">Làm bằng ❤️ tại Việt Nam</p>
   </div>
 </footer>
-<!-- ADMIN:FOOTER:END -->
-
-<!-- ZALO FLOAT -->
-<div class="zalo-float">
-  <a href="https://zalo.me/0972410199" target="_blank" class="zalo-btn" id="zalo-btn">💬</a>
-  <div class="zalo-tooltip">Đặt hàng qua Zalo</div>
-</div>
-
-<!-- LIGHTBOX -->
-<div id="lightbox">
-  <button id="lightbox-close">×</button>
-  <button id="lightbox-prev">&#8249;</button>
-  <img id="lightbox-img" src="" alt="">
-  <button id="lightbox-next">&#8250;</button>
-</div>
+<div class="zalo-float"><a href="https://zalo.me/84972410199" target="_blank" class="zalo-btn" id="zalo-btn">💬</a><div class="zalo-tooltip">Đặt hàng qua Zalo</div></div>
 
 <script>
+// TỰ ĐỘNG CẬP NHẬT NGÀY THÁNG
+(function(){var d=new Date();var el=document.getElementById('today-date');if(el)el.textContent=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getFullYear()).slice(-2)})();
+
+// LOGIC CÔNG THỨC (RENDER CAROUSEL TỰ ĐỘNG)
 (function(){
-  const d = new Date();
-  const dd = String(d.getDate()).padStart(2,'0');
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const yy = String(d.getFullYear()).slice(-2);
-  const el = document.getElementById('today-date');
-  if(el) el.textContent = dd + '.' + mm + '.' + yy;
-})();
+  var recipeEl=document.getElementById('recipe-data');
+  var R=[]; try{R=JSON.parse(recipeEl.textContent)}catch(e){}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function dl(d){if(d==='easy')return'<span class="recipe-diff diff-easy">● ○ ○ Dễ</span>';if(d==='medium')return'<span class="recipe-diff diff-medium">● ● ○ TB</span>';if(d==='hard')return'<span class="recipe-diff diff-hard">● ● ● Khó</span>';return'<span class="recipe-diff">'+esc(d)+'</span>'}
 
-// ── CAROUSEL ENGINE ──
-(function(){
-  function initCarousel(wrap) {
-    const slides = wrap.querySelector('.carousel-slides');
-    const dotsWrap = wrap.querySelector('.carousel-dots');
-    const prevBtn = wrap.querySelector('.carousel-prev');
-    const nextBtn = wrap.querySelector('.carousel-next');
-    if (!slides) return;
-
-    const items = slides.querySelectorAll('.carousel-slide');
-    let cur = 0;
-
-    function buildDots() {
-      dotsWrap.innerHTML = '';
-      if (items.length <= 1) { prevBtn && (prevBtn.style.display='none'); nextBtn && (nextBtn.style.display='none'); return; }
-      items.forEach((_, i) => {
-        const d = document.createElement('button');
-        d.className = 'carousel-dot' + (i===0?' active':'');
-        d.onclick = (e) => { e.stopPropagation(); go(i); };
-        dotsWrap.appendChild(d);
-      });
-    }
-
-    function go(n) {
-      cur = (n + items.length) % items.length;
-      slides.style.transform = `translateX(-${cur * 100}%)`;
-      dotsWrap.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
-    }
-
-    buildDots();
-
-    prevBtn && prevBtn.addEventListener('click', e => { e.stopPropagation(); go(cur-1); });
-    nextBtn && nextBtn.addEventListener('click', e => { e.stopPropagation(); go(cur+1); });
-
-    // Auto-play if multiple slides
-    if (items.length > 1) {
-      setInterval(() => go(cur+1), 3500);
-    }
-
-    // Swipe support
-    let startX = 0;
-    slides.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
-    slides.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - startX; if(Math.abs(dx)>40) go(dx < 0 ? cur+1 : cur-1); }, {passive:true});
-
-    // Lightbox on click
-    wrap.addEventListener('click', () => {
-      const imgs = Array.from(items).map(s => s.querySelector('img')?.src).filter(Boolean);
-      if (!imgs.length) return;
-      openLightbox(imgs, cur);
-    });
+  // Hàm render ảnh (hỗ trợ nhiều ảnh cuộn ngang)
+  function renderImages(imgs, alt) {
+    if(!imgs || imgs.length === 0) return '<div class="rc-img-placeholder">🍳</div>';
+    if(imgs.length === 1) return '<img src="'+esc(imgs[0])+'" alt="'+esc(alt)+'">';
+    return '<div class="img-carousel">' + imgs.map(function(src){return '<img src="'+esc(src)+'" alt="'+esc(alt)+'">'}).join('') + '</div>';
   }
 
-  document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+  // Render Công thức nổi bật
+  var el=document.getElementById('recipe-featured');
+  if(el){
+    var r=R.filter(function(x){return x.featured})[0];
+    if(!r)el.style.display='none';
+    else el.innerHTML='<div class="rf-img">'+renderImages(r.imgs || (r.img?[r.img]:[]), r.name)+'<div class="rf-badge">Công thức đặc trưng</div></div><div class="rf-content"><div class="recipe-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div><div class="recipe-name">'+esc(r.name)+'</div><div class="recipe-desc">'+esc(r.desc)+'</div><div class="recipe-tags">'+(r.tags||[]).map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div><button class="btn-recipe" onclick="openRecipe(\''+esc(r.id)+'\')">Xem Công Thức →</button></div>'
+  }
 
-  // ── LIGHTBOX ──
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightbox-img');
-  let _imgs = [], _idx = 0;
+  // Render Lưới công thức còn lại
+  var gel=document.getElementById('recipe-grid');
+  if(gel){
+    var ot=R.filter(function(r){return!r.featured});
+    if(!ot.length)gel.style.display='none';
+    else gel.innerHTML=ot.map(function(r){
+      return '<div class="recipe-card" onclick="openRecipe(\''+esc(r.id)+'\')"><div class="rc-img">'+renderImages(r.imgs || (r.img?[r.img]:[]), r.name)+'</div><div class="rc-body"><div class="rc-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div><div class="rc-name">'+esc(r.name)+'</div><div class="rc-desc">'+esc(r.desc)+'</div><div class="rc-tags">'+(r.tags||[]).map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div><span class="rc-link">Xem công thức →</span></div></div>'
+    }).join('')
+  }
 
-  window.openLightbox = function(imgs, idx) {
-    _imgs = imgs; _idx = idx||0;
-    lbImg.src = _imgs[_idx];
-    lb.classList.add('open');
+  // Khởi chạy Modal
+  window.openRecipe=function(id){
+    var r=R.filter(function(x){return x.id===id})[0]; if(!r)return;
+    var b=document.getElementById('rm-box');
+    var ih=(r.ingredients||[]).map(function(i){return'<li>'+esc(i)+'</li>'}).join('');
+    var sh=(r.steps||[]).map(function(s,i){var n=(i+1<10)?'0'+(i+1):''+(i+1); return'<li class="step-item"><span class="step-num">'+n+'</span><span class="step-text">'+esc(s)+'</span></li>'}).join('');
+    
+    b.innerHTML='<div class="rm-hero">'+renderImages(r.imgs || (r.img?[r.img]:[]), r.name)+'<div class="rm-hero-overlay"></div><button class="rm-close" onclick="closeRecipe()">✕</button><div class="rm-hero-info"><div class="rm-meta"><span>⏱ '+esc(r.time)+'</span><span>🍽 '+esc(r.serves)+'</span><span>'+(r.difficulty==='easy'?'Dễ':r.difficulty==='medium'?'TB':'Khó')+'</span></div><h2>'+esc(r.name)+'</h2></div></div><div class="rm-body"><div class="rm-cols"><div><div class="rm-section-title">Nguyên liệu</div><ul class="ingredient-list">'+ih+'</ul></div><div><div class="rm-section-title">Các bước</div><ol class="steps-list">'+sh+'</ol></div></div>'+(r.tips?'<div class="rm-tips"><div class="tip-title">💡 Mẹo của Liên</div><p>'+esc(r.tips)+'</p></div>':'')+'<div class="rm-cta"><div class="rm-cta-note">Đặt món? Zalo <strong>0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="rm-cta-btn">Đặt qua Zalo →</a></div></div>';
+    document.getElementById('recipe-modal').classList.add('open'); document.body.style.overflow='hidden';
   };
 
-  document.getElementById('lightbox-close').onclick = () => lb.classList.remove('open');
-  document.getElementById('lightbox-prev').onclick = () => { _idx = (_idx - 1 + _imgs.length) % _imgs.length; lbImg.src = _imgs[_idx]; };
-  document.getElementById('lightbox-next').onclick = () => { _idx = (_idx + 1) % _imgs.length; lbImg.src = _imgs[_idx]; };
-  lb.onclick = (e) => { if(e.target === lb) lb.classList.remove('open'); };
-  document.addEventListener('keydown', e => { if (!lb.classList.contains('open')) return; if(e.key==='Escape') lb.classList.remove('open'); if(e.key==='ArrowLeft') document.getElementById('lightbox-prev').click(); if(e.key==='ArrowRight') document.getElementById('lightbox-next').click(); });
-
-  // About gallery lightbox
-  document.querySelectorAll('.about-gallery-img').forEach(el => {
-    el.addEventListener('click', () => {
-      const all = Array.from(document.querySelectorAll('.about-gallery-img img')).map(i=>i.src);
-      const idx = Array.from(document.querySelectorAll('.about-gallery-img')).indexOf(el);
-      openLightbox(all, idx);
-    });
-  });
+  window.closeRecipe=function(){document.getElementById('recipe-modal').classList.remove('open'); document.body.style.overflow=''};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRecipe()});
 })();
 </script>
 </body></html>
