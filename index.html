@@ -780,9 +780,15 @@ window.openOrderModal = function(btn) {
     // Nút gửi hoặc banner hết hàng
     + (isSold
         ? '<div class="om-sold-banner">❌ Món này đã hết hàng hôm nay</div>'
-        : '<button class="om-submit" id="om-submit-btn" onclick="submitOrder()">💬 Gửi đơn qua Zalo</button>'
+        // Hết hàng → hiện banner đỏ thay vì 2 nút
+        : '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px">'
+          // Nút Zalo: nền xanh dương Zalo
+          + '<button class="om-submit" id="om-submit-btn" onclick="submitOrder(\'zalo\')" style="margin-bottom:0;background:linear-gradient(135deg,#0068FF,#0099FF);font-size:12px;padding:12px 8px">💬 Đặt qua Zalo</button>'
+          // Nút Messenger: nền tím/xanh Messenger
+          + '<button class="om-submit" onclick="submitOrder(\'messenger\')" style="margin-bottom:0;background:linear-gradient(135deg,#0084FF,#A033FF);font-size:12px;padding:12px 8px">💬 Đặt qua Messenger</button>'
+          + '</div>'
       )
-    + '<div class="om-hint">Tin nhắn sẽ được soạn sẵn, bạn chỉ cần nhấn Gửi trong Zalo 🎉<br>'
+    + '<div class="om-hint">Chọn kênh bên dưới → Sao chép tin nhắn → Dán vào chat → Gửi 🎉<br>'
     + '<span style="color:var(--red)">📍 Đặt trước 9h sáng để chắc suất</span></div>'
     + '</div>'; // /om-body
 
@@ -834,10 +840,14 @@ window.changeQty = function(delta) {
   if (totalEl) totalEl.textContent = formatMoney(priceNum * qty) + '₫';
 };
 
-// submitOrder: Khi khách bấm "Gửi đơn qua Zalo"
-// Zalo KHÔNG hỗ trợ ?text= trong URL → không thể điền sẵn tin nhắn qua link.
-// Giải pháp: Hiện màn hình "Bước 2" với tin nhắn soạn sẵn để khách copy rồi paste vào Zalo.
-window.submitOrder = function() {
+// submitOrder: Khi khách bấm "Đặt qua Zalo" hoặc "Đặt qua Messenger"
+// Tham số channel: 'zalo' | 'messenger'
+// Zalo & Messenger đều KHÔNG hỗ trợ điền sẵn text qua URL.
+// Giải pháp: Hiện màn hình "Bước 2" với tin nhắn soạn sẵn để khách copy → paste → gửi.
+window.submitOrder = function(channel) {
+  // channel mặc định là 'zalo' nếu không truyền vào
+  channel = channel || 'zalo';
+
   var box      = document.getElementById('om-box');
   var name     = box.dataset.name    || '';
   var price    = box.dataset.price   || '';
@@ -882,13 +892,34 @@ window.submitOrder = function() {
 
   var msg = lines.join('\n');
 
-  // Lấy số điện thoại Zalo để mở đúng cửa sổ chat
-  var phone = getZaloPhone();
-  // Link chỉ mở đúng người chat, KHÔNG điền text (Zalo không hỗ trợ)
-  var zaloUrl = 'https://zalo.me/' + phone;
+  // ── Xác định màu sắc và link theo kênh ──
+  var channelColor, channelName, channelIcon, channelUrl, channelInstruct;
+
+  if (channel === 'messenger') {
+    // Messenger: link mở trang Facebook Page, không thể điền sẵn text
+    channelColor  = 'linear-gradient(135deg,#0084FF,#A033FF)';
+    channelName   = 'Messenger';
+    channelIcon   = '💬';
+    // Link đến trang Facebook để nhắn tin — đọc từ #order-fb trên trang nếu có
+    var fbEl = document.getElementById('order-fb');
+    var fbHref = fbEl ? fbEl.getAttribute('href') : 'https://www.facebook.com/lien.no.9';
+    // m.me/[username] mở thẳng Messenger nếu có app, fallback về facebook.com
+    // Tách username từ URL nếu có
+    var fbUser = (fbHref || '').match(/facebook\.com\/([^/?#]+)/);
+    channelUrl = fbUser
+      ? 'https://m.me/' + fbUser[1]          // mở thẳng Messenger app
+      : (fbHref || 'https://www.facebook.com/lien.no.9');
+    channelInstruct = 'Bấm nút bên dưới → Messenger mở → <strong>Dán (paste)</strong> tin nhắn → Nhấn <strong>Gửi</strong>';
+  } else {
+    // Zalo (mặc định)
+    channelColor  = 'linear-gradient(135deg,#0068FF,#0099FF)';
+    channelName   = 'Zalo';
+    channelIcon   = '💬';
+    channelUrl    = 'https://zalo.me/' + getZaloPhone();
+    channelInstruct = 'Bấm nút bên dưới → Zalo mở đúng cửa sổ chat → <strong>Dán (paste)</strong> tin nhắn → Nhấn <strong>Gửi</strong>';
+  }
 
   // ── Chuyển sang màn hình Bước 2: Copy & Gửi ──
-  // Thay toàn bộ nội dung om-box bằng màn hình hướng dẫn
   box.innerHTML =
     '<div style="padding:22px 20px 20px">'
 
@@ -896,11 +927,14 @@ window.submitOrder = function() {
     + '<div style="text-align:center;margin-bottom:18px">'
     +   '<div style="font-size:28px;margin-bottom:6px">✅</div>'
     +   '<div style="font-size:16px;font-weight:800;color:var(--dk)">Đơn hàng đã sẵn sàng!</div>'
-    +   '<div style="font-size:12px;color:var(--g6);margin-top:4px">Thực hiện 2 bước đơn giản bên dưới</div>'
+    +   '<div style="font-size:12px;color:var(--g6);margin-top:4px">'
+    // Hiển thị badge kênh đang chọn (Zalo / Messenger)
+    +     'Gửi qua <span style="display:inline-block;padding:2px 10px;border-radius:20px;font-weight:700;font-size:11px;color:#fff;background:' + channelColor + '">' + channelName + '</span>'
+    +   '</div>'
     + '</div>'
 
     // Bước 1: Copy tin nhắn
-    + '<div style="background:var(--g1);border:1.5px solid var(--g3);border-radius:12px;padding:14px;margin-bottom:14px">'
+    + '<div style="background:var(--g1);border:1.5px solid var(--g3);border-radius:12px;padding:14px;margin-bottom:12px">'
     +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:8px">① Sao chép tin nhắn này</div>'
     // Hộp hiển thị tin nhắn soạn sẵn — dùng <pre> để giữ xuống dòng
     +   '<pre id="om-msg-preview" style="font-family:\'Be Vietnam Pro\',sans-serif;font-size:12.5px;color:var(--dk);line-height:1.7;white-space:pre-wrap;word-break:break-word;margin:0;max-height:180px;overflow-y:auto;padding-right:4px">' + escHtml(msg) + '</pre>'
@@ -908,22 +942,41 @@ window.submitOrder = function() {
     +   '<button id="om-copy-btn" onclick="copyOrderMsg()" style="margin-top:10px;width:100%;padding:10px;background:var(--dk);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;transition:.2s">📋 Nhấn để Sao chép</button>'
     + '</div>'
 
-    // Bước 2: Mở Zalo và paste
-    + '<div style="background:#EEF5FF;border:1.5px solid #C3D9FF;border-radius:12px;padding:14px;margin-bottom:14px">'
-    +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0068FF;margin-bottom:8px">② Mở Zalo và gửi tin</div>'
-    +   '<div style="font-size:12px;color:var(--g7);line-height:1.6;margin-bottom:10px">'
-    +     'Bấm nút bên dưới → Zalo mở đúng cửa sổ chat → <strong>Dán (paste)</strong> tin nhắn vừa copy → Nhấn <strong>Gửi</strong>'
-    +   '</div>'
-    +   '<a href="' + zaloUrl + '" target="_blank" class="om-submit" style="display:flex;text-decoration:none">💬 Mở Zalo để gửi đơn</a>'
+    // Bước 2: Mở kênh và paste
+    + '<div style="background:#EEF5FF;border:1.5px solid #C3D9FF;border-radius:12px;padding:14px;margin-bottom:12px">'
+    +   '<div style="font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#0068FF;margin-bottom:8px">② Mở ' + channelName + ' và gửi tin</div>'
+    +   '<div style="font-size:12px;color:var(--g7);line-height:1.6;margin-bottom:10px">' + channelInstruct + '</div>'
+    +   '<a href="' + channelUrl + '" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:12px;background:' + channelColor + ';color:#fff;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:.5px;transition:.2s">'
+    +     channelIcon + ' Mở ' + channelName + ' để gửi đơn'
+    +   '</a>'
     + '</div>'
 
-    // Nút quay lại sửa đơn
-    + '<button onclick="closeOrderModal()" style="width:100%;padding:10px;background:transparent;border:1.5px solid var(--g3);border-radius:10px;font-size:12px;color:var(--g6);cursor:pointer;font-family:inherit;transition:.2s">← Đóng</button>'
+    // Nút đổi kênh (chọn lại Zalo hoặc Messenger)
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    // Nút chọn Zalo (active nếu đang ở Zalo)
+    +   '<button onclick="submitOrder(\'zalo\')" style="padding:9px;border-radius:10px;border:2px solid '
+    +     (channel==='zalo' ? '#0068FF' : 'var(--g3)')
+    +   ';background:' + (channel==='zalo' ? '#EEF5FF' : '#fff')
+    +   ';color:' + (channel==='zalo' ? '#0068FF' : 'var(--g6)')
+    +   ';font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s">💬 Dùng Zalo</button>'
+    // Nút chọn Messenger (active nếu đang ở Messenger)
+    +   '<button onclick="submitOrder(\'messenger\')" style="padding:9px;border-radius:10px;border:2px solid '
+    +     (channel==='messenger' ? '#A033FF' : 'var(--g3)')
+    +   ';background:' + (channel==='messenger' ? '#F5EEFF' : '#fff')
+    +   ';color:' + (channel==='messenger' ? '#A033FF' : 'var(--g6)')
+    +   ';font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s">💬 Dùng Messenger</button>'
+    + '</div>'
+
+    // Nút đóng
+    + '<button onclick="closeOrderModal()" style="width:100%;padding:9px;background:transparent;border:1.5px solid var(--g3);border-radius:10px;font-size:12px;color:var(--g6);cursor:pointer;font-family:inherit">← Đóng</button>'
 
     + '</div>';
 
   // Lưu tin nhắn vào biến toàn cục để hàm copy dùng
   window.__orderMsg = msg;
+
+  // Cuộn popup về đầu để thấy bước 1
+  box.scrollTop = 0;
 };
 
 // copyOrderMsg: Copy tin nhắn đơn hàng vào clipboard
@@ -957,10 +1010,10 @@ function fallbackCopy(text, btn) {
   document.body.removeChild(ta);
 }
 
-// showCopied: Đổi nút thành "✅ Đã sao chép!" trong 2 giây
+// showCopied: Đổi nút thành "✅ Đã sao chép!" trong 2.5 giây
 function showCopied(btn) {
   if (!btn) return;
-  btn.textContent = '✅ Đã sao chép! Giờ mở Zalo và dán vào';
+  btn.textContent = '✅ Đã sao chép! Giờ mở app và dán vào';
   btn.style.background = 'var(--green)';
   setTimeout(function() {
     btn.innerHTML = '📋 Nhấn để Sao chép';
