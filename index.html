@@ -87,6 +87,27 @@
     .om-hint{text-align:center;font-size:11px;color:var(--g5);padding-bottom:16px;line-height:1.6}
     /* Trường hợp món hết hàng: banner đỏ thay nút gửi */
     .om-sold-banner{background:var(--g2);border-radius:12px;padding:14px;text-align:center;color:var(--g5);font-size:13px;font-weight:600;margin-bottom:10px}
+
+    /* ── KHỐI CHUYỂN KHOẢN trong popup đặt hàng ── */
+    /* Bọc ngoài toàn bộ khối chuyển khoản */
+    .om-bank-box{background:linear-gradient(135deg,#FFF8F0,#FFF3E8);border:2px solid rgba(228,77,38,.2);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+    /* Dòng tiêu đề "Chuyển khoản ngân hàng" */
+    .om-bank-title{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    /* Mỗi dòng thông tin: icon + nhãn + giá trị */
+    .om-bank-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(228,77,38,.1)}
+    .om-bank-row:last-child{border-bottom:none;padding-bottom:0}
+    /* Nhãn bên trái (Ngân hàng, Số TK, Chủ TK) */
+    .om-bank-lbl{font-size:11px;color:var(--g6);font-weight:500}
+    /* Giá trị bên phải — in đậm */
+    .om-bank-val{font-size:13px;font-weight:800;color:var(--dk)}
+    /* Số tài khoản: to hơn một chút, màu đỏ để nổi bật */
+    .om-bank-val.num{font-size:16px;color:var(--red);letter-spacing:1px}
+    /* Nút copy số tài khoản */
+    .om-bank-copy{background:var(--red);color:#fff;border:none;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;cursor:pointer;margin-left:8px;font-family:inherit;transition:.2s;flex-shrink:0}
+    .om-bank-copy:hover{background:var(--red-dark)}
+    /* Lưu ý nhỏ phía dưới khối */
+    .om-bank-note{font-size:11px;color:var(--g6);margin-top:8px;line-height:1.6;text-align:center}
+    /* ── KẾT THÚC KHỐI CHUYỂN KHOẢN ── */
     /* ── KẾT THÚC POPUP ĐẶT HÀNG ── */
 
     /* ── CAROUSEL: Vùng cuộn ảnh ngang ── */
@@ -777,6 +798,29 @@ window.openOrderModal = function(btn) {
     +   '<span class="om-total-num" id="om-total">' + formatMoney(priceNum) + '₫</span>'
     + '</div>'
 
+    // ── KHỐI THÔNG TIN CHUYỂN KHOẢN ──
+    // Hiển thị cố định trong form để khách biết có thể CK trước khi gửi đơn
+    + '<div class="om-bank-box">'
+    +   '<div class="om-bank-title">🏦 Chuyển khoản ngân hàng</div>'
+    +   '<div class="om-bank-row">'
+    +     '<span class="om-bank-lbl">Ngân hàng</span>'
+    +     '<span class="om-bank-val">MB Bank</span>'
+    +   '</div>'
+    +   '<div class="om-bank-row">'
+    +     '<span class="om-bank-lbl">Số tài khoản</span>'
+    +     '<span style="display:flex;align-items:center">'
+    +       '<span class="om-bank-val num" id="om-stk">8989268989</span>'
+    // Nút copy số TK riêng (copy đúng số TK, không phải toàn bộ tin nhắn)
+    +       '<button class="om-bank-copy" onclick="copyBankNum()">Copy</button>'
+    +     '</span>'
+    +   '</div>'
+    +   '<div class="om-bank-row">'
+    +     '<span class="om-bank-lbl">Chủ tài khoản</span>'
+    +     '<span class="om-bank-val">PHAN THỊ KIM LIÊN</span>'
+    +   '</div>'
+    +   '<div class="om-bank-note">💡 Chuyển khoản xong → ghi nội dung <strong>"Tên + Món + SL"</strong><br>rồi nhắn tin xác nhận qua Zalo hoặc Messenger</div>'
+    + '</div>'
+
     // Nút gửi hoặc banner hết hàng
     + (isSold
         ? '<div class="om-sold-banner">❌ Món này đã hết hàng hôm nay</div>'
@@ -888,7 +932,10 @@ window.submitOrder = function(channel) {
     '📍 Địa chỉ giao: ' + address.trim(),
   ];
   if (note.trim()) lines.push('📝 Ghi chú: ' + note.trim());
+  // Thêm gợi ý chuyển khoản vào cuối tin nhắn để Liên biết khách dùng hình thức nào
   lines.push('─────────────────────');
+  lines.push('🏦 Thanh toán: MB Bank | STK 8989268989 | PHAN THỊ KIM LIÊN');
+  lines.push('(Vui lòng xác nhận sau khi chuyển khoản)');
 
   var msg = lines.join('\n');
 
@@ -978,6 +1025,44 @@ window.submitOrder = function(channel) {
   // Cuộn popup về đầu để thấy bước 1
   box.scrollTop = 0;
 };
+
+// copyBankNum: Copy riêng số tài khoản ngân hàng (8989268989)
+// Khác với copyOrderMsg (copy toàn bộ tin nhắn)
+window.copyBankNum = function() {
+  // Số tài khoản MB Bank cố định
+  var stk = '8989268989';
+  var btn = document.querySelector('.om-bank-copy');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(stk).then(function() {
+      showBankCopied(btn);
+    }).catch(function() { fallbackCopyBank(stk, btn); });
+  } else {
+    fallbackCopyBank(stk, btn);
+  }
+};
+
+// fallbackCopyBank: Copy số TK bằng cách cũ (tương thích trình duyệt cũ)
+function fallbackCopyBank(text, btn) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); showBankCopied(btn); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+// showBankCopied: Đổi nút "Copy" thành "✓ Đã copy" trong 2 giây
+function showBankCopied(btn) {
+  if (!btn) return;
+  btn.textContent = '✓ Đã copy';
+  btn.style.background = 'var(--green)';
+  setTimeout(function() {
+    btn.textContent = 'Copy';
+    btn.style.background = 'var(--red)';
+  }, 2000);
+}
 
 // copyOrderMsg: Copy tin nhắn đơn hàng vào clipboard
 // Dùng Clipboard API hiện đại, fallback về execCommand nếu trình duyệt cũ
