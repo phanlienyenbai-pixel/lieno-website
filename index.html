@@ -22,19 +22,40 @@
     section{padding:48px 24px}.container{max-width:1100px;margin:0 auto}
     .section-header{text-align:center;margin-bottom:36px}.section-tag{display:inline-block;background:rgba(228,77,38,.08);color:var(--red);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:14px;margin-bottom:12px}
     .section-title{font-size:clamp(22px,4vw,32px);font-weight:800;color:var(--dk);line-height:1.3}.section-title em{color:var(--red);font-style:normal}.section-line{width:40px;height:3px;background:var(--red);margin:14px auto 0;border-radius:2px}
-    
-    /* CHÚ THÍCH (BÌNH): Thêm CSS cho tính năng cuộn Carousel nhiều ảnh. Scroll-snap giúp ảnh trượt mượt mà. */
-    .img-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; width: 100%; height: 100%; scrollbar-width: none; -ms-overflow-style: none; }
-    .img-carousel::-webkit-scrollbar { display: none; }
-    .img-carousel img { flex: 0 0 100%; scroll-snap-align: center; object-fit: cover; }
-
     #today{background:var(--white);padding:80px 24px 48px;border-bottom:1px solid var(--g2)}
     .today-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--g2)}.today-badge{display:flex;align-items:center;gap:10px}.today-badge-icon{background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:6px 14px;border-radius:6px;display:flex;align-items:center;gap:6px}.today-badge-icon span{font-size:18px}.today-date-box{text-align:right}.today-date{font-size:20px;font-weight:800;color:var(--red)}.today-date-label{font-size:11px;color:var(--g5);margin-top:2px}
     .today-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.today-item{background:var(--white);border-radius:10px;border:1px solid var(--g2);overflow:hidden;transition:.2s;position:relative}.today-item:hover{box-shadow:var(--shl);transform:translateY(-2px)}.today-item.sold{opacity:.45}
     .today-img-wrap{height:170px;overflow:hidden;position:relative;background:var(--g1)}.today-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .3s}.today-item:hover .today-img-wrap img{transform:scale(1.04)}.today-img-placeholder{height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--g1)}
-    .today-status{position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px;z-index:10}.today-status.on{background:var(--green-light);color:var(--green)}.today-status.off{background:var(--g2);color:var(--g5)}
+    .today-status{position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px}.today-status.on{background:var(--green-light);color:var(--green)}.today-status.off{background:var(--g2);color:var(--g5)}
     .today-info{padding:14px 16px}.today-num{font-size:10px;color:var(--g4);font-weight:700;margin-bottom:4px}.today-name{font-size:16px;font-weight:700;color:var(--dk);margin-bottom:4px}.today-desc{font-size:12px;color:var(--g6);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.today-price{font-size:16px;font-weight:800;color:var(--red)}
     .today-footer{margin-top:24px;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--g2)}.today-note{font-size:12px;color:var(--g6)}.today-note strong{color:var(--red)}.today-cta{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:8px 20px;border-radius:20px;text-decoration:none;transition:.2s}.today-cta:hover{background:var(--red-dark)}
+
+    /* ── CAROUSEL: Vùng cuộn ảnh ngang ── */
+    /* Bọc ngoài cùng của carousel, tạo overflow ẩn để chỉ thấy 1 ảnh mỗi lúc */
+    .carousel-wrap{position:relative;overflow:hidden;border-radius:inherit;width:100%;height:100%}
+    /* Track: dải ngang chứa tất cả ảnh, dùng flex để xếp hàng ngang */
+    .carousel-track{display:flex;height:100%;transition:transform .35s cubic-bezier(.4,0,.2,1);will-change:transform}
+    /* Mỗi slide ảnh trong carousel, không được co lại (flex-shrink:0) */
+    .carousel-slide{flex:0 0 100%;width:100%;height:100%;position:relative}
+    /* Ảnh bên trong mỗi slide, phủ toàn bộ ô */
+    .carousel-slide img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Nút mũi tên trái/phải để điều hướng carousel */
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(0,0,0,.45);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(4px)}
+    .carousel-btn:hover{background:var(--red)}
+    /* Nút trái */
+    .carousel-btn.prev{left:8px}
+    /* Nút phải */
+    .carousel-btn.next{right:8px}
+    /* Thanh chấm chỉ vị trí slide hiện tại (dots indicator) */
+    .carousel-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10}
+    /* Mỗi chấm tròn nhỏ */
+    .carousel-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:.2s;border:none;padding:0}
+    /* Chấm đang active (slide đang xem) */
+    .carousel-dot.active{background:#fff;transform:scale(1.3)}
+    /* Ẩn nút mũi tên nếu chỉ có 1 ảnh duy nhất (không cần điều hướng) */
+    .carousel-btn.hidden{display:none}
+    /* ── KẾT THÚC CAROUSEL ── */
+
     #hero{background:linear-gradient(135deg,#FFF5F2 0%,#FFF 50%,#F0FFF4 100%);padding:60px 24px;position:relative;overflow:hidden}#hero::after{content:'';position:absolute;top:-60px;right:-60px;width:250px;height:250px;border-radius:50%;background:rgba(228,77,38,.04)}
     .hero-inner{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:1}.hero-eyebrow{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:14px;margin-bottom:20px}
     .hero-title{font-size:clamp(40px,8vw,72px);font-weight:800;line-height:1;color:var(--dk);margin-bottom:8px}.hero-title .gold{color:var(--red)}.hero-subtitle{font-size:14px;color:var(--g6);letter-spacing:1px;font-weight:500;margin:16px 0 28px}.hero-divider{width:50px;height:3px;background:var(--red);margin:0 auto 24px;border-radius:2px}.hero-desc{font-size:15px;color:var(--g7);max-width:480px;margin:0 auto 32px;line-height:1.8}
@@ -47,12 +68,29 @@
     .about-text .eyebrow{display:inline-block;background:rgba(228,77,38,.08);color:var(--red);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:12px;margin-bottom:14px}
     .about-text h2{font-size:28px;font-weight:800;color:var(--dk);line-height:1.3;margin-bottom:18px}.about-text h2 em{color:var(--red);font-style:normal}.about-text p{color:var(--g7);line-height:1.8;font-size:14px;margin-bottom:12px}
     .about-features{margin-top:24px;display:flex;flex-direction:column;gap:12px}.feature-item{display:flex;align-items:center;gap:12px}.feature-icon{width:36px;height:36px;flex-shrink:0;background:rgba(228,77,38,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}.feature-text{font-size:13px;color:var(--g7)}
+
+    /* About: khung ảnh có carousel — chiều cao cố định để carousel hiển thị đúng */
+    .about-img-frame{width:100%;aspect-ratio:3/4;background:var(--g1);border-radius:12px;overflow:hidden;position:relative}
+
     #menu{background:var(--bg)}.menu-notice{max-width:600px;margin:0 auto 32px;text-align:center;background:var(--white);border:1px solid var(--g2);padding:16px 24px;border-radius:10px}.menu-notice p{font-size:13px;color:var(--g6);line-height:1.6}.menu-notice strong{color:var(--red)}
-    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;max-width:1100px;margin:0 auto}.menu-card{position:relative;overflow:hidden;aspect-ratio:4/5;background:var(--g1);cursor:pointer;border-radius:10px;border:1px solid var(--g2)}.menu-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.menu-card:hover img{transform:scale(1.05)}
-    .menu-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.05) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;border-radius:10px;pointer-events:none}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;max-width:1100px;margin:0 auto}
+
+    /* Menu card: vùng ảnh có carousel — giữ aspect-ratio và position:relative */
+    .menu-card{position:relative;overflow:hidden;aspect-ratio:4/5;background:var(--g1);cursor:pointer;border-radius:10px;border:1px solid var(--g2)}
+    /* Ảnh của menu card nếu chỉ có 1 ảnh (dạng cũ, vẫn giữ) */
+    .menu-card>img{width:100%;height:100%;object-fit:cover;transition:transform .4s;position:absolute;inset:0}
+    .menu-card:hover>img{transform:scale(1.05)}
+    .menu-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.05) 55%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;border-radius:10px;z-index:5}
     .menu-card-tag{display:inline-block;padding:3px 10px;background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;width:fit-content;border-radius:12px}.menu-card-tag.special{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff}
     .menu-card h3{font-size:18px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:4px}.menu-card p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.menu-card-price{font-size:16px;font-weight:800;color:var(--orange)}
-    .badge-new{position:absolute;top:12px;right:12px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:10}.badge-hot{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:10}
+    .badge-new{position:absolute;top:12px;right:12px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:6}.badge-hot{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:12px;z-index:6}
+
+    /* Menu card carousel: nút điều hướng nhỏ hơn vì không gian hẹp */
+    .menu-card .carousel-wrap{position:absolute;inset:0;border-radius:10px}
+    .menu-card .carousel-btn{width:26px;height:26px;font-size:13px}
+    /* Khi hover vào menu card thì zoom ảnh slide hiện tại */
+    .menu-card:hover .carousel-slide img{transform:scale(1.05);transition:transform .4s}
+
     #order{background:var(--white);text-align:center;border-bottom:1px solid var(--g2)}.order-inner{max-width:600px;margin:0 auto}.order-inner h2{font-size:clamp(24px,5vw,36px);font-weight:800;color:var(--dk);line-height:1.2;margin-bottom:14px}.order-inner h2 em{color:var(--red);font-style:normal}.order-inner p{font-size:14px;color:var(--g6);line-height:1.7;margin-bottom:32px}
     .order-channels{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}.channel-btn{display:flex;align-items:center;gap:10px;padding:14px 24px;border:1px solid var(--g3);background:var(--white);color:var(--dk);text-decoration:none;font-size:13px;font-weight:600;transition:.2s;border-radius:10px}.channel-btn:hover{border-color:var(--red);box-shadow:var(--sh)}.channel-btn .icon{font-size:20px}
     #reviews{background:var(--bg)}.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1100px;margin:0 auto}.review-card{background:var(--white);border:1px solid var(--g2);padding:28px 24px;border-radius:10px;transition:.2s}.review-card:hover{box-shadow:var(--shl);transform:translateY(-2px)}.review-quote{font-size:36px;line-height:.8;color:var(--red);opacity:.3;margin-bottom:12px}.review-text{font-size:13px;color:var(--g7);line-height:1.7;font-style:italic;margin-bottom:18px}.review-author{font-size:12px;font-weight:700;color:var(--red)}.review-stars{color:var(--yellow);font-size:14px;margin-bottom:12px}
@@ -63,19 +101,33 @@
     @keyframes pz{0%,100%{box-shadow:0 4px 16px rgba(0,104,255,.35),0 0 0 0 rgba(0,104,255,.25)}50%{box-shadow:0 4px 16px rgba(0,104,255,.35),0 0 0 12px rgba(0,104,255,0)}}
     .zalo-tooltip{position:absolute;right:62px;top:50%;transform:translateY(-50%);background:#0068FF;color:#fff;font-size:12px;font-weight:600;padding:6px 12px;white-space:nowrap;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}.zalo-float:hover .zalo-tooltip{opacity:1}
     #recipes{background:var(--white);border-bottom:1px solid var(--g2)}.section-sub{font-size:13px;color:var(--g5);max-width:500px;margin:10px auto 0;line-height:1.7}
-    .recipes-wrapper{max-width:1100px;margin:0 auto}.recipe-featured{display:grid;grid-template-columns:1.1fr 1fr;border:1px solid var(--g2);overflow:hidden;background:var(--white);margin-bottom:16px;border-radius:10px}.rf-img{position:relative;overflow:hidden;min-height:380px}.rf-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block}.recipe-featured:hover .rf-img img{transform:scale(1.03)}.rf-badge{position:absolute;top:16px;left:0;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:0 14px 14px 0;z-index:10}
+    .recipes-wrapper{max-width:1100px;margin:0 auto}.recipe-featured{display:grid;grid-template-columns:1.1fr 1fr;border:1px solid var(--g2);overflow:hidden;background:var(--white);margin-bottom:16px;border-radius:10px}
+
+    /* Recipe featured: khung ảnh có carousel */
+    .rf-img{position:relative;overflow:hidden;min-height:380px}
+    /* Ảnh công thức nổi bật nếu chỉ có 1 ảnh */
+    .rf-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block}
+    .recipe-featured:hover .rf-img img{transform:scale(1.03)}.rf-badge{position:absolute;top:16px;left:0;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:0 14px 14px 0;z-index:10}
     .rf-content{padding:32px 36px;display:flex;flex-direction:column;justify-content:center;gap:14px}.recipe-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.recipe-meta>span{font-size:12px;color:var(--g5)}.recipe-diff{font-size:12px}.diff-easy{color:var(--green)}.diff-medium{color:var(--orange)}.diff-hard{color:var(--red)}.recipe-name{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--dk);line-height:1.3}.recipe-desc{font-size:13px;color:var(--g6);line-height:1.8}.recipe-tags{display:flex;flex-wrap:wrap;gap:6px}.rtag{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--red);border:1px solid rgba(228,77,38,.2);padding:3px 10px;border-radius:12px;font-weight:600}
     .btn-recipe{align-self:flex-start;background:var(--red);border:none;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 24px;cursor:pointer;transition:.2s;border-radius:20px}.btn-recipe:hover{background:var(--red-dark)}
-    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}.recipe-card{background:var(--white);overflow:hidden;transition:.2s;cursor:pointer;border-radius:10px;border:1px solid var(--g2)}.recipe-card:hover{box-shadow:var(--shl);transform:translateY(-2px)}.rc-img{height:200px;overflow:hidden}.rc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}.recipe-card:hover .rc-img img{transform:scale(1.04)}.rc-img-placeholder{height:100%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:38px}
+    .recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}.recipe-card{background:var(--white);overflow:hidden;transition:.2s;cursor:pointer;border-radius:10px;border:1px solid var(--g2)}.recipe-card:hover{box-shadow:var(--shl);transform:translateY(-2px)}
+    /* rc-img: khung ảnh công thức lưới — chứa carousel */
+    .rc-img{height:200px;overflow:hidden;position:relative}
+    /* Ảnh nếu chỉ có 1 ảnh */
+    .rc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}.recipe-card:hover .rc-img img{transform:scale(1.04)}.rc-img-placeholder{height:100%;background:var(--g1);display:flex;align-items:center;justify-content:center;font-size:38px}
     .rc-body{padding:20px 18px}.rc-meta{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:center}.rc-meta>span{font-size:11px;color:var(--g5)}.rc-name{font-size:18px;font-weight:700;color:var(--dk);line-height:1.3;margin-bottom:6px}.rc-desc{font-size:12px;color:var(--g6);line-height:1.7;margin-bottom:14px}.rc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}.rc-link{font-size:11px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;transition:.2s}.rc-link:hover{color:var(--red-dark)}
     .recipe-modal{position:fixed;inset:0;z-index:9997;display:none;align-items:center;justify-content:center;padding:16px}.recipe-modal.open{display:flex}.rm-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}.rm-box{position:relative;z-index:1;background:var(--white);max-width:820px;width:100%;max-height:92vh;overflow-y:auto;animation:rmS .25s ease;border-radius:14px;box-shadow:var(--shl)}@keyframes rmS{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.rm-box::-webkit-scrollbar{width:4px}.rm-box::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
-    .rm-hero{position:relative;height:250px;overflow:hidden;border-radius:14px 14px 0 0}.rm-hero img{width:100%;height:100%;object-fit:cover;display:block}.rm-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(33,33,33,.85) 0%,rgba(0,0,0,.1) 55%);pointer-events:none}.rm-hero-info{position:absolute;bottom:24px;left:28px;right:56px;pointer-events:none}.rm-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.rm-meta span{font-size:10px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.3);padding:3px 10px;border-radius:12px}.rm-hero-info h2{font-size:clamp(20px,4vw,32px);font-weight:800;color:#fff;line-height:1.2}
-    .rm-close{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;border-radius:50%;transition:.2s}.rm-close:hover{background:var(--red)}
+    .rm-hero{position:relative;height:250px;overflow:hidden;border-radius:14px 14px 0 0}.rm-hero img{width:100%;height:100%;object-fit:cover;display:block}.rm-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(33,33,33,.85) 0%,rgba(0,0,0,.1) 55%)}.rm-hero-info{position:absolute;bottom:24px;left:28px;right:56px}.rm-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.rm-meta span{font-size:10px;color:rgba(255,255,255,.85);background:rgba(0,0,0,.3);padding:3px 10px;border-radius:12px}.rm-hero-info h2{font-size:clamp(20px,4vw,32px);font-weight:800;color:#fff;line-height:1.2}
+    .rm-close{position:absolute;top:12px;right:12px;width:32px;height:32px;background:rgba(0,0,0,.4);border:none;color:#fff;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:50%;transition:.2s}.rm-close:hover{background:var(--red)}
     .rm-body{padding:28px}.rm-cols{display:grid;grid-template-columns:1fr 1.4fr;gap:28px;margin-bottom:22px}.rm-section-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;font-weight:700;padding-bottom:8px;border-bottom:2px solid var(--g2)}
     .ingredient-list{list-style:none}.ingredient-list li{padding:6px 0;border-bottom:1px solid var(--g2);font-size:13px;color:var(--g7);display:flex;align-items:flex-start;gap:8px;line-height:1.5}.ingredient-list li::before{content:'';width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0;margin-top:6px}
     .steps-list{list-style:none;display:flex;flex-direction:column;gap:14px}.step-item{display:flex;gap:12px}.step-num{width:26px;height:26px;flex-shrink:0;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;margin-top:2px}.step-text{font-size:13px;color:var(--g7);line-height:1.8;flex:1}
     .rm-tips{background:var(--green-light);border:1px solid rgba(39,174,96,.15);padding:16px 18px;margin-top:4px;border-radius:8px}.rm-tips .tip-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;font-weight:700}.rm-tips p{font-size:13px;color:var(--g7);line-height:1.8}
     .rm-cta{margin-top:20px;padding-top:18px;border-top:1px solid var(--g2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.rm-cta-note{font-size:12px;color:var(--g5)}.rm-cta-note strong{color:var(--red)}.rm-cta-btn{font-size:11px;font-weight:700;color:#fff;background:var(--red);padding:8px 20px;text-decoration:none;border-radius:20px;transition:.2s}.rm-cta-btn:hover{background:var(--red-dark)}
+
+    /* Carousel trong rm-hero (popup công thức): chiều cao cố định theo rm-hero */
+    .rm-hero .carousel-wrap{position:absolute;inset:0;border-radius:14px 14px 0 0}
+
     @media(max-width:768px){nav{padding:0 16px}.nav-links{display:none}section{padding:36px 16px}#today{padding:72px 16px 36px}.about-inner{grid-template-columns:1fr;gap:36px}.reviews-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr;gap:28px}.hero-stats{gap:24px}.menu-grid{grid-template-columns:repeat(2,1fr)}.recipe-featured{grid-template-columns:1fr}.rf-img{min-height:220px}.rf-content{padding:22px 18px}.rm-cols{grid-template-columns:1fr}.rm-hero{height:180px}.rm-body{padding:20px 16px}.phone-fixed{right:14px}.phone-btn{width:46px;height:46px;font-size:18px}.today-top{flex-direction:column;gap:12px;align-items:flex-start}.today-date-box{text-align:left}.today-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:480px){.menu-grid{grid-template-columns:1fr}.today-grid{grid-template-columns:1fr}}
   </style>
@@ -99,13 +151,19 @@
   <span class="phone-label" id="phone-label-text">0972 410 199</span>
 </div>
 
+<!-- ADMIN:TODAY:START -->
 <section id="today"><div class="container">
   <div class="today-top"><div class="today-badge"><div class="today-badge-icon"><span>🔥</span> MÓN HÔM NAY</div></div><div class="today-date-box"><div class="today-date" id="today-date">--.--.--</div><div class="today-date-label">Cập nhật mỗi ngày</div></div></div>
   <div class="today-grid" id="today-grid">
+    <!-- ADMIN:TODAY-ITEMS -->
     <div class="today-item"><div class="today-img-wrap"><img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh"><span class="today-status on">Còn hàng</span></div><div class="today-info"><div class="today-num">01</div><div class="today-name">Khô Gà Lá Chanh</div><div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div><div class="today-price">110.000₫ / Túi</div></div></div>
-    </div>
+    <!-- /ADMIN:TODAY-ITEMS -->
+  </div>
   <div class="today-footer"><div class="today-note">✨ Đặt trước trước <strong>9h sáng</strong> để chắc suất · Zalo: <strong id="today-phone">0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="today-cta" id="today-zalo-link">Đặt ngay →</a></div>
 </div></section>
+<!-- ADMIN:TODAY:END -->
+
+<!-- ADMIN:HERO:START -->
 <section id="hero"><div class="hero-inner">
   <p class="hero-eyebrow" id="hero-eyebrow">Đồ ăn handmade từ tâm</p>
   <h1 class="hero-title"><span class="gold">Lie</span> No</h1>
@@ -115,8 +173,19 @@
   <div class="hero-cta"><a href="#menu" class="btn-primary" id="hero-cta1">Xem Thực Đơn</a><a href="https://zalo.me/84972410199" target="_blank" class="btn-outline" id="hero-cta2">Đặt Ngay Qua Zalo</a></div>
   <div class="hero-stats"><div class="stat"><span class="stat-num" id="stat1-num">4.6K+</span><span class="stat-label" id="stat1-label">Người theo dõi</span></div><div class="stat"><span class="stat-num" id="stat2-num">100+</span><span class="stat-label" id="stat2-label">Khách hàng thân thiết</span></div><div class="stat"><span class="stat-num" id="stat3-num">100%</span><span class="stat-label" id="stat3-label">Handmade</span></div></div>
 </div></section>
+<!-- ADMIN:HERO:END -->
+
+<!-- ADMIN:ABOUT:START -->
 <section id="about"><div class="about-inner container">
-  <div class="about-visual"><div class="about-corner"></div><div class="about-img-frame"><img id="about-img" src="images/about.jpg" alt="Lie No cooking"></div><div class="about-badge"><span class="num" id="about-badge-num">8+</span><span class="lbl" id="about-badge-lbl">Năm kinh nghiệm</span></div></div>
+  <!-- about-visual: vùng ảnh bên trái của phần "Về chúng tôi" -->
+  <div class="about-visual"><div class="about-corner"></div>
+    <!-- about-img-frame: khung chứa ảnh (hoặc carousel nếu có nhiều ảnh) -->
+    <div class="about-img-frame" id="about-img-frame">
+      <!-- about-img: ảnh mặc định nếu chỉ có 1 ảnh duy nhất -->
+      <img id="about-img" src="images/about.jpg" alt="Lie No cooking">
+    </div>
+    <div class="about-badge"><span class="num" id="about-badge-num">8+</span><span class="lbl" id="about-badge-lbl">Năm kinh nghiệm</span></div>
+  </div>
   <div class="about-text">
     <span class="eyebrow" id="about-eyebrow">Câu chuyện của chúng tôi</span>
     <h2 id="about-title">Món Ngon <em>Từ Bếp Nhà</em> Đến Bàn Ăn</h2>
@@ -130,6 +199,12 @@
     </div>
   </div>
 </div></section>
+<!-- ADMIN:ABOUT:END -->
+
+<!-- about-imgs-data: lưu danh sách ảnh của phần About dưới dạng JSON ẩn -->
+<!-- Nếu mảng có nhiều hơn 1 ảnh → JS sẽ render Carousel; nếu chỉ 1 ảnh → hiển thị bình thường -->
+<script id="about-imgs-data" type="application/json">[]</script>
+
 <section id="menu"><div class="container">
   <div class="section-header"><span class="section-tag">Hôm nay có gì ngon?</span><h2 class="section-title">Thực Đơn <em>Của Chúng Tôi</em></h2><div class="section-line"></div></div>
   <div class="menu-notice"><p>✨ Thực đơn thay đổi thường xuyên. Liên hệ Zalo <strong id="menu-phone">0972 410 199</strong> để biết món hôm nay!</p></div>
@@ -143,16 +218,20 @@
   </div>
 </div></section>
 
+<!-- ADMIN:RECIPES:START -->
 <section id="recipes"><div class="container">
   <div class="section-header"><span class="section-tag">Bí quyết từ bếp nhà</span><h2 class="section-title">Công Thức <em>Lie No Chia Sẻ</em></h2><div class="section-line"></div><p class="section-sub">Những công thức được Liên nghiên cứu, thử nghiệm và hoàn thiện.</p></div>
   <div class="recipes-wrapper"><div class="recipe-featured" id="recipe-featured"></div><div class="recipe-grid" id="recipe-grid"></div></div>
 </div></section>
+<!-- ADMIN:RECIPES:END -->
+
 <div class="recipe-modal" id="recipe-modal" role="dialog" aria-modal="true"><div class="rm-overlay" onclick="closeRecipe()"></div><div class="rm-box" id="rm-box"></div></div>
 
 <script id="recipe-data" type="application/json">
-[{"id":"kho-ga-la-chanh","name":"Khô Gà Lá Chanh","img":"images/kho-ga.jpg","time":"2 tiếng","difficulty":"medium","serves":"4 người","desc":"Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.","tags":["Không chất bảo quản","Nguyên liệu tươi","Handmade"],"ingredients":["500g ức gà tươi","3 cây sả (đập dập, băm nhuyễn)","5–6 lá chanh (thái chỉ mỏng)","2 quả ớt tươi (băm nhỏ)","2 muỗng canh nước mắm ngon","1 muỗng canh đường","1/2 muỗng cà phê muối","1/4 muỗng cà phê tiêu xay"],"steps":["Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.","Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.","Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.","Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.","Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.","Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."],"tips":"Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.","featured":true},{"id":"chan-ga-sot-thai","name":"Chân Gà Sốt Thái","img":"images/chan-ga-sot-thai.jpg","time":"45 phút + 4h ngâm","difficulty":"easy","serves":"2–3 người","desc":"Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.","tags":["Chua ngọt cay","Giòn sần sật","Để tủ lạnh"],"ingredients":["500g chân gà rửa sạch","3–4 quả ớt sừng","4 tép tỏi","2 cây sả","3 muỗng canh nước mắm","2 muỗng canh đường","3 muỗng canh giấm gạo","1 muỗng canh dầu hào","Tiêu xanh"],"steps":["Luộc chân gà với sả và gừng 20 phút.","Vớt ra thả ngay vào nước đá lạnh 10 phút.","Pha sốt: nước mắm + đường + giấm + dầu hào.","Ớt, tỏi, sả băm nhỏ cho vào sốt.","Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.","Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."],"tips":"Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.","featured":false},{"id":"nuoc-dua-tac","name":"Nước Dừa Tắc","img":"images/nuoc-dua-tac.jpg","time":"15 phút","difficulty":"easy","serves":"2 ly","desc":"Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.","tags":["Không đường thêm","Tự nhiên 100%","Giải nhiệt"],"ingredients":["300ml nước dừa non","3–4 quả tắc","50g mít chín","50g dứa tươi","Đá viên","1 nhúm muối hột"],"steps":["Mít và dứa cắt miếng vừa ăn.","Tắc vắt lấy nước cốt, lọc bỏ hạt.","Hòa nước dừa với nước cốt tắc và muối.","Cho đá viên, xếp mít và dứa lên trên.","Đổ hỗn hợp vào từ từ. Thưởng thức ngay."],"tips":"Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.","featured":false}]
+[{"id":"kho-ga-la-chanh","name":"Khô Gà Lá Chanh","img":"images/kho-ga.jpg","imgs":[],"time":"2 tiếng","difficulty":"medium","serves":"4 người","desc":"Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.","tags":["Không chất bảo quản","Nguyên liệu tươi","Handmade"],"ingredients":["500g ức gà tươi","3 cây sả (đập dập, băm nhuyễn)","5–6 lá chanh (thái chỉ mỏng)","2 quả ớt tươi (băm nhỏ)","2 muỗng canh nước mắm ngon","1 muỗng canh đường","1/2 muỗng cà phê muối","1/4 muỗng cà phê tiêu xay"],"steps":["Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.","Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.","Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.","Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.","Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.","Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."],"tips":"Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.","featured":true},{"id":"chan-ga-sot-thai","name":"Chân Gà Sốt Thái","img":"images/chan-ga-sot-thai.jpg","imgs":[],"time":"45 phút + 4h ngâm","difficulty":"easy","serves":"2–3 người","desc":"Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.","tags":["Chua ngọt cay","Giòn sần sật","Để tủ lạnh"],"ingredients":["500g chân gà rửa sạch","3–4 quả ớt sừng","4 tép tỏi","2 cây sả","3 muỗng canh nước mắm","2 muỗng canh đường","3 muỗng canh giấm gạo","1 muỗng canh dầu hào","Tiêu xanh"],"steps":["Luộc chân gà với sả và gừng 20 phút.","Vớt ra thả ngay vào nước đá lạnh 10 phút.","Pha sốt: nước mắm + đường + giấm + dầu hào.","Ớt, tỏi, sả băm nhỏ cho vào sốt.","Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.","Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."],"tips":"Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.","featured":false},{"id":"nuoc-dua-tac","name":"Nước Dừa Tắc","img":"images/nuoc-dua-tac.jpg","imgs":[],"time":"15 phút","difficulty":"easy","serves":"2 ly","desc":"Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.","tags":["Không đường thêm","Tự nhiên 100%","Giải nhiệt"],"ingredients":["300ml nước dừa non","3–4 quả tắc","50g mít chín","50g dứa tươi","Đá viên","1 nhúm muối hột"],"steps":["Mít và dứa cắt miếng vừa ăn.","Tắc vắt lấy nước cốt, lọc bỏ hạt.","Hòa nước dừa với nước cốt tắc và muối.","Cho đá viên, xếp mít và dứa lên trên.","Đổ hỗn hợp vào từ từ. Thưởng thức ngay."],"tips":"Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.","featured":false}]
 </script>
 
+<!-- ADMIN:REVIEWS:START -->
 <section id="reviews"><div class="container">
   <div class="section-header"><span class="section-tag">Khách hàng nói gì?</span><h2 class="section-title">Cảm Nhận <em>Thực Tế</em></h2><div class="section-line"></div></div>
   <div class="reviews-grid">
@@ -161,8 +240,12 @@
     <div class="review-card"><div class="review-quote">"</div><div class="review-stars" id="rv3-stars">★★★★★</div><p class="review-text" id="rv3-text">Khô gà nhà Liên ăn nghiện lắm, order tuần nào cũng có. Giao hàng nhanh!</p><span class="review-author" id="rv3-author">— Minh Trang · Khách quen</span></div>
   </div>
 </div></section>
+<!-- ADMIN:REVIEWS:END -->
+
+<!-- ADMIN:ORDER:START -->
 <section id="order"><div class="order-inner container">
-  <span class="section-tag">Đặt hàng ngay</span>
+  <div class="section-header">
+    <span class="section-tag">Đặt hàng ngay</span>
   <h2 id="order-title">Sẵn Sàng Thưởng Thức <em>Chưa?</em></h2>
   <p id="order-desc">Đặt trước trước 9h sáng để chắc suất. Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
   <div class="order-channels">
@@ -171,6 +254,9 @@
     <a href="tel:0972410199" class="channel-btn" id="order-phone"><span class="icon">📞</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Gọi trực tiếp</div><div>0972 410 199</div></div></a>
   </div>
 </div></section>
+<!-- ADMIN:ORDER:END -->
+
+<!-- ADMIN:FOOTER:START -->
 <footer>
   <div class="footer-top">
     <div class="footer-brand"><span class="logo" id="footer-logo">LIE NO</span><p id="footer-desc">Đồ ăn handmade tươi ngon, chế biến thủ công mỗi ngày. Không chất bảo quản — chỉ có tình yêu ẩm thực thuần Việt.</p></div>
@@ -182,70 +268,354 @@
     <p id="footer-credit">Làm bằng ❤️ tại Việt Nam</p>
   </div>
 </footer>
+<!-- ADMIN:FOOTER:END -->
+
 <div class="zalo-float"><a href="https://zalo.me/84972410199" target="_blank" class="zalo-btn" id="zalo-btn">💬</a><div class="zalo-tooltip">Đặt hàng qua Zalo</div></div>
 
 <script>
+// ── Hiển thị ngày hôm nay ──
 (function(){var d=new Date();var el=document.getElementById('today-date');if(el)el.textContent=String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getFullYear()).slice(-2)})();
 </script>
+
 <script>
-(function(){
-  var recipeEl=document.getElementById('recipe-data');
-  var R=[];
-  try{R=JSON.parse(recipeEl.textContent)}catch(e){}
+// ════════════════════════════════════════════════
+// CAROUSEL ENGINE — Bộ máy carousel dùng chung
+// Không dùng thư viện ngoài, hoàn toàn thuần JS + CSS
+// ════════════════════════════════════════════════
 
-  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-  function dl(d){if(d==='easy')return'<span class="recipe-diff diff-easy">● ○ ○ Dễ</span>';if(d==='medium')return'<span class="recipe-diff diff-medium">● ● ○ TB</span>';if(d==='hard')return'<span class="recipe-diff diff-hard">● ● ● Khó</span>';return'<span class="recipe-diff">'+esc(d)+'</span>'}
+/**
+ * makeCarousel(container, imgs)
+ * Nhận vào:
+ *   container — phần tử DOM sẽ chứa carousel (thường là .about-img-frame, .rc-img, .menu-card...)
+ *   imgs      — mảng URL ảnh. Nếu mảng rỗng hoặc chỉ 1 ảnh → không bọc carousel
+ * Trả về: không (thay thế innerHTML của container trực tiếp)
+ */
+function makeCarousel(container, imgs) {
+  // Nếu không có ảnh nào → không làm gì
+  if (!imgs || imgs.length === 0) return;
 
-  // CHÚ THÍCH (BÌNH): Hàm hỗ trợ render nhiều ảnh. Nếu data trả về mảng imgs thì render .img-carousel
-  function renderImages(imgs, alt, placeholder) {
-    if(!imgs || imgs.length === 0) return placeholder || '';
-    if(imgs.length === 1) return '<img src="'+esc(imgs[0])+'" alt="'+esc(alt)+'">';
-    var c = imgs.map(function(src){ return '<img src="'+esc(src)+'" alt="'+esc(alt)+'">'}).join('');
-    return '<div class="img-carousel">' + c + '</div>';
+  // Nếu chỉ có 1 ảnh → giữ nguyên ảnh đơn, không cần carousel
+  if (imgs.length === 1) {
+    // Tạo thẻ img đơn giản rồi đặt vào container
+    const img = document.createElement('img');
+    img.src = imgs[0];
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+    container.innerHTML = '';
+    container.appendChild(img);
+    return;
   }
 
+  // Có từ 2 ảnh trở lên → render carousel
+  // Chỉ số slide đang hiển thị (bắt đầu từ 0)
+  let current = 0;
+  // Biến lưu interval tự chạy (auto-play), để sau này có thể xóa đi
+  let autoTimer = null;
+
+  // ── Tạo cấu trúc HTML của carousel ──
+  // Wrap: bọc ngoài tất cả, overflow:hidden để ẩn các slide chưa cần xem
+  const wrap = document.createElement('div');
+  wrap.className = 'carousel-wrap';
+
+  // Track: dải ngang chứa tất cả slide, sẽ dịch chuyển bằng transform
+  const track = document.createElement('div');
+  track.className = 'carousel-track';
+
+  // Tạo từng slide từ mảng ảnh
+  imgs.forEach(function(src) {
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    const img = document.createElement('img');
+    img.src = src;
+    // Khi ảnh lỗi (không tải được) → ẩn đi, không hiện hình vỡ
+    img.onerror = function(){ this.style.display='none'; };
+    slide.appendChild(img);
+    track.appendChild(slide);
+  });
+
+  // Nút mũi tên TRÁI
+  const btnPrev = document.createElement('button');
+  btnPrev.className = 'carousel-btn prev';
+  btnPrev.innerHTML = '&#8249;'; // ký tự ‹
+  btnPrev.setAttribute('aria-label', 'Ảnh trước');
+
+  // Nút mũi tên PHẢI
+  const btnNext = document.createElement('button');
+  btnNext.className = 'carousel-btn next';
+  btnNext.innerHTML = '&#8250;'; // ký tự ›
+  btnNext.setAttribute('aria-label', 'Ảnh tiếp theo');
+
+  // Thanh dots (chấm tròn chỉ vị trí)
+  const dotsWrap = document.createElement('div');
+  dotsWrap.className = 'carousel-dots';
+  const dots = imgs.map(function(_, idx) {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (idx + 1));
+    // Khi bấm vào dot → nhảy đến slide tương ứng
+    dot.onclick = function() { goTo(idx); };
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  // Lắp ráp tất cả vào wrap
+  wrap.appendChild(track);
+  wrap.appendChild(btnPrev);
+  wrap.appendChild(btnNext);
+  wrap.appendChild(dotsWrap);
+
+  // Thay thế nội dung container bằng carousel
+  container.innerHTML = '';
+  container.appendChild(wrap);
+
+  // ── Hàm di chuyển đến slide số idx ──
+  function goTo(idx) {
+    // Đảm bảo idx nằm trong phạm vi [0, imgs.length - 1]
+    current = (idx + imgs.length) % imgs.length;
+    // Dịch chuyển track sang trái bằng transform (không dùng scroll để mượt hơn)
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    // Cập nhật dots: bỏ active tất cả, chỉ giữ dot hiện tại
+    dots.forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  // Nút trái → sang slide trước
+  btnPrev.onclick = function(e) {
+    e.stopPropagation(); // Không cho sự kiện click lan ra phần tử cha
+    resetAuto();
+    goTo(current - 1);
+  };
+
+  // Nút phải → sang slide kế tiếp
+  btnNext.onclick = function(e) {
+    e.stopPropagation();
+    resetAuto();
+    goTo(current + 1);
+  };
+
+  // ── Vuốt cảm ứng (swipe) trên mobile ──
+  var touchStartX = 0; // Vị trí ngón tay khi bắt đầu chạm
+  wrap.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  wrap.addEventListener('touchend', function(e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    // Vuốt phải (dx > 40) → slide trước; vuốt trái (dx < -40) → slide sau
+    if (dx > 40) { resetAuto(); goTo(current - 1); }
+    else if (dx < -40) { resetAuto(); goTo(current + 1); }
+  }, { passive: true });
+
+  // ── Auto-play: tự chuyển slide mỗi 4 giây ──
+  function startAuto() {
+    autoTimer = setInterval(function() { goTo(current + 1); }, 4000);
+  }
+  // Khi người dùng tương tác → reset đồng hồ để không giật
+  function resetAuto() {
+    clearInterval(autoTimer);
+    startAuto();
+  }
+  // Khi hover vào carousel → tạm dừng auto-play
+  wrap.addEventListener('mouseenter', function() { clearInterval(autoTimer); });
+  // Khi rời chuột → tiếp tục auto-play
+  wrap.addEventListener('mouseleave', function() { startAuto(); });
+
+  // Bắt đầu auto-play
+  startAuto();
+}
+
+// ════════════════════════════════════════════════
+// ABOUT: Khởi tạo carousel cho phần "Về chúng tôi"
+// ════════════════════════════════════════════════
+(function() {
+  // Đọc dữ liệu JSON ảnh About từ thẻ script ẩn
+  var aboutImgsEl = document.getElementById('about-imgs-data');
+  var aboutImgs = [];
+  try { aboutImgs = JSON.parse(aboutImgsEl.textContent); } catch(e) {}
+
+  // Container ảnh About
+  var frame = document.getElementById('about-img-frame');
+  if (!frame) return;
+
+  if (aboutImgs && aboutImgs.length > 0) {
+    // Có dữ liệu ảnh trong JSON → dùng carousel
+    makeCarousel(frame, aboutImgs);
+  }
+  // Nếu aboutImgs rỗng → giữ nguyên ảnh đơn <img id="about-img"> trong HTML
+})();
+
+// ════════════════════════════════════════════════
+// MENU GRID: Nâng cấp các menu-card lên carousel
+// Đọc thuộc tính data-imgs từ từng .menu-card (do Admin ghi vào)
+// ════════════════════════════════════════════════
+(function() {
+  // Duyệt từng card trong menu-grid
+  var cards = document.querySelectorAll('#menu-grid .menu-card');
+  cards.forEach(function(card) {
+    // Đọc thuộc tính data-imgs (mảng URL ảnh dạng JSON, do Admin đặt vào)
+    var imgsAttr = card.getAttribute('data-imgs');
+    if (!imgsAttr) return; // Không có data-imgs → giữ nguyên ảnh <img> trong HTML
+
+    var imgs = [];
+    try { imgs = JSON.parse(imgsAttr); } catch(e) {}
+    if (!imgs || imgs.length < 2) return; // Chỉ 1 ảnh → không cần carousel
+
+    // Xóa ảnh đơn đang có (thẻ <img> trực tiếp trong card)
+    var oldImg = card.querySelector(':scope > img');
+    if (oldImg) oldImg.remove();
+
+    // Tạo wrapper để carousel không đè lên overlay text
+    var imgWrap = document.createElement('div');
+    imgWrap.style.cssText = 'position:absolute;inset:0;z-index:1';
+
+    // Render carousel vào wrapper
+    makeCarousel(imgWrap, imgs);
+    // Chèn wrapper vào đầu card (trước overlay)
+    card.insertBefore(imgWrap, card.firstChild);
+  });
+})();
+</script>
+
+<script>
+// ════════════════════════════════════════════════
+// RECIPES: Render công thức nấu ăn (giữ nguyên logic cũ + thêm carousel)
+// ════════════════════════════════════════════════
+(function(){
+  // Đọc dữ liệu JSON từ thẻ script#recipe-data
+  var recipeEl=document.getElementById('recipe-data');var R=[];
+  try{R=JSON.parse(recipeEl.textContent)}catch(e){}
+
+  // Hàm escape HTML để tránh XSS khi render dữ liệu vào DOM
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+  // Hàm render thanh độ khó (dễ/trung bình/khó)
+  function dl(d){if(d==='easy')return'<span class="recipe-diff diff-easy">● ○ ○ Dễ</span>';if(d==='medium')return'<span class="recipe-diff diff-medium">● ● ○ TB</span>';if(d==='hard')return'<span class="recipe-diff diff-hard">● ● ● Khó</span>';return'<span class="recipe-diff">'+esc(d)+'</span>'}
+
+  // ── Render công thức NỔI BẬT (recipe-featured) ──
   var el=document.getElementById('recipe-featured');
   if(el){
     var r=R.filter(function(x){return x.featured})[0];
-    if(!r)el.style.display='none';
+    if(!r) el.style.display='none';
     else {
-      // CHÚ THÍCH (BÌNH): Áp dụng renderImages cho phần công thức nổi bật
-      var imgsToRender = r.imgs ? r.imgs : (r.img ? [r.img] : []);
-      var imgHtml = renderImages(imgsToRender, r.name, '');
-      el.innerHTML='<div class="rf-img">'+imgHtml+'<div class="rf-badge">Công thức đặc trưng</div></div><div class="rf-content"><div class="recipe-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div><div class="recipe-name">'+esc(r.name)+'</div><div class="recipe-desc">'+esc(r.desc)+'</div><div class="recipe-tags">'+r.tags.map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div><button class="btn-recipe" onclick="openRecipe(\''+esc(r.id)+'\')">Xem Công Thức →</button></div>'
+      // Mảng imgs cho carousel: ưu tiên r.imgs nếu có, nếu không thì dùng r.img
+      var rfImgs = (r.imgs && r.imgs.length > 0) ? r.imgs : (r.img ? [r.img] : []);
+
+      el.innerHTML='<div class="rf-img" id="rf-img-featured">'
+        // Ảnh mặc định (sẽ bị thay nếu carousel được kích hoạt)
+        + (r.img?'<img src="'+esc(r.img)+'" alt="'+esc(r.name)+'">':'')
+        + '<div class="rf-badge">Công thức đặc trưng</div></div>'
+        + '<div class="rf-content"><div class="recipe-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div>'
+        + '<div class="recipe-name">'+esc(r.name)+'</div><div class="recipe-desc">'+esc(r.desc)+'</div>'
+        + '<div class="recipe-tags">'+r.tags.map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div>'
+        + '<button class="btn-recipe" onclick="openRecipe(\''+esc(r.id)+'\')">Xem Công Thức →</button></div>';
+
+      // Nếu có nhiều hơn 1 ảnh → nâng cấp rf-img thành carousel
+      if (rfImgs.length > 1) {
+        var rfImgEl = document.getElementById('rf-img-featured');
+        if (rfImgEl) {
+          // Lấy badge (nhãn "Công thức đặc trưng") để đặt lại sau khi carousel render
+          var badge = rfImgEl.querySelector('.rf-badge');
+          makeCarousel(rfImgEl, rfImgs);
+          // Đặt lại badge lên trên carousel (z-index cao hơn)
+          if (badge) {
+            badge.style.zIndex = '10';
+            rfImgEl.appendChild(badge);
+          }
+        }
+      }
     }
   }
 
+  // ── Render lưới công thức khác (recipe-grid) ──
   var gel=document.getElementById('recipe-grid');
   if(gel){
     var ot=R.filter(function(r){return!r.featured});
-    if(!ot.length)gel.style.display='none';
-    else gel.innerHTML=ot.map(function(r){
-      // CHÚ THÍCH (BÌNH): Áp dụng renderImages cho lưới công thức
-      var imgsToRender = r.imgs ? r.imgs : (r.img ? [r.img] : []);
-      var imgHtml = renderImages(imgsToRender, r.name, '<div class="rc-img-placeholder">🍳</div>');
-      return'<div class="recipe-card" onclick="openRecipe(\''+esc(r.id)+'\')"><div class="rc-img">'+imgHtml+'</div><div class="rc-body"><div class="rc-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div><div class="rc-name">'+esc(r.name)+'</div><div class="rc-desc">'+esc(r.desc)+'</div><div class="rc-tags">'+r.tags.map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div><span class="rc-link">Xem công thức →</span></div></div>'
-    }).join('')
+    if(!ot.length) gel.style.display='none';
+    else {
+      gel.innerHTML=ot.map(function(r,idx){
+        // Mảng imgs cho carousel của từng card
+        var rcImgs = (r.imgs && r.imgs.length > 0) ? r.imgs : (r.img ? [r.img] : []);
+        // Dùng id tạm để JS tìm lại phần tử sau khi render
+        var rcImgId = 'rc-img-' + r.id;
+        return '<div class="recipe-card" onclick="openRecipe(\''+esc(r.id)+'\')">'
+          + '<div class="rc-img" id="'+rcImgId+'">'
+          // Nếu chỉ 1 ảnh → render ảnh đơn; nếu nhiều ảnh → JS sẽ chuyển thành carousel
+          + (r.img?'<img src="'+esc(r.img)+'" alt="'+esc(r.name)+'">':'<div class="rc-img-placeholder">🍳</div>')
+          + '</div>'
+          + '<div class="rc-body">'
+          + '<div class="rc-meta"><span>⏱ '+esc(r.time)+'</span>'+dl(r.difficulty)+'<span>🍽 '+esc(r.serves)+'</span></div>'
+          + '<div class="rc-name">'+esc(r.name)+'</div>'
+          + '<div class="rc-desc">'+esc(r.desc)+'</div>'
+          + '<div class="rc-tags">'+r.tags.map(function(t){return'<span class="rtag">'+esc(t)+'</span>'}).join('')+'</div>'
+          + '<span class="rc-link">Xem công thức →</span>'
+          + '</div></div>';
+      }).join('');
+
+      // Sau khi render xong → duyệt lại từng recipe để gắn carousel (nếu có nhiều ảnh)
+      ot.forEach(function(r) {
+        var rcImgs = (r.imgs && r.imgs.length > 0) ? r.imgs : (r.img ? [r.img] : []);
+        if (rcImgs.length > 1) {
+          var rcImgEl = document.getElementById('rc-img-' + r.id);
+          if (rcImgEl) {
+            makeCarousel(rcImgEl, rcImgs);
+          }
+        }
+      });
+    }
   }
 
+  // ── Mở popup chi tiết công thức ──
   window.openRecipe=function(id){
     var r=R.filter(function(x){return x.id===id})[0];
     if(!r)return;
     var b=document.getElementById('rm-box');
+
+    // Mảng ảnh cho carousel trong popup
+    var rmImgs = (r.imgs && r.imgs.length > 0) ? r.imgs : (r.img ? [r.img] : []);
+
     var ih=r.ingredients.map(function(i){return'<li>'+esc(i)+'</li>'}).join('');
     var sh=r.steps.map(function(s,i){var n=(i+1<10)?'0'+(i+1):''+(i+1);return'<li class="step-item"><span class="step-num">'+n+'</span><span class="step-text">'+esc(s)+'</span></li>'}).join('');
-    
-    // CHÚ THÍCH (BÌNH): Áp dụng renderImages cho Modal khi người dùng click xem chi tiết
-    var imgsToRender = r.imgs ? r.imgs : (r.img ? [r.img] : []);
-    var imgHtml = renderImages(imgsToRender, r.name, '');
 
-    b.innerHTML='<div class="rm-hero">'+imgHtml+'<div class="rm-hero-overlay"></div><button class="rm-close" onclick="closeRecipe()">✕</button><div class="rm-hero-info"><div class="rm-meta"><span>⏱ '+esc(r.time)+'</span><span>🍽 '+esc(r.serves)+'</span><span>'+(r.difficulty==='easy'?'Dễ':r.difficulty==='medium'?'TB':'Khó')+'</span></div><h2>'+esc(r.name)+'</h2></div></div><div class="rm-body"><div class="rm-cols"><div><div class="rm-section-title">Nguyên liệu</div><ul class="ingredient-list">'+ih+'</ul></div><div><div class="rm-section-title">Các bước</div><ol class="steps-list">'+sh+'</ol></div></div>'+(r.tips?'<div class="rm-tips"><div class="tip-title">💡 Mẹo của Liên</div><p>'+esc(r.tips)+'</p></div>':'')+'<div class="rm-cta"><div class="rm-cta-note">Đặt món? Zalo <strong>0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="rm-cta-btn">Đặt qua Zalo →</a></div></div>';
+    b.innerHTML='<div class="rm-hero" id="rm-hero-box">'
+      // Ảnh mặc định trong popup (sẽ bị thay nếu carousel được kích hoạt)
+      + (r.img?'<img src="'+esc(r.img)+'" alt="'+esc(r.name)+'">':'')
+      + '<div class="rm-hero-overlay"></div>'
+      + '<button class="rm-close" onclick="closeRecipe()">✕</button>'
+      + '<div class="rm-hero-info"><div class="rm-meta"><span>⏱ '+esc(r.time)+'</span><span>🍽 '+esc(r.serves)+'</span><span>'+(r.difficulty==='easy'?'Dễ':r.difficulty==='medium'?'TB':'Khó')+'</span></div><h2>'+esc(r.name)+'</h2></div></div>'
+      + '<div class="rm-body"><div class="rm-cols"><div><div class="rm-section-title">Nguyên liệu</div><ul class="ingredient-list">'+ih+'</ul></div><div><div class="rm-section-title">Các bước</div><ol class="steps-list">'+sh+'</ol></div></div>'
+      + (r.tips?'<div class="rm-tips"><div class="tip-title">💡 Mẹo của Liên</div><p>'+esc(r.tips)+'</p></div>':'')
+      + '<div class="rm-cta"><div class="rm-cta-note">Đặt món? Zalo <strong>0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="rm-cta-btn">Đặt qua Zalo →</a></div></div>';
+
+    // Nếu có nhiều ảnh → render carousel trong popup rm-hero
+    if (rmImgs.length > 1) {
+      var rmHeroEl = document.getElementById('rm-hero-box');
+      if (rmHeroEl) {
+        // Lưu lại các phần tử cần giữ (overlay, close, info)
+        var overlay = rmHeroEl.querySelector('.rm-hero-overlay');
+        var closeBtn = rmHeroEl.querySelector('.rm-close');
+        var heroInfo = rmHeroEl.querySelector('.rm-hero-info');
+
+        // Render carousel (thay thế toàn bộ nội dung rm-hero)
+        makeCarousel(rmHeroEl, rmImgs);
+
+        // Đặt lại overlay, nút đóng, thông tin tên món lên trên carousel
+        if (overlay) { overlay.style.zIndex='8'; rmHeroEl.appendChild(overlay); }
+        if (closeBtn) { closeBtn.style.zIndex='12'; rmHeroEl.appendChild(closeBtn); }
+        if (heroInfo) { heroInfo.style.zIndex='9'; rmHeroEl.appendChild(heroInfo); }
+      }
+    }
+
     document.getElementById('recipe-modal').classList.add('open');
-    document.body.style.overflow='hidden'
+    document.body.style.overflow='hidden';
   };
 
-  window.closeRecipe=function(){document.getElementById('recipe-modal').classList.remove('open');document.body.style.overflow=''};
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRecipe()})
+  // ── Đóng popup công thức ──
+  window.closeRecipe=function(){
+    document.getElementById('recipe-modal').classList.remove('open');
+    document.body.style.overflow='';
+  };
+
+  // Bấm ESC để đóng popup
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRecipe()});
 })();
 </script>
 </body></html>
