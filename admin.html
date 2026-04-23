@@ -1348,7 +1348,7 @@ function applyFields(html) {
         const imgHTML = imgSrc
           ? `<img src="${imgSrc}" alt="${item.name}">`
           : `<div class="today-img-placeholder">${item.emoji||'🍽️'}</div>`;
-        return `      <div class="today-item${soldClass}">\n        <div class="today-img-wrap">\n          ${imgHTML}\n          <span class="today-status ${statusClass}">${statusText}</span>\n        </div>\n        <div class="today-info">\n          <div class="today-num">${num}</div>\n          <div class="today-name">${item.name}</div>\n          <div class="today-desc">${item.desc}</div>\n          <div class="today-price">${item.price}</div>\n        </div>\n      </div>`;
+        return `      <div class="today-item${soldClass}">\n        <div class="today-img-wrap">\n          ${imgHTML}\n          <span class="today-status ${statusClass}">${statusText}</span>\n        </div>\n        <div class="today-info">\n          <div class="today-num">${num}</div>\n          <div class="today-name">${item.name}</div>\n          <div class="today-desc">${item.desc}</div>\n          <div class="today-order-row"><div class="today-price">${item.price}</div><button class="today-order-btn" onclick="openOrderModal(this)">💬 Đặt món</button></div>\n        </div>\n      </div>`;
       }).join('\n') +
       '\n      <!-- /ADMIN:TODAY-ITEMS -->\n    ';
   }
