@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Lie No 🍜">
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{--red:#E44D26;--red-dark:#C23616;--red-light:#FF6B45;--orange:#FF9F43;--green:#27AE60;--green-light:#E8F8EF;--yellow:#F1C40F;--bg:#F5F5F5;--white:#FFF;--g1:#FAFAFA;--g2:#F0F0F0;--g3:#E0E0E0;--g4:#BDBDBD;--g5:#9E9E9E;--g6:#757575;--g7:#616161;--dk:#212121;--dk2:#424242;--sh:0 2px 8px rgba(0,0,0,.08);--shl:0 4px 20px rgba(0,0,0,.12)}
     *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--dk);overflow-x:hidden;font-size:14px}
@@ -29,6 +29,65 @@
     .today-status{position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:12px}.today-status.on{background:var(--green-light);color:var(--green)}.today-status.off{background:var(--g2);color:var(--g5)}
     .today-info{padding:14px 16px}.today-num{font-size:10px;color:var(--g4);font-weight:700;margin-bottom:4px}.today-name{font-size:16px;font-weight:700;color:var(--dk);margin-bottom:4px}.today-desc{font-size:12px;color:var(--g6);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.today-price{font-size:16px;font-weight:800;color:var(--red)}
     .today-footer{margin-top:24px;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--g2)}.today-note{font-size:12px;color:var(--g6)}.today-note strong{color:var(--red)}.today-cta{background:var(--red);color:#fff;font-size:12px;font-weight:700;padding:8px 20px;border-radius:20px;text-decoration:none;transition:.2s}.today-cta:hover{background:var(--red-dark)}
+
+    /* ── NÚT ĐẶT HÀNG trên mỗi today-item ── */
+    /* Phần chứa giá + nút đặt hàng, nằm dưới cùng của today-info */
+    .today-order-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
+    /* Nút "Đặt món" xanh lá, nhỏ gọn */
+    .today-order-btn{background:var(--green);color:#fff;border:none;font-size:11px;font-weight:700;padding:7px 14px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:.2s;white-space:nowrap;font-family:inherit}
+    .today-order-btn:hover{background:#219a52;transform:translateY(-1px);box-shadow:0 4px 12px rgba(39,174,96,.35)}
+    /* Khi món hết hàng → nút bị mờ, không click được */
+    .today-item.sold .today-order-btn{opacity:.4;pointer-events:none;cursor:not-allowed}
+
+    /* ── POPUP ĐẶT HÀNG (Order Modal) ── */
+    /* Lớp nền tối phủ toàn màn hình */
+    #order-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:16px}
+    /* Khi modal đang mở → hiện flex */
+    #order-modal.open{display:flex}
+    /* Overlay tối bên dưới modal box */
+    .om-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+    /* Hộp popup chính */
+    .om-box{position:relative;z-index:1;background:#fff;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:omIn .25s ease}
+    @keyframes omIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .om-box::-webkit-scrollbar{width:4px}.om-box::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+    /* Header popup: ảnh món + tên món */
+    .om-hero{position:relative;height:160px;overflow:hidden;border-radius:16px 16px 0 0;background:var(--g1)}
+    .om-hero img{width:100%;height:100%;object-fit:cover;display:block}
+    /* Lớp gradient tối che ảnh để đọc chữ dễ hơn */
+    .om-hero-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%)}
+    /* Tên món trên ảnh */
+    .om-hero-title{position:absolute;bottom:14px;left:18px;right:18px;color:#fff;font-size:18px;font-weight:800;line-height:1.2}
+    /* Nút đóng popup [✕] */
+    .om-close{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(0,0,0,.4);border:none;color:#fff;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+    .om-close:hover{background:var(--red)}
+    /* Phần thân popup chứa form */
+    .om-body{padding:20px 20px 6px}
+    /* Nhãn tiêu đề mỗi ô nhập */
+    .om-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g5);margin-bottom:6px;display:block}
+    /* Nhóm ô số lượng: nút - , số, nút + */
+    .om-qty-row{display:flex;align-items:center;gap:0;border:1.5px solid var(--g3);border-radius:10px;overflow:hidden;width:fit-content;margin-bottom:16px}
+    /* Nút tăng/giảm số lượng */
+    .om-qty-btn{width:40px;height:40px;border:none;background:var(--g1);font-size:20px;font-weight:700;cursor:pointer;color:var(--dk);transition:.15s;display:flex;align-items:center;justify-content:center}
+    .om-qty-btn:hover{background:var(--red);color:#fff}
+    /* Số lượng hiển thị ở giữa */
+    .om-qty-num{width:48px;text-align:center;font-size:18px;font-weight:800;color:var(--dk);border:none;background:#fff;border-left:1.5px solid var(--g3);border-right:1.5px solid var(--g3);height:40px;line-height:40px}
+    /* Ô nhập địa chỉ giao hàng */
+    .om-input{width:100%;border:1.5px solid var(--g3);border-radius:10px;padding:10px 13px;font-size:13px;font-family:inherit;color:var(--dk);background:#fff;transition:.2s;outline:none;resize:none;margin-bottom:16px}
+    .om-input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(228,77,38,.1)}
+    /* Ô nhập ghi chú */
+    .om-textarea{height:68px}
+    /* Dòng tổng tiền */
+    .om-total-row{background:rgba(228,77,38,.06);border:1.5px solid rgba(228,77,38,.15);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+    .om-total-label{font-size:12px;color:var(--g6);font-weight:600}
+    .om-total-num{font-size:22px;font-weight:800;color:var(--red)}
+    /* Nút "Gửi đơn qua Zalo" */
+    .om-submit{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:linear-gradient(135deg,#0068FF,#0099FF);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;text-decoration:none;transition:.2s;letter-spacing:.5px;font-family:inherit;margin-bottom:10px}
+    .om-submit:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,104,255,.4)}
+    /* Ghi chú nhỏ bên dưới nút */
+    .om-hint{text-align:center;font-size:11px;color:var(--g5);padding-bottom:16px;line-height:1.6}
+    /* Trường hợp món hết hàng: banner đỏ thay nút gửi */
+    .om-sold-banner{background:var(--g2);border-radius:12px;padding:14px;text-align:center;color:var(--g5);font-size:13px;font-weight:600;margin-bottom:10px}
+    /* ── KẾT THÚC POPUP ĐẶT HÀNG ── */
 
     /* ── CAROUSEL: Vùng cuộn ảnh ngang ── */
     /* Bọc ngoài cùng của carousel, tạo overflow ẩn để chỉ thấy 1 ảnh mỗi lúc */
@@ -155,21 +214,10 @@
 <section id="today"><div class="container">
   <div class="today-top"><div class="today-badge"><div class="today-badge-icon"><span>🔥</span> MÓN HÔM NAY</div></div><div class="today-date-box"><div class="today-date" id="today-date">--.--.--</div><div class="today-date-label">Cập nhật mỗi ngày</div></div></div>
   <div class="today-grid" id="today-grid">
-      <!-- ADMIN:TODAY-ITEMS -->
-      <div class="today-item">
-        <div class="today-img-wrap">
-          <img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh">
-          <span class="today-status on">Còn hàng</span>
-        </div>
-        <div class="today-info">
-          <div class="today-num">01</div>
-          <div class="today-name">Khô Gà Lá Chanh</div>
-          <div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div>
-          <div class="today-price">110.000₫ / Túi</div>
-        </div>
-      </div>
-      <!-- /ADMIN:TODAY-ITEMS -->
-    </div>
+    <!-- ADMIN:TODAY-ITEMS -->
+    <div class="today-item"><div class="today-img-wrap"><img src="images/today-kho-ga-la-chanh.jpg" alt="Khô Gà Lá Chanh"><span class="today-status on">Còn hàng</span></div><div class="today-info"><div class="today-num">01</div><div class="today-name">Khô Gà Lá Chanh</div><div class="today-desc">Gà tươi, vị cay nhẹ dùng hoàn toàn từ quả ớt tươi. Nghiên cứu bao lâu mới cho ra công thức ngon thế!</div><div class="today-order-row"><div class="today-price">110.000₫ / Túi</div><button class="today-order-btn" onclick="openOrderModal(this)">💬 Đặt món</button></div></div></div>
+    <!-- /ADMIN:TODAY-ITEMS -->
+  </div>
   <div class="today-footer"><div class="today-note">✨ Đặt trước trước <strong>9h sáng</strong> để chắc suất · Zalo: <strong id="today-phone">0972 410 199</strong></div><a href="https://zalo.me/84972410199" target="_blank" class="today-cta" id="today-zalo-link">Đặt ngay →</a></div>
 </div></section>
 <!-- ADMIN:TODAY:END -->
@@ -191,7 +239,10 @@
   <!-- about-visual: vùng ảnh bên trái của phần "Về chúng tôi" -->
   <div class="about-visual"><div class="about-corner"></div>
     <!-- about-img-frame: khung chứa ảnh (hoặc carousel nếu có nhiều ảnh) -->
-    <div class="about-img-frame" id="about-img-frame"><img src="images/about.jpg" alt="Về chúng tôi"></div>
+    <div class="about-img-frame" id="about-img-frame">
+      <!-- about-img: ảnh mặc định nếu chỉ có 1 ảnh duy nhất -->
+      <img id="about-img" src="images/about.jpg" alt="Lie No cooking">
+    </div>
     <div class="about-badge"><span class="num" id="about-badge-num">8+</span><span class="lbl" id="about-badge-lbl">Năm kinh nghiệm</span></div>
   </div>
   <div class="about-text">
@@ -217,76 +268,12 @@
   <div class="section-header"><span class="section-tag">Hôm nay có gì ngon?</span><h2 class="section-title">Thực Đơn <em>Của Chúng Tôi</em></h2><div class="section-line"></div></div>
   <div class="menu-notice"><p>✨ Thực đơn thay đổi thường xuyên. Liên hệ Zalo <strong id="menu-phone">0972 410 199</strong> để biết món hôm nay!</p></div>
   <div class="menu-grid" id="menu-grid">
-
-    <!-- MON 1: Khô Gà Cay -->
-    <div class="menu-card">
-      <img src="images/kho-ga-cay.jpg" alt="Khô Gà Cay">
-      <span class="badge-hot">Bán chạy</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Món khô</span>
-        <h3>Khô Gà Cay</h3>
-        <p>Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</p>
-        <span class="menu-card-price">110.000₫ / túi</span>
-      </div>
-    </div>
-
-    <!-- MON 2: Chân Gà Sốt Thái -->
-    <div class="menu-card">
-      <img src="images/chan-ga-sot-thai.jpg" alt="Chân Gà Sốt Thái">
-      <span class="badge-hot">Bán chạy</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Đặc biệt</span>
-        <h3>Chân Gà Sốt Thái</h3>
-        <p>Chân gà ngâm sốt Thái chua ngọt cay, giòn sần sật</p>
-        <span class="menu-card-price">55.000₫ / hộp</span>
-      </div>
-    </div>
-
-    <!-- MON 3: Nước Dừa Tắc -->
-    <div class="menu-card">
-      <img src="images/nuoc-dua-tac.jpg" alt="Nước Dừa Tắc">
-      <span class="badge-new">Mới</span>
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Nước uống</span>
-        <h3>Nước Dừa Tắc</h3>
-        <p>Nước dừa non + quất + mít + dứa, mát lạnh giải nhiệt</p>
-        <span class="menu-card-price">25.000₫ / chai</span>
-      </div>
-    </div>
-
-    <!-- MON 4: Sốt Thái -->
-    <div class="menu-card">
-      <img src="images/mi-xao-gion.jpg" alt="Sốt Thái">
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Canh - Súp</span>
-        <h3>Sốt Thái</h3>
-        <p>Chộn cả thế giới</p>
-        <span class="menu-card-price">40.000₫/chai</span>
-      </div>
-    </div>
-
-    <!-- MON 5: Sốt Thái Chấm -->
-    <div class="menu-card">
-      <img src="images/com-phan-van-phong.jpg" alt="Sốt Thái Chấm">
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Canh - Súp</span>
-        <h3>Sốt Thái Chấm</h3>
-        <p>Chấm cả nhân gian</p>
-        <span class="menu-card-price">40.000₫/chai</span>
-      </div>
-    </div>
-
-    <!-- MON 6: Chẩm chéo Điện Biên -->
-    <div class="menu-card">
-      <img src="images/mon-dac-biet-theo-mua.jpg" alt="Chẩm chéo Điện Biên">
-      <div class="menu-card-overlay">
-        <span class="menu-card-tag">Canh - Súp</span>
-        <h3>Chẩm chéo Điện Biên</h3>
-        <p>Chẩm chéo ướt giã tay người Thái Điện Biên. Siêu ngon!</p>
-        <span class="menu-card-price">65.000₫/hộp</span>
-      </div>
-    </div>
-
+    <div class="menu-card"><img src="images/kho-ga-cay.jpg" alt="Khô Gà Cay"><span class="badge-hot">Bán chạy</span><div class="menu-card-overlay"><span class="menu-card-tag">Món khô</span><h3>Khô Gà Cay</h3><p>Gà tươi, cay nhẹ từ ớt tươi, tự nghiên cứu công thức riêng</p><span class="menu-card-price">110.000₫ / túi</span></div></div>
+    <div class="menu-card"><img src="images/chan-ga-sot-thai.jpg" alt="Chân Gà Sốt Thái"><span class="badge-hot">Bán chạy</span><div class="menu-card-overlay"><span class="menu-card-tag">Đặc biệt</span><h3>Chân Gà Sốt Thái</h3><p>Chân gà ngâm sốt Thái chua ngọt cay, giòn sần sật</p><span class="menu-card-price">55.000₫ / hộp</span></div></div>
+    <div class="menu-card"><img src="images/nuoc-dua-tac.jpg" alt="Nước Dừa Tắc"><span class="badge-new">Mới</span><div class="menu-card-overlay"><span class="menu-card-tag">Nước uống</span><h3>Nước Dừa Tắc</h3><p>Nước dừa non + quất + mít + dứa, mát lạnh giải nhiệt</p><span class="menu-card-price">25.000₫ / chai</span></div></div>
+    <div class="menu-card"><img src="images/mi-xao-gion.jpg" alt="Sốt Thái"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Sốt Thái</h3><p>Chộn cả thế giới</p><span class="menu-card-price">40.000₫/chai</span></div></div>
+    <div class="menu-card"><img src="images/com-phan-van-phong.jpg" alt="Sốt Thái Chấm"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Sốt Thái Chấm</h3><p>Chấm cả nhân gian</p><span class="menu-card-price">40.000₫/chai</span></div></div>
+    <div class="menu-card"><img src="images/mon-dac-biet-theo-mua.jpg" alt="Chẩm chéo Điện Biên"><div class="menu-card-overlay"><span class="menu-card-tag">Canh - Súp</span><h3>Chẩm chéo Điện Biên</h3><p>Chẩm chéo ướt giã tay người Thái Điện Biên. Siêu ngon!</p><span class="menu-card-price">65.000₫/hộp</span></div></div>
   </div>
 </div></section>
 
@@ -300,119 +287,7 @@
 <div class="recipe-modal" id="recipe-modal" role="dialog" aria-modal="true"><div class="rm-overlay" onclick="closeRecipe()"></div><div class="rm-box" id="rm-box"></div></div>
 
 <script id="recipe-data" type="application/json">
-[
-  {
-    "id": "kho-ga-la-chanh",
-    "name": "Khô Gà Lá Chanh",
-    "imgs": [
-      "images/recipe-kho-ga-la-chanh-37.jpg"
-    ],
-    "time": "2 tiếng",
-    "difficulty": "medium",
-    "serves": "4 người",
-    "desc": "Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.",
-    "tags": [
-      "Không chất bảo quản",
-      "Nguyên liệu tươi",
-      "Handmade"
-    ],
-    "ingredients": [
-      "500g ức gà tươi",
-      "3 cây sả (đập dập, băm nhuyễn)",
-      "5–6 lá chanh (thái chỉ mỏng)",
-      "2 quả ớt tươi (băm nhỏ)",
-      "2 muỗng canh nước mắm ngon",
-      "1 muỗng canh đường",
-      "1/2 muỗng cà phê muối",
-      "1/4 muỗng cà phê tiêu xay"
-    ],
-    "steps": [
-      "Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.",
-      "Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.",
-      "Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.",
-      "Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.",
-      "Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.",
-      "Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."
-    ],
-    "tips": "Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.",
-    "featured": true,
-    "img": "images/recipe-kho-ga-la-chanh-37.jpg"
-  },
-  {
-    "id": "chan-ga-sot-thai",
-    "name": "Chân Gà Sốt Thái",
-    "imgs": [
-      "images/recipe-chan-ga-sot-thai-146.jpg",
-      "images/recipe-chan-ga-sot-thai-702.jpg"
-    ],
-    "time": "45 phút + 4h ngâm",
-    "difficulty": "easy",
-    "serves": "2–3 người",
-    "desc": "Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.",
-    "tags": [
-      "Chua ngọt cay",
-      "Giòn sần sật",
-      "Để tủ lạnh"
-    ],
-    "ingredients": [
-      "500g chân gà rửa sạch",
-      "3–4 quả ớt sừng",
-      "4 tép tỏi",
-      "2 cây sả",
-      "3 muỗng canh nước mắm",
-      "2 muỗng canh đường",
-      "3 muỗng canh giấm gạo",
-      "1 muỗng canh dầu hào",
-      "Tiêu xanh"
-    ],
-    "steps": [
-      "Luộc chân gà với sả và gừng 20 phút.",
-      "Vớt ra thả ngay vào nước đá lạnh 10 phút.",
-      "Pha sốt: nước mắm + đường + giấm + dầu hào.",
-      "Ớt, tỏi, sả băm nhỏ cho vào sốt.",
-      "Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.",
-      "Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."
-    ],
-    "tips": "Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.",
-    "featured": false,
-    "img": "images/recipe-chan-ga-sot-thai-146.jpg"
-  },
-  {
-    "id": "nuoc-dua-tac",
-    "name": "Nước Dừa Tắc",
-    "imgs": [
-      "images/recipe-nuoc-dua-tac-574.jpg",
-      "images/recipe-nuoc-dua-tac-830.jpg"
-    ],
-    "time": "15 phút",
-    "difficulty": "easy",
-    "serves": "2 ly",
-    "desc": "Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.",
-    "tags": [
-      "Không đường thêm",
-      "Tự nhiên 100%",
-      "Giải nhiệt"
-    ],
-    "ingredients": [
-      "300ml nước dừa non",
-      "3–4 quả tắc",
-      "50g mít chín",
-      "50g dứa tươi",
-      "Đá viên",
-      "1 nhúm muối hột"
-    ],
-    "steps": [
-      "Mít và dứa cắt miếng vừa ăn.",
-      "Tắc vắt lấy nước cốt, lọc bỏ hạt.",
-      "Hòa nước dừa với nước cốt tắc và muối.",
-      "Cho đá viên, xếp mít và dứa lên trên.",
-      "Đổ hỗn hợp vào từ từ. Thưởng thức ngay."
-    ],
-    "tips": "Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.",
-    "featured": false,
-    "img": "images/recipe-nuoc-dua-tac-574.jpg"
-  }
-]
+[{"id":"kho-ga-la-chanh","name":"Khô Gà Lá Chanh","img":"images/kho-ga.jpg","imgs":[],"time":"2 tiếng","difficulty":"medium","serves":"4 người","desc":"Gà tươi bằm thủ công, ướp sả ớt và lá chanh tươi, sấy nhẹ giữ độ ẩm vừa phải.","tags":["Không chất bảo quản","Nguyên liệu tươi","Handmade"],"ingredients":["500g ức gà tươi","3 cây sả (đập dập, băm nhuyễn)","5–6 lá chanh (thái chỉ mỏng)","2 quả ớt tươi (băm nhỏ)","2 muỗng canh nước mắm ngon","1 muỗng canh đường","1/2 muỗng cà phê muối","1/4 muỗng cà phê tiêu xay"],"steps":["Gà luộc chín vừa với ít gừng và muối, vớt ra để nguội rồi xé nhỏ bằng tay.","Sả đập dập băm nhuyễn. Lá chanh thái chỉ thật mỏng. Ớt băm nhỏ để riêng.","Phi thơm sả với 1 muỗng dầu ăn trên lửa vừa khoảng 2 phút.","Cho gà vào xào cùng, nêm nước mắm, đường, muối và tiêu. Đảo đều 25–30 phút.","Tắt bếp, cho lá chanh và ớt vào trộn đều. Để nguội hoàn toàn.","Trải đều ra khay, sấy ở 70°C khoảng 60–90 phút."],"tips":"Giữ đúng 70°C để gà vừa khô vừa mềm bên trong. Lá chanh cho sau cùng để giữ hương.","featured":true},{"id":"chan-ga-sot-thai","name":"Chân Gà Sốt Thái","img":"images/chan-ga-sot-thai.jpg","imgs":[],"time":"45 phút + 4h ngâm","difficulty":"easy","serves":"2–3 người","desc":"Chân gà giòn sần sật ngâm sốt Thái chua ngọt cay.","tags":["Chua ngọt cay","Giòn sần sật","Để tủ lạnh"],"ingredients":["500g chân gà rửa sạch","3–4 quả ớt sừng","4 tép tỏi","2 cây sả","3 muỗng canh nước mắm","2 muỗng canh đường","3 muỗng canh giấm gạo","1 muỗng canh dầu hào","Tiêu xanh"],"steps":["Luộc chân gà với sả và gừng 20 phút.","Vớt ra thả ngay vào nước đá lạnh 10 phút.","Pha sốt: nước mắm + đường + giấm + dầu hào.","Ớt, tỏi, sả băm nhỏ cho vào sốt.","Xếp chân gà vào hộp, đổ sốt ngập. Để tủ lạnh 4 tiếng.","Dùng lạnh, ăn kèm rau sống hoặc bánh mỳ."],"tips":"Thả ngay vào nước đá sau luộc là bí quyết giòn sần sật.","featured":false},{"id":"nuoc-dua-tac","name":"Nước Dừa Tắc","img":"images/nuoc-dua-tac.jpg","imgs":[],"time":"15 phút","difficulty":"easy","serves":"2 ly","desc":"Nước dừa non thanh mát pha quất tươi, thêm mít chín và dứa.","tags":["Không đường thêm","Tự nhiên 100%","Giải nhiệt"],"ingredients":["300ml nước dừa non","3–4 quả tắc","50g mít chín","50g dứa tươi","Đá viên","1 nhúm muối hột"],"steps":["Mít và dứa cắt miếng vừa ăn.","Tắc vắt lấy nước cốt, lọc bỏ hạt.","Hòa nước dừa với nước cốt tắc và muối.","Cho đá viên, xếp mít và dứa lên trên.","Đổ hỗn hợp vào từ từ. Thưởng thức ngay."],"tips":"Nhúm muối nhỏ giúp tăng vị ngọt tự nhiên.","featured":false}]
 </script>
 
 <!-- ADMIN:REVIEWS:START -->
@@ -431,13 +306,13 @@
   <div class="section-header">
     <span class="section-tag">Đặt hàng ngay</span>
   <h2 id="order-title">Sẵn Sàng Thưởng Thức <em>Chưa?</em></h2>
-  <p id="order-desc">Đặ hàng 24/7 (các món HÔM NAY - TODAY). Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
+  <p id="order-desc">Đặt trước trước 9h sáng để chắc suất. Giao hàng khu vực Lục Yên - Lào Cai. Liên hệ Zalo để được tư vấn!</p>
   <div class="order-channels">
     <a href="https://zalo.me/84972410199" target="_blank" class="channel-btn" id="order-zalo"><span class="icon">💬</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhanh nhất</div><div>Zalo: 0972 410 199</div></div></a>
     <a href="https://www.facebook.com/lien.no.9" target="_blank" class="channel-btn" id="order-fb"><span class="icon">📘</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Nhắn tin</div><div>Facebook: Lie No</div></div></a>
     <a href="tel:0972410199" class="channel-btn" id="order-phone"><span class="icon">📞</span><div><div style="font-size:11px;opacity:.5;letter-spacing:1px;text-transform:uppercase">Gọi trực tiếp</div><div>0972 410 199</div></div></a>
   </div>
-</div></div></section>
+</div></section>
 <!-- ADMIN:ORDER:END -->
 
 <!-- ADMIN:FOOTER:START -->
@@ -455,6 +330,16 @@
 <!-- ADMIN:FOOTER:END -->
 
 <div class="zalo-float"><a href="https://zalo.me/84972410199" target="_blank" class="zalo-btn" id="zalo-btn">💬</a><div class="zalo-tooltip">Đặt hàng qua Zalo</div></div>
+
+<!-- ════════════════════════════════════════════════ -->
+<!-- POPUP ĐẶT HÀNG — Hiện khi khách bấm "Đặt món" -->
+<!-- ════════════════════════════════════════════════ -->
+<div id="order-modal" role="dialog" aria-modal="true">
+  <!-- Overlay tối: click vào đây để đóng popup -->
+  <div class="om-overlay" onclick="closeOrderModal()"></div>
+  <!-- Hộp popup chính: JS sẽ điền nội dung vào đây -->
+  <div class="om-box" id="om-box"></div>
+</div>
 
 <script>
 // ── Hiển thị ngày hôm nay ──
@@ -802,5 +687,222 @@ function makeCarousel(container, imgs) {
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeRecipe()});
 })();
 </script>
+<script>
+// ════════════════════════════════════════════════
+// POPUP ĐẶT HÀNG — ORDER MODAL
+// Khi khách bấm "Đặt món" trên mỗi today-item:
+//   1. Đọc thông tin món từ DOM (tên, giá, ảnh, trạng thái)
+//   2. Render form: số lượng, địa chỉ, ghi chú, tính tổng tiền
+//   3. Tạo link Zalo kèm tin nhắn soạn sẵn → khách chỉ cần gửi
+// ════════════════════════════════════════════════
 
+// Số điện thoại Zalo nhận đơn (đọc từ #today-phone trên trang)
+// Nếu không tìm thấy → dùng mặc định
+function getZaloPhone() {
+  var el = document.getElementById('today-phone');
+  // Lấy text, bỏ khoảng trắng
+  var raw = el ? el.textContent.trim() : '0972410199';
+  // Chỉ giữ số, bỏ dấu cách và ký tự lạ
+  return raw.replace(/\D/g, '');
+}
+
+// openOrderModal: Hàm mở popup khi bấm nút "Đặt món"
+// Nhận vào: btn — nút vừa được bấm (để lấy thông tin món từ DOM cha)
+window.openOrderModal = function(btn) {
+  // Leo lên tìm phần tử .today-item cha chứa thông tin món
+  var item = btn.closest('.today-item');
+  if (!item) return;
+
+  // ── Đọc thông tin món từ DOM ──
+  var name  = (item.querySelector('.today-name')  || {}).textContent || 'Món ăn';
+  var desc  = (item.querySelector('.today-desc')  || {}).textContent || '';
+  var price = (item.querySelector('.today-price') || {}).textContent || '';
+  var isSold = item.classList.contains('sold'); // true nếu hết hàng
+
+  // Đọc ảnh: lấy src của thẻ img trong .today-img-wrap
+  var imgEl  = item.querySelector('.today-img-wrap img');
+  var imgSrc = imgEl ? imgEl.src : '';
+
+  // Đọc đơn vị tính giá và số tiền (vd: "110.000₫ / Túi" → đơn vị "Túi", số 110000)
+  // Tách: phần trước ₫ là số, phần sau / là đơn vị
+  var unitText = ''; // ví dụ: "/ Túi"
+  var priceNum = 0;  // số tiền nguyên, ví dụ: 110000
+  var priceMatch = price.match(/([\d.,]+)\s*[₫đ]/);
+  if (priceMatch) {
+    // Chuyển "110.000" hoặc "110,000" thành số nguyên 110000
+    priceNum = parseInt(priceMatch[1].replace(/[.,]/g, ''), 10) || 0;
+  }
+  var unitMatch = price.match(/\/\s*(.+)/);
+  if (unitMatch) unitText = unitMatch[1].trim(); // "Túi", "Hộp", "Chai"...
+
+  // ── Render nội dung popup ──
+  var box = document.getElementById('om-box');
+  box.innerHTML =
+    // Header: ảnh + tên món + nút đóng
+    '<div class="om-hero">'
+    + (imgSrc ? '<img src="' + imgSrc + '" alt="' + name + '">' : '')
+    + '<div class="om-hero-shade"></div>'
+    + '<button class="om-close" onclick="closeOrderModal()">✕</button>'
+    + '<div class="om-hero-title">' + name + '</div>'
+    + '</div>'
+
+    // Thân form
+    + '<div class="om-body">'
+
+    // Giá gốc
+    + '<div style="font-size:12px;color:var(--g6);margin-bottom:14px">'
+    + '💰 Giá: <strong style="color:var(--red)">' + price + '</strong>'
+    + (desc ? '<span style="margin-left:12px;opacity:.7">· ' + desc + '</span>' : '')
+    + '</div>'
+
+    // Số lượng
+    + '<label class="om-label">Số lượng' + (unitText ? ' (' + unitText + ')' : '') + '</label>'
+    + '<div class="om-qty-row">'
+    +   '<button class="om-qty-btn" id="om-btn-minus" onclick="changeQty(-1)">−</button>'
+    +   '<div class="om-qty-num" id="om-qty">1</div>'
+    +   '<button class="om-qty-btn" id="om-btn-plus" onclick="changeQty(1)">+</button>'
+    + '</div>'
+
+    // Địa điểm giao hàng
+    + '<label class="om-label">Địa điểm giao hàng</label>'
+    + '<input class="om-input" id="om-address" placeholder="Nhập địa chỉ hoặc số nhà, tên đường, khu vực..." type="text">'
+
+    // Ghi chú thêm
+    + '<label class="om-label">Ghi chú thêm (không bắt buộc)</label>'
+    + '<textarea class="om-input om-textarea" id="om-note" placeholder="Ví dụ: Ít cay, không hành, giao lúc 11h..."></textarea>'
+
+    // Tổng tiền (tự cập nhật khi đổi số lượng)
+    + '<div class="om-total-row">'
+    +   '<span class="om-total-label">Tổng cộng</span>'
+    +   '<span class="om-total-num" id="om-total">' + formatMoney(priceNum) + '₫</span>'
+    + '</div>'
+
+    // Nút gửi hoặc banner hết hàng
+    + (isSold
+        ? '<div class="om-sold-banner">❌ Món này đã hết hàng hôm nay</div>'
+        : '<button class="om-submit" id="om-submit-btn" onclick="submitOrder()">💬 Gửi đơn qua Zalo</button>'
+      )
+    + '<div class="om-hint">Tin nhắn sẽ được soạn sẵn, bạn chỉ cần nhấn Gửi trong Zalo 🎉<br>'
+    + '<span style="color:var(--red)">📍 Đặt trước 9h sáng để chắc suất</span></div>'
+    + '</div>'; // /om-body
+
+  // Lưu thông tin món vào data attribute của om-box để dùng khi tính tiền và submit
+  box.dataset.name     = name;
+  box.dataset.price    = price;
+  box.dataset.priceNum = priceNum;
+  box.dataset.unit     = unitText;
+  box.dataset.qty      = '1';
+
+  // Mở modal
+  document.getElementById('order-modal').classList.add('open');
+  // Khóa cuộn trang nền khi popup mở
+  document.body.style.overflow = 'hidden';
+
+  // Focus vào ô địa chỉ sau khi render (trải nghiệm tốt hơn)
+  setTimeout(function() {
+    var addr = document.getElementById('om-address');
+    if (addr) addr.focus();
+  }, 200);
+};
+
+// closeOrderModal: Đóng popup
+window.closeOrderModal = function() {
+  document.getElementById('order-modal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// changeQty: Thay đổi số lượng (+1 hoặc -1)
+// Tự động cập nhật tổng tiền sau mỗi lần thay đổi
+window.changeQty = function(delta) {
+  var box  = document.getElementById('om-box');
+  var qtyEl = document.getElementById('om-qty');
+  if (!qtyEl) return;
+
+  // Lấy số lượng hiện tại, cộng delta, không cho nhỏ hơn 1
+  var qty = parseInt(box.dataset.qty, 10) + delta;
+  if (qty < 1) qty = 1;
+  // Không cho đặt quá 99
+  if (qty > 99) qty = 99;
+
+  // Cập nhật giao diện và data
+  qtyEl.textContent = qty;
+  box.dataset.qty = qty;
+
+  // Tính lại tổng tiền
+  var priceNum = parseInt(box.dataset.priceNum, 10) || 0;
+  var totalEl  = document.getElementById('om-total');
+  if (totalEl) totalEl.textContent = formatMoney(priceNum * qty) + '₫';
+};
+
+// submitOrder: Khi khách bấm "Gửi đơn qua Zalo"
+// Soạn sẵn tin nhắn đặt hàng → mở Zalo bằng deep-link
+window.submitOrder = function() {
+  var box     = document.getElementById('om-box');
+  var name    = box.dataset.name    || '';
+  var price   = box.dataset.price   || '';
+  var unit    = box.dataset.unit    || '';
+  var qty     = parseInt(box.dataset.qty, 10) || 1;
+  var priceNum = parseInt(box.dataset.priceNum, 10) || 0;
+  var total   = formatMoney(priceNum * qty) + '₫';
+
+  // Đọc địa chỉ và ghi chú từ form
+  var address = (document.getElementById('om-address') || {}).value || '';
+  var note    = (document.getElementById('om-note')    || {}).value || '';
+
+  // Bắt buộc nhập địa chỉ
+  if (!address.trim()) {
+    var addrEl = document.getElementById('om-address');
+    if (addrEl) {
+      addrEl.style.borderColor = 'var(--red)';
+      addrEl.focus();
+      addrEl.placeholder = '⚠️ Vui lòng nhập địa điểm giao hàng!';
+      // Trả lại style bình thường sau 2 giây
+      setTimeout(function(){ addrEl.style.borderColor=''; addrEl.placeholder='Nhập địa chỉ hoặc số nhà, tên đường, khu vực...'; }, 2500);
+    }
+    return;
+  }
+
+  // ── Soạn tin nhắn đặt hàng ──
+  var lines = [
+    '🛒 ĐẶT HÀNG – LIE NO',
+    '─────────────────',
+    '🍽 Món: ' + name,
+    '📦 Số lượng: ' + qty + (unit ? ' ' + unit : ''),
+    '💰 Đơn giá: ' + price,
+    '💵 Tổng tiền: ' + total,
+    '📍 Địa điểm giao: ' + address.trim(),
+  ];
+  if (note.trim()) lines.push('📝 Ghi chú: ' + note.trim());
+  lines.push('─────────────────');
+  lines.push('(Đặt qua website Lie No)');
+
+  var msg = lines.join('\n');
+
+  // Lấy số điện thoại Zalo
+  var phone = getZaloPhone();
+
+  // Tạo link Zalo:
+  // - Trên thiết bị có app Zalo: mở thẳng app, điền sẵn tin nhắn
+  // - Trên desktop/không có app: mở Zalo web
+  // encodeURIComponent đảm bảo ký tự đặc biệt không bị vỡ link
+  var zaloUrl = 'https://zalo.me/' + phone + '?text=' + encodeURIComponent(msg);
+
+  // Mở Zalo trong tab mới
+  window.open(zaloUrl, '_blank');
+
+  // Đóng popup sau khi mở Zalo
+  closeOrderModal();
+};
+
+// formatMoney: Định dạng số thành chuỗi có dấu chấm phân cách hàng nghìn
+// Ví dụ: 110000 → "110.000"
+function formatMoney(num) {
+  return num.toLocaleString('vi-VN');
+}
+
+// Bấm ESC để đóng popup
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeOrderModal();
+});
+</script>
 </body></html>
